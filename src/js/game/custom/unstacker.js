@@ -1,18 +1,16 @@
-import { MetaBuilding,
-	enumDirection,
-	enumItemProcessorTypes,
-	T,
-	ItemProcessorComponent,
-	ItemEjectorComponent,
-	ItemAcceptorComponent,
-	Vector,
-	formatItemsPerSecond,
-	ShapeItem,
-	ShapeDefinition,
+import {
+    MetaBuilding,
+    enumDirection,
+    enumItemProcessorTypes,
+    T,
+    ItemProcessorComponent,
+    ItemEjectorComponent,
+    ItemAcceptorComponent,
+    Vector,
+    formatItemsPerSecond,
+    ShapeItem,
+    ShapeDefinition,
 } from "./gameData";
-
-
-
 
 export class MetaUnstackerBuilding extends MetaBuilding {
     constructor() {
@@ -82,9 +80,6 @@ export class MetaUnstackerBuilding extends MetaBuilding {
     }
 }
 
-
-
-
 // returns trackProduction
 export function UnstackerProcess({ items, trackProduction, entity, outItems, self }) {
     console.log("Unstacker PROCESSES");
@@ -92,61 +87,71 @@ export function UnstackerProcess({ items, trackProduction, entity, outItems, sel
     const inputItem = items[0].item;
     trackProduction = false;
 
-//     debugger;
+    //     debugger;
     let input = items.map(e => e.item.definition.getHash());
-
-
 
     let [it] = input;
     let out = [];
-    let a = it.split(':');
-    let top = a.pop();
-    let right = a.join(':');
-    out = [top, right]
-
-
-
-
+    let a = it.split(":");
+    let right = a.pop();
+    let top = a.join(":");
+    out = [top, right];
 
     for (let i = 0; i < out.length; ++i) {
-    	if (!out[i]) continue;
-    	outItems.push({
-    		item: new ShapeItem(ShapeDefinition.fromShortKey(out[i])),
-    		requiredSlot: i,
-    	})
+        if (!out[i]) continue;
+        outItems.push({
+            item: new ShapeItem(ShapeDefinition.fromShortKey(out[i])),
+            requiredSlot: i,
+        });
     }
 
     return trackProduction;
 }
 
-
 export const UnstackerSprite = [
-    { // data:
+    {
+        // data:
         w: 192 * 2,
         h: 192,
-    }, { // base:
+    },
+    {
+        // base:
         path: "M 0 0 L 0 100 100 100 100 0 z",
-    }, { // red cross:
+    },
+    {
+        // red cross:
         path: "M 175,40 l 12,12 -12,12 12,12 -12,12 -12,-12 -12,12 -12,-12 12,-12 -12,-12 12,-12 12,12 z",
         fill: "red",
-    }, { // green arrow:
+    },
+    {
+        // green arrow:
         path: "M 40,35 l 30,-30 30,30 z",
         fill: "lightgreen",
     },
 ];
 export const UnstackerSpriteBp = [
-    { // data:
+    {
+        // data:
         w: 192 * 2,
         h: 192,
-    }, { // base:
+    },
+    {
+        // base:
         path: "M 11,31 v 130 l 20,20 h 130 l 20,-20 v -130 l -20,-20 h -130 z",
-        fill: "#6CD1FF", stroke: "#56A7D8",
-    }, { // red cross:
+        fill: "#6CD1FF",
+        stroke: "#56A7D8",
+    },
+    {
+        // red cross:
         path: "M 175,40 l 12,12 -12,12 12,12 -12,12 -12,-12 -12,12 -12,-12 12,-12 -12,-12 12,-12 12,12 z",
-        fill: "#5EB7ED", stroke: "#56A7D8",
-    }, { // green arrow:
+        fill: "#5EB7ED",
+        stroke: "#56A7D8",
+    },
+    {
+        // green arrow:
         path: "M 40,35 l 30,-30 30,30 z",
-        fill: "#5EB7ED", stroke: "#56A7D8",
+        fill: "#5EB7ED",
+        stroke: "#56A7D8",
     },
 ];
 
