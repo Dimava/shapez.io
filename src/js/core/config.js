@@ -1,6 +1,6 @@
 import { queryParamOptions } from "./query_parameters";
 
-export const IS_DEBUG =
+export const IS_DEBUG = true ||
     G_IS_DEV &&
     typeof window !== "undefined" &&
     window.location.port === "3005" &&
