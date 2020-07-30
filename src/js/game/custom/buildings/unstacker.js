@@ -139,7 +139,7 @@ export const SpriteBp = {
 export const unstackerBuildingData = {
     id,
     building: MetaUnstackerBuilding,
-    toolbar: 1,
+    toolbar: 2,
     sprite: Sprite,
     spriteBp: SpriteBp,
     process: UnstackerProcess,

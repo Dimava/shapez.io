@@ -34,7 +34,9 @@ export class HUDBuildingsToolbar extends HUDBaseToolbar {
         super(root, {
             supportedBuildings,
             visibilityCondition: () =>
-                !this.root.camera.getIsMapOverlayActive() && this.root.currentLayer === enumLayer.regular,
+                !this.root.camera.getIsMapOverlayActive() &&
+                this.root.currentLayer === enumLayer.regular &&
+                this.root.currentToolbar === 0,
             htmlElementId: "ingame_HUD_buildings_toolbar",
         });
     }

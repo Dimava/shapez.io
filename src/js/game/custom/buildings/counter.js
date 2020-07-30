@@ -227,7 +227,7 @@ export const counterBuildingData = {
     id,
     component: ItemCounterComponent,
     building: MetaCounterBuilding,
-    toolbar: 1,
+    toolbar: 2,
     system: CounterSystem,
     sprite: counterSprite,
     spriteBp: counterSpriteBp,

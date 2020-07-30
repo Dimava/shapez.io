@@ -343,7 +343,7 @@ export const checker = {
     id: "checker",
     component: TargetShapeCheckerComponent,
     building: MetaTargetShapeCheckerBuilding,
-    toolbar: 1,
+    toolbar: 2,
     system: TargetShapeCheckerSystem,
     sysOrder: 4.5,
     process: targetShapeCheckerProcess,

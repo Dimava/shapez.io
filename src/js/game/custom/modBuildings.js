@@ -1,4 +1,6 @@
 import { supportedBuildings as toolbar } from "../hud/parts/buildings_toolbar";
+import { supportedBuildings as tooolbar } from "../hud/parts/tools_toolbar";
+
 import { enumItemProcessorTypes } from "../components/item_processor";
 import { T } from "../../translations";
 import { addSprite } from "./modSpriteDrawer";
@@ -80,8 +82,11 @@ for (let custom of allCustomBuildingData) {
             custom.speedClass = "belt";
         }
 
-        if (custom.meta && custom.toolbar == 1) {
+        if (custom.meta && custom.toolbar == 0) {
             toolbar.push(custom.meta);
+        }
+        if (custom.meta && custom.toolbar == 2) {
+            tooolbar.push(custom.meta);
         }
     }
 
