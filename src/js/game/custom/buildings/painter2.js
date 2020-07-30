@@ -23,8 +23,6 @@ function colorShape(shape, color) {
     let out = cache[recipeId];
     if (out) return out;
 
-    debugger;
-
     let layers = shape.split(':').map(e=>e.split(''));
     for (let i = 0; i < 4; i++) {
         for (let j = layers.length - 1; j >= 0; --j) {

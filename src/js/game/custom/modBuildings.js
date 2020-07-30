@@ -4,6 +4,8 @@ import { T } from "../../translations";
 import { addSprite } from "./modSpriteDrawer";
 import { enumHubGoalRewards, tutorialGoals } from "../tutorial_goals";
 
+import * as gameData from "./gameData";
+
 export let allCustomBuildingData = [];
 export const customBuildingData = {};
 

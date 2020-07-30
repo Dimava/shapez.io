@@ -71,7 +71,7 @@ export class CounterSystem extends GameSystemWithFilter {
     update() {
         // for (let i = 0; i < this.allEntities.length; ++i) {
         //     const entity = this.allEntities[i];
-        //     const counterComp = entity.components.Counter;
+        //     const counterComp = entity.components[id];
         // }
     }
 
@@ -197,7 +197,7 @@ export function counterProcess({ items, trackProduction, entity, outItems, self 
     trackProduction = false;
 
     /** @type {ItemCounterComponent} */
-    const counterComp = entity.components.Counter;
+    const counterComp = entity.components[id];
     counterComp.itemTickHistory.shift();
     let now = self.root.time.timeSeconds;
     // now = performance.now() / 1e3;

@@ -1,27 +1,28 @@
-import { Component } from "../../component";
-import { types } from "../../../savegame/serialization";
-import { gItemRegistry } from "../../../core/global_registries";
-import { BaseItem } from "../../base_item";
-import { Vector, enumDirection } from "../../../core/vector";
-import { globalConfig } from "../../../core/config";
-
-import { ItemAcceptorComponent } from "../../components/item_acceptor";
-import { ItemEjectorComponent } from "../../components/item_ejector";
-import { enumItemProcessorTypes, ItemProcessorComponent } from "../../components/item_processor";
-import { Entity } from "../../entity";
-import { MetaBuilding } from "../../meta_building";
-import { GameRoot } from "../../root";
-import { enumHubGoalRewards } from "../../tutorial_goals";
-import { T } from "../../../translations";
-import { formatItemsPerSecond } from "../../../core/utils";
-
-import { GameSystemWithFilter } from "../../game_system_with_filter";
-import { DrawParameters } from "../../../core/draw_parameters";
-import { formatBigNumber, lerp } from "../../../core/utils";
-import { Loader } from "../../../core/loader";
-
-import { ShapeItem } from "../../items/shape_item";
-import { ShapeDefinition } from "../../shape_definition";
+import {
+    Component,
+    types,
+    gItemRegistry,
+    BaseItem,
+    Vector,
+    globalConfig,
+    ItemAcceptorComponent,
+    ItemEjectorComponent,
+    enumItemProcessorTypes,
+    Entity,
+    MetaBuilding,
+    GameRoot,
+    enumHubGoalRewards,
+    T,
+    formatItemsPerSecond,
+    GameSystemWithFilter,
+    DrawParameters,
+    formatBigNumber,
+    Loader,
+    ShapeItem,
+    ShapeDefinition,
+    enumDirection,
+    ItemProcessorComponent
+ } from "../gameData";
 
 const id = "checker";
 const color = "#ff6000";
