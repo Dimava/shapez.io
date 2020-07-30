@@ -33,6 +33,19 @@ allCustomBuildingData = Object.values(customBuildingData);
 allCustomBuildingData.sort((a, b) => (a.variantId || 1e4) - (b.variantId || 1e4));
 
 for (let custom of allCustomBuildingData) {
+    addCustom(custom);
+}
+
+globalThis.addCustom = addCustom;
+globalThis.gameData = gameData;
+globalThis.addMod = addMod;
+
+function addMod(mod) {
+    addCustom(mod(gameData));
+}
+
+function addCustom(custom) {
+    Object.assign(customBuildingData[custom.id], custom);
 
     if (custom.goal) {
         if (tutorialGoals.find(e=>e.reward == custom.goal.reward)) {
