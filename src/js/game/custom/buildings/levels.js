@@ -27,11 +27,11 @@ const counter = {
     }
 };
 const checker = {
-    id: "counter",
+    id: "checker",
     goal: {
         shape: "CuCuCuCu",
         required: 5000,
-        reward: "counter",
+        reward: "checker",
     }
 };
 const combiner = {
