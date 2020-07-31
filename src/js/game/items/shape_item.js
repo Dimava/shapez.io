@@ -25,6 +25,10 @@ export class ShapeItem extends BaseItem {
         return this.definition.getHash()
     }
 
+    createFromHash(hash) {
+        return new ShapeItem(ShapeDefinition.fromShortKey(hash));
+    }
+
     getItemType() {
         return enumItemType.shape;
     }
