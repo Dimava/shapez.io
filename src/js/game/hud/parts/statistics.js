@@ -6,6 +6,7 @@ import { BaseHUDPart } from "../base_hud_part";
 import { DynamicDomAttach } from "../dynamic_dom_attach";
 import { enumDisplayMode, HUDShapeStatisticsHandle } from "./statistics_handle";
 import { T } from "../../../translations";
+import { ColorItem } from "../../../game/items/color_item"
 
 export class HUDStatistics extends BaseHUDPart {
     createElements(parent) {
@@ -184,8 +185,9 @@ export class HUDStatistics extends BaseHUDPart {
             const shapeKey = entry[0];
 
             let handle = this.activeHandles[shapeKey];
+            // TODO TODO TODO TODO TODO TODO TODO TODO TODO 
             if (!handle) {
-                const definition = this.root.shapeDefinitionMgr.getShapeFromShortKey(shapeKey);
+                const definition = (shapeKey.length > 1) ? this.root.shapeDefinitionMgr.getShapeFromShortKey(shapeKey) : ColorItem.createFromHash(shapeKey);
                 handle = this.activeHandles[shapeKey] = new HUDShapeStatisticsHandle(
                     this.root,
                     definition,

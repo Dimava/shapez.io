@@ -31,7 +31,7 @@ export class HUDShapeStatisticsHandle {
 
     initElement() {
         this.element = document.createElement("div");
-        this.element.setAttribute("data-shape-key", this.definition.getHash());
+        this.element.setAttribute("data-shape-key", typeof(this.definition) == 'string' ? this.definition : this.definition.getHash());
 
         this.counter = document.createElement("span");
         this.counter.classList.add("counter");

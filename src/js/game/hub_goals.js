@@ -11,6 +11,7 @@ import { enumHubGoalRewards, tutorialGoals } from "./tutorial_goals";
 import { UPGRADES, blueprintShape } from "./upgrades";
 import { customBuildingData } from "./custom/modBuildings";
 import { RandomNumberGenerator } from "../core/rng";
+import { ColorItem } from "./items/color_item"
 
 export class HubGoals extends BasicSerializableObject {
     static getId() {
@@ -197,6 +198,30 @@ export class HubGoals extends BasicSerializableObject {
         this.storedShapes[hash] = (this.storedShapes[hash] || 0) + 1;
 
         this.root.signals.shapeDelivered.dispatch(definition);
+
+        // Check if we have enough for the next level
+        const targetHash = this.currentGoal.definition.getHash();
+        if (
+            this.storedShapes[targetHash] >= this.currentGoal.required ||
+            (G_IS_DEV && globalConfig.debug.rewardsInstant)
+        ) {
+            this.onGoalCompleted();
+        }
+    }
+
+    /**
+     * Handles the given hash, by either accounting it towards the
+     * goal or otherwise granting some points
+     * @param {string} hash
+     */
+    handleDeliveredByHash(hash) {
+        this.storedShapes[hash] = (this.storedShapes[hash] || 0) + 1;
+
+        if (hash.length % 5 == 4) {
+            this.root.signals.shapeDelivered.dispatch(ShapeDefinition.fromShortKey(hash));
+        } else {
+            this.root.signals.shapeDelivered.dispatch(ColorItem.createFromHash(hash));
+        }
 
         // Check if we have enough for the next level
         const targetHash = this.currentGoal.definition.getHash();

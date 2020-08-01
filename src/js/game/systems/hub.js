@@ -30,6 +30,14 @@ export class HubSystem extends GameSystemWithFilter {
             }
 
             hubComponent.definitionsToAnalyze = [];
+
+            const hashQueue = hubComponent.hashesToAnalyze;
+            for (let k = 0; k < hashQueue.length; ++k) {
+                const hash = hashQueue[k];
+                this.root.hubGoals.handleDeliveredByHash(hash);
+            }
+
+            hubComponent.hashesToAnalyze = [];
         }
     }
 

@@ -21,6 +21,7 @@ export class HubComponent extends Component {
          * @type {Array<ShapeDefinition>}
          */
         this.definitionsToAnalyze = [];
+        this.hashesToAnalyze = [];
     }
 
     /**
@@ -28,5 +29,9 @@ export class HubComponent extends Component {
      */
     queueShapeDefinition(definition) {
         this.definitionsToAnalyze.push(definition);
+    }
+
+    queueByHash(hash) {
+        this.hashesToAnalyze.push(hash);
     }
 }

@@ -10,6 +10,7 @@ import {
     enumColorsToHexCode
 } from "../colors";
 import { THEME } from "../theme";
+import { makeOffscreenBuffer } from "../../core/buffer_utils";
 
 export class ColorItem extends BaseItem {
     static getId() {
@@ -104,4 +105,20 @@ export class ColorItem extends BaseItem {
         context.stroke();
         context.fill();
     }
+
+    /**
+     * Generates this shape as a canvas
+     * @param {number} size
+     */
+    generateAsCanvas(size = 120) {
+        const [canvas, context] = makeOffscreenBuffer(size, size, {
+            smooth: true,
+            label: "definition-canvas-cache-" + this.getHash(),
+            reusable: false,
+        });
+
+        this.internalGenerateColorBuffer(canvas, context, size, size, 1);
+        return canvas;
+    }
+
 }

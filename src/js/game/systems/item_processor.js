@@ -359,8 +359,9 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
                 assert(hubComponent, "Hub item processor has no hub component");
 
                 for (let i = 0; i < items.length; ++i) {
-                    const shapeItem = /** @type {ShapeItem} */ (items[i].item);
-                    hubComponent.queueShapeDefinition(shapeItem.definition);
+                    // const shapeItem = /** @type {ShapeItem} */ (items[i].item);
+                    // hubComponent.queueShapeDefinition(shapeItem.definition);
+                    hubComponent.queueByHash(items[i].item.getHash());
                 }
 
                 break;
