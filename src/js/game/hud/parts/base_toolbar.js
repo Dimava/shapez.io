@@ -189,7 +189,7 @@ export class HUDBaseToolbar extends BaseHUDPart {
             }
         }
 
-        if (metaBuilding.id == "toolbar_swapper") {
+        if (metaBuilding && metaBuilding.id == "toolbar_swapper") {
             this.switchToolbar();
             metaBuilding = null;
         }

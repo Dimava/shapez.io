@@ -27,11 +27,11 @@ export const UPGRADES = {
                 required: [{ shape: "SrSrSrSr:CyCyCyCy:SwSwSwSw", amount: 10000 }],
                 improvement: 2,
             },
-            // {
-            //     required: [{ shape: finalGameShape, amount: 150000 }],
-            //     improvement: 5,
-            //     excludePrevious: true,
-            // },
+            {
+                required: [{ shape: finalGameShape, amount: 150000 }],
+                improvement: 5,
+                excludePrevious: true,
+            },
         ],
     },
 
@@ -57,11 +57,11 @@ export const UPGRADES = {
                 required: [{ shape: "CbRbRbCb:CwCwCwCw:WbWbWbWb", amount: 10000 }],
                 improvement: 2,
             },
-            // {
-            //     required: [{ shape: finalGameShape, amount: 150000 }],
-            //     improvement: 5,
-            //     excludePrevious: true,
-            // },
+            {
+                required: [{ shape: finalGameShape, amount: 150000 }],
+                improvement: 5,
+                excludePrevious: true,
+            },
         ],
     },
 
@@ -87,11 +87,11 @@ export const UPGRADES = {
                 required: [{ shape: "WrRgWrRg:CwCrCwCr:SgSgSgSg", amount: 10000 }],
                 improvement: 2,
             },
-            // {
-            //     required: [{ shape: finalGameShape, amount: 150000 }],
-            //     improvement: 5,
-            //     excludePrevious: true,
-            // },
+            {
+                required: [{ shape: finalGameShape, amount: 150000 }],
+                improvement: 5,
+                excludePrevious: true,
+            },
         ],
     },
 
@@ -117,11 +117,11 @@ export const UPGRADES = {
                 required: [{ shape: "WmWmWmWm:CwCwCwCw:WmWmWmWm:CwCwCwCw", amount: 10000 }],
                 improvement: 2,
             },
-            // {
-            //     required: [{ shape: finalGameShape, amount: 150000 }],
-            //     improvement: 5,
-            //     excludePrevious: true,
-            // },
+            {
+                required: [{ shape: finalGameShape, amount: 150000 }],
+                improvement: 5,
+                excludePrevious: true,
+            },
         ],
     },
 };
