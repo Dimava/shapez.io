@@ -27,7 +27,7 @@ export const KEYMAPPINGS = {
         toggleFPSInfo: { keyCode: 115 }, // F4
 
         switchLayers: { keyCode: key("Y") },
-        switchToolbar: { keyCode: key("N") },
+        switchToolbar: { keyCode: key("Z") },
     },
 
     navigation: {

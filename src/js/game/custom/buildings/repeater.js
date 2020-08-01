@@ -37,11 +37,13 @@ export class RepeaterComponent extends Component {
         return {
             itemHash: types.string, 
             storedItem: types.nullable(types.obj(gItemRegistry)),
+            charges: types.int,
         };
     }
     constructor({
         itemHash = "",
         storedItem = null,
+        charges = 0,
     }) {
         super();
 
@@ -51,6 +53,7 @@ export class RepeaterComponent extends Component {
          * @type {BaseItem}
          */
         this.storedItem = storedItem;
+        this.charges = charges;
     }
 
     duplicateWithoutContents() {
@@ -133,6 +136,8 @@ export class RepeaterSystem extends GameSystemWithFilter {
 
     update() {
 
+        const storedShapes = this.root.hubGoals.storedShapes;
+
         for (let i = 0; i < this.allEntities.length; ++i) {
             const entity = this.allEntities[i];
             /** @type {RepeaterComponent} */
@@ -141,15 +146,29 @@ export class RepeaterSystem extends GameSystemWithFilter {
             let processorComp = entity.components.ItemProcessor;
             while (processorComp.inputSlots.length) {
                 let inputSlot = processorComp.inputSlots.pop();
-                comp.storedItem = inputSlot.item;
-                comp.itemHash = inputSlot.item.getHash();
+                if (inputSlot.item.getHash() != comp.itemHash) {
+                    comp.storedItem = inputSlot.item;
+                    comp.itemHash = inputSlot.item.getHash();
+                    comp.charges = 0;
+                }
+                comp.charges = Math.min(comp.charges + 1, 500);
             }
 
             let item = comp.storedItem;
+            let hash = comp.itemHash;
             if (item) {
                 let slots = entity.components.ItemEjector.slots;
                 for (let i = 0; i < slots.length; ++i) {
                     if (!slots[i].item) {
+                        if (globalConfig.debug.blueprintsNoCost) {
+                            comp.charges = 500;
+                        }
+                        if (!comp.charges) {
+                            if (!storedShapes[hash]) break;
+                            storedShapes[hash]--;
+                            comp.charges++;
+                        }
+                        comp.charges--;
                         slots[i].item = item instanceof ShapeItem ? ShapeItem.createFromHash(comp.itemHash) : ColorItem.createFromHash(comp.itemHash);
                     }
                 }
@@ -197,8 +216,12 @@ export function repeaterProcess({ items, trackProduction, entity, outItems, self
     trackProduction = false;
 
     const comp = entity.components[id];
-    comp.storedItem = inputItem;
-    comp.itemHash = inputItem.getHash();
+    if (inputItem.getHash() != comp.itemHash) {
+        comp.storedItem = inputItem;
+        comp.itemHash = inputItem.getHash();
+        comp.charges = 0;
+    }
+    comp.charges = Math.min(comp.charges + 1, 500);
 
     return trackProduction;
 }
