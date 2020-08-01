@@ -7,6 +7,7 @@ import { GameRoot } from "../../root";
 import { BaseHUDPart } from "../base_hud_part";
 import { DynamicDomAttach } from "../dynamic_dom_attach";
 import { globalConfig } from "../../../core/config";
+import { MetaToolbarSwapperBuilding } from "../../buildings/toolbar_swapper";
 
 export class HUDBaseToolbar extends BaseHUDPart {
     /**
@@ -186,6 +187,11 @@ export class HUDBaseToolbar extends BaseHUDPart {
                 metaBuilding = null;
                 break;
             }
+        }
+
+        if (metaBuilding.id == "toolbar_swapper") {
+            this.switchToolbar();
+            metaBuilding = null;
         }
 
         this.root.soundProxy.playUiClick();

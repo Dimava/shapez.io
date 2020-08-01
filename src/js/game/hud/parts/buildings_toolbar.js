@@ -12,8 +12,11 @@ import { MetaUndergroundBeltBuilding } from "../../buildings/underground_belt";
 import { enumLayer } from "../../root";
 import { HUDBaseToolbar } from "./base_toolbar";
 import { MetaAdvancedProcessorBuilding } from "../../buildings/advanced_processor";
+import { MetaToolbarSwapperBuilding } from "../../buildings/toolbar_swapper";
 
 export const supportedBuildings = [
+    MetaToolbarSwapperBuilding,
+
     MetaBeltBaseBuilding,
     MetaSplitterBuilding,
     MetaUndergroundBeltBuilding,
@@ -24,9 +27,6 @@ export const supportedBuildings = [
     MetaMixerBuilding,
     MetaPainterBuilding,
     MetaTrashBuilding,
-
-    MetaEnergyGenerator,
-    MetaAdvancedProcessorBuilding,
 ];
 
 export class HUDBuildingsToolbar extends HUDBaseToolbar {

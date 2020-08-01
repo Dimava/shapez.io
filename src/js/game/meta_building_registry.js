@@ -1,5 +1,6 @@
 import { gMetaBuildingRegistry } from "../core/global_registries";
 import { createLogger } from "../core/logging";
+import { MetaToolbarSwapperBuilding } from "./buildings/toolbar_swapper"
 import { MetaAdvancedProcessorBuilding } from "./buildings/advanced_processor";
 import { MetaBeltBuilding } from "./buildings/belt";
 import { MetaBeltBaseBuilding } from "./buildings/belt_base";
@@ -23,6 +24,7 @@ import { allCustomBuildingData } from "./custom/modBuildings";
 const logger = createLogger("building_registry");
 
 export function initMetaBuildingRegistry() {
+    gMetaBuildingRegistry.register(MetaToolbarSwapperBuilding);
     gMetaBuildingRegistry.register(MetaSplitterBuilding);
     gMetaBuildingRegistry.register(MetaMinerBuilding);
     gMetaBuildingRegistry.register(MetaCutterBuilding);

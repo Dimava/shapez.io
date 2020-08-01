@@ -3,8 +3,11 @@ import { MetaEnergyGenerator } from "../../buildings/energy_generator";
 import { enumLayer } from "../../root";
 import { HUDBaseToolbar } from "./base_toolbar";
 import { MetaAdvancedProcessorBuilding } from "../../buildings/advanced_processor";
+import { MetaToolbarSwapperBuilding } from "../../buildings/toolbar_swapper";
 
 export const supportedBuildings = [
+    MetaToolbarSwapperBuilding,
+    
     MetaEnergyGenerator,
     MetaAdvancedProcessorBuilding,
 ];
