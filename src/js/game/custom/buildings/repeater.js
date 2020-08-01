@@ -20,6 +20,7 @@ import {
     Loader,
     ShapeItem,
     ShapeDefinition,
+    ColorItem,
     enumDirection,
     ItemProcessorComponent
  } from "../gameData";
@@ -127,22 +128,33 @@ export class RepeaterSystem extends GameSystemWithFilter {
     constructor(root) {
         super(root, [RepeaterComponent]);
 
-        this.storageOverlaySprite = Loader.getSprite("sprites/misc/storage_overlay.png");
+        // this.storageOverlaySprite = Loader.getSprite("sprites/misc/storage_overlay.png");
     }
 
     update() {
 
         for (let i = 0; i < this.allEntities.length; ++i) {
             const entity = this.allEntities[i];
-            let item = entity.components[id].storedItem;
+            /** @type {RepeaterComponent} */
+            const comp = entity.components[id];
+
+            let processorComp = entity.components.ItemProcessor;
+            while (processorComp.inputSlots.length) {
+                let inputSlot = processorComp.inputSlots.pop();
+                comp.storedItem = inputSlot.item;
+                comp.itemHash = inputSlot.item.getHash();
+            }
+
+            let item = comp.storedItem;
             if (item) {
-                let ejectorComp = entity.components.ItemEjector;
-                for (let slot of ejectorComp.slots) {
-                    if (!slot.item) {
-                        if ()
+                let slots = entity.components.ItemEjector.slots;
+                for (let i = 0; i < slots.length; ++i) {
+                    if (!slots[i].item) {
+                        slots[i].item = item instanceof ShapeItem ? ShapeItem.createFromHash(comp.itemHash) : ColorItem.createFromHash(comp.itemHash);
                     }
                 }
             }
+
         }
     }
 
@@ -162,118 +174,31 @@ export class RepeaterSystem extends GameSystemWithFilter {
             return;
         }
 
-        const tscComp = entity.components[id];
-        const storedItem = tscComp.storedItem;
+        const comp = entity.components[id];
+        const storedItem = comp.storedItem;
         const center = staticComp.getTileSpaceBounds().getCenter().toWorldSpace();
         if (storedItem !== null) {
-            storedItem.draw(center.x, center.y, parameters, 30);
+            context.save();
+            context.translate(center.x, center.y);
+            context.scale(0.8, 0.8);
+            storedItem.draw(0, 0, parameters, 30);
+            context.restore();
         }
-        this.storageOverlaySprite.drawCached(parameters, center.x - 15, center.y + 15, 30, 15);
-
-        context.font = "bold 10px GameFont";
-        context.textAlign = "center";
-        context.fillStyle = "#64666e";
-        context.fillText(tscComp.filterType, center.x, center.y + 25.5);
-
-        context.textAlign = "left";
+        // leave here for case it will show count
+        // this.storageOverlaySprite.drawCached(parameters, center.x - 15, center.y + 15, 30, 15);
     }
 }
 
 // returns trackProduction
-export function targetShapeCheckerProcess({ items, trackProduction, entity, outItems, self }) {
-    // console.log("targetShapeChecker PROCESSES");
+export function repeaterProcess({ items, trackProduction, entity, outItems, self }) {
+    // console.log("repeater PROCESSES");
 
     const inputItem = /** @type {ShapeItem} */ (items[0].item);
     trackProduction = false;
 
-    const tscComponent = entity.components[id];
-    if (!tscComponent.isfil && inputItem instanceof ShapeItem) {
-        // setting filter type:
-        let item = inputItem.definition.getHash();
-        //shape:
-        if (item.match(/([^-][^-]------|--[^-][^-]----|----[^-][^-]--|------[^-][^-])$/)) {
-            let m = item.match(/([^-][^-])(--)*$/);
-            tscComponent.filterType = "shape";
-            tscComponent.filterIndex = m.index;
-            tscComponent.filter = m[0].slice(0, 1);
-            tscComponent.isfil = true;
-            let layer = item.split(":").length;
-            let index = (m.index % 9) / 2;
-            let topKey = `${"--".repeat(index)}${tscComponent.filter}u${"--".repeat(3 - index)}`;
-            let key = (topKey + ":").repeat(layer - 1) + topKey;
-            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
-        }
-        // hole:
-        else if (
-            item.match(
-                /(--[^-][^-][^-][^-][^-][^-]|[^-][^-]--[^-][^-][^-][^-]|[^-][^-][^-][^-]--[^-][^-]|[^-][^-][^-][^-][^-][^-]--)$/
-            )
-        ) {
-            let m = item.match(/(--)([^-][^-])*$/);
-            tscComponent.filterType = "hole";
-            tscComponent.filterIndex = m.index;
-            tscComponent.filter = m[0].slice(0, 1);
-            tscComponent.isfil = true;
-            let layer = item.split(":").length;
-            let index = (m.index % 9) / 2;
-            let topKey = `${"Cu".repeat(index)}--${"Cu".repeat(3 - index)}`;
-            let key = (topKey + ":").repeat(layer - 1) + topKey;
-            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
-        }
-        // color:
-        else if (item.match(/(.[^u].u.u.u|.u.[^u].u.u|.u.u.[^u].u|.u.u.u.[^u])$/)) {
-            let m = item.match(/([^u])(.u)*$/);
-            tscComponent.filterType = "color";
-            tscComponent.filterIndex = m.index;
-            tscComponent.filter = m[0].slice(0, 1);
-            tscComponent.isfil = true;
-            let layer = item.split(":").length;
-            let index = ((m.index % 9) - 1) / 2;
-            let topKey = `${"--".repeat(index)}C${tscComponent.filter}${"--".repeat(3 - index)}`;
-            let key = (topKey + ":").repeat(layer - 1) + topKey;
-            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
-        }
-        // uncolored:
-        else if (
-            item.match(
-                /(.u.[^u-].[^u-].[^u-]|.[^u-].u.[^u-].[^u-]|.[^u-].[^u-].u.[^u-]|.[^u-].[^u-].[^u-].u)$/
-            )
-        ) {
-            let m = item.match(/(u)(.[^u])*$/);
-            tscComponent.filterType = "uncolored";
-            tscComponent.filterIndex = m.index;
-            tscComponent.filter = m[0].slice(0, 1);
-            tscComponent.isfil = true;
-            let layer = item.split(":").length;
-            let index = ((m.index % 9) - 1) / 2;
-            let topKey = `${"--".repeat(index)}C${tscComponent.filter}${"--".repeat(3 - index)}`;
-            let key = (topKey + ":").repeat(layer - 1) + topKey;
-            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
-        }
-        return false;
-    }
-
-    if (tscComponent.isfil) {
-        let goal = self.root.hubGoals.currentGoal.definition.getHash();
-
-        let matches = true;
-
-        if (tscComponent.filterType == "color") {
-            matches = goal[tscComponent.filterIndex] == tscComponent.filter;
-        } else if (tscComponent.filterType == "uncolored") {
-            matches =
-                !goal[tscComponent.filterIndex] || goal[tscComponent.filterIndex] == tscComponent.filter;
-        } else if (tscComponent.filterType == "shape") {
-            matches = goal[tscComponent.filterIndex] == tscComponent.filter;
-        } else if (tscComponent.filterType == "hole") {
-            matches =
-                !goal[tscComponent.filterIndex] || goal[tscComponent.filterIndex] == tscComponent.filter;
-        }
-        outItems.push({
-            item: inputItem,
-            requiredSlot: matches ? 0 : 1,
-        });
-    }
+    const comp = entity.components[id];
+    comp.storedItem = inputItem;
+    comp.itemHash = inputItem.getHash();
 
     return trackProduction;
 }
@@ -296,13 +221,18 @@ export const tscSprite = [
     // },
     {
         // green arrow:
-        path: "M 40,35 l 30,-30 30,30 z",
+        path: "M 35,45 l 30,-30 30,30 z",
         fill: "lightgreen",
     },
     {
         // green arrow:
-        path: "M 80,35 l 30,-30 30,30 z",
+        path: "M 156,45 l -30,-30 -30,30 z",
         fill: "lightgreen",
+    },
+    {
+        // blue arrow:
+        path: "M 60,45 l 35,-35 35,35 z",
+        fill: "lightyellow",
     },
 ];
 export const tscSpriteBp = [
@@ -327,34 +257,39 @@ export const tscSpriteBp = [
     // },
     {
         // green arrow:
-        path: "M 40,35 l 30,-30 30,30 z",
-        fill: "#5EB7ED",
-        stroke: "#56A7D8",
+        path: "M 35,45 l 30,-30 30,30 z",
+        fill: "#56A7D8",
     },
     {
         // green arrow:
-        path: "M 80,35 l 30,-30 30,30 z",
+        path: "M 156,45 l -30,-30 -30,30 z",
+        fill: "#56A7D8",
+    },
+    {
+        // blue arrow:
+        path: "M 60,45 l 35,-35 35,35 z",
         fill: "#5EB7ED",
         stroke: "#56A7D8",
     },
 ];
 
-export const checker = {
-    id: "checker",
+export const repeater = {
+    id,
     component: RepeaterComponent,
     building: MetaRepeaterBuilding,
     toolbar: 2,
     system: RepeaterSystem,
     sysOrder: 4.5,
-    process: targetShapeCheckerProcess,
-    speed: 100,
+    process: repeaterProcess,
     draw: true,
     sprite: tscSprite,
     spriteBp: tscSpriteBp,
 
-    variantId: 500,
+    variantId: 550,
     meta: MetaRepeaterBuilding,
     speed: 2,
+    Tname: "Repeater",
+    Tdesc: "Duplicates items, taking them from hub",
 };
 
-export default checker;
+export default repeater;

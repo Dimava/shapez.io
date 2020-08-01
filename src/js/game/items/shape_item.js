@@ -25,7 +25,8 @@ export class ShapeItem extends BaseItem {
         return this.definition.getHash()
     }
 
-    createFromHash(hash) {
+    /** @returns {ShapeItem} */
+    static createFromHash(hash) {
         return new ShapeItem(ShapeDefinition.fromShortKey(hash));
     }
 

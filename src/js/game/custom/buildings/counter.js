@@ -30,12 +30,6 @@ export class ItemCounterComponent extends Component {
 
     static getSchema() {
         return {
-            // inputSlots: types.array(
-            //     types.structured({
-            //         item: types.obj(gItemRegistry),
-            //         sourceSlot: types.uint,
-            //     })
-            // ),
             itemTickHistory: types.array(types.float),
         };
     }

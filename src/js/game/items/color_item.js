@@ -32,7 +32,8 @@ export class ColorItem extends BaseItem {
         return enumColorToShortcode[this.color];
     }
 
-    createFromHash(hash) {
+    /** @returns {ColorItem} */
+    static createFromHash(hash) {
         return new ColorItem(enumShortcodeToColor[hash]);
     }
 
