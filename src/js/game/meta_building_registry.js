@@ -48,67 +48,68 @@ export function initMetaBuildingRegistry() {
         }
     }
 
-    // Hub
-    registerBuildingVariant(1, MetaHubBuilding);
-
     // Belt
-    registerBuildingVariant(11, MetaBeltBaseBuilding, defaultBuildingVariant, 0);
-    registerBuildingVariant(12, MetaBeltBaseBuilding, defaultBuildingVariant, 1);
-    registerBuildingVariant(13, MetaBeltBaseBuilding, defaultBuildingVariant, 2);
+    registerBuildingVariant(1, MetaBeltBaseBuilding, defaultBuildingVariant, 0);
+    registerBuildingVariant(2, MetaBeltBaseBuilding, defaultBuildingVariant, 1);
+    registerBuildingVariant(3, MetaBeltBaseBuilding, defaultBuildingVariant, 2);
 
     // Splitter
-    registerBuildingVariant(21, MetaSplitterBuilding);
-    registerBuildingVariant(22, MetaSplitterBuilding, enumSplitterVariants.compact);
-    registerBuildingVariant(23, MetaSplitterBuilding, enumSplitterVariants.compactInverse);
-
-    // Underground belt
-    registerBuildingVariant(31, MetaUndergroundBeltBuilding, defaultBuildingVariant, 0);
-    registerBuildingVariant(32, MetaUndergroundBeltBuilding, defaultBuildingVariant, 1);
-    registerBuildingVariant(33, MetaUndergroundBeltBuilding, enumUndergroundBeltVariants.tier2, 0);
-    registerBuildingVariant(34, MetaUndergroundBeltBuilding, enumUndergroundBeltVariants.tier2, 1);
+    registerBuildingVariant(4, MetaSplitterBuilding);
+    registerBuildingVariant(5, MetaSplitterBuilding, enumSplitterVariants.compact);
+    registerBuildingVariant(6, MetaSplitterBuilding, enumSplitterVariants.compactInverse);
 
     // Miner
-    registerBuildingVariant(41, MetaMinerBuilding);
-    registerBuildingVariant(42, MetaMinerBuilding, enumMinerVariants.chainable);
+    registerBuildingVariant(7, MetaMinerBuilding);
+    registerBuildingVariant(8, MetaMinerBuilding, enumMinerVariants.chainable);
 
     // Cutter
-    registerBuildingVariant(51, MetaCutterBuilding);
-    registerBuildingVariant(52, MetaCutterBuilding, enumCutterVariants.quad);
+    registerBuildingVariant(9, MetaCutterBuilding);
+    registerBuildingVariant(10, MetaCutterBuilding, enumCutterVariants.quad);
 
     // Rotater
-    registerBuildingVariant(61, MetaRotaterBuilding);
-    registerBuildingVariant(62, MetaRotaterBuilding, enumRotaterVariants.ccw);
-    registerBuildingVariant(63, MetaRotaterBuilding, enumRotaterVariants.fl);
+    registerBuildingVariant(11, MetaRotaterBuilding);
+    registerBuildingVariant(12, MetaRotaterBuilding, enumRotaterVariants.ccw);
+    registerBuildingVariant(13, MetaRotaterBuilding, enumRotaterVariants.fl);
 
     // Stacker
-    registerBuildingVariant(71, MetaStackerBuilding);
+    registerBuildingVariant(14, MetaStackerBuilding);
 
     // Mixer
-    registerBuildingVariant(81, MetaMixerBuilding);
+    registerBuildingVariant(15, MetaMixerBuilding);
 
     // Painter
-    registerBuildingVariant(91, MetaPainterBuilding);
-    registerBuildingVariant(92, MetaPainterBuilding, enumPainterVariants.mirrored);
-    registerBuildingVariant(93, MetaPainterBuilding, enumPainterVariants.double);
-    registerBuildingVariant(94, MetaPainterBuilding, enumPainterVariants.quad);
+    registerBuildingVariant(16, MetaPainterBuilding);
+    registerBuildingVariant(17, MetaPainterBuilding, enumPainterVariants.mirrored);
+    registerBuildingVariant(18, MetaPainterBuilding, enumPainterVariants.double);
+    registerBuildingVariant(19, MetaPainterBuilding, enumPainterVariants.quad);
 
     // Trash
-    registerBuildingVariant(101, MetaTrashBuilding);
-    registerBuildingVariant(102, MetaTrashBuilding, enumTrashVariants.storage);
+    registerBuildingVariant(20, MetaTrashBuilding);
+    registerBuildingVariant(21, MetaTrashBuilding, enumTrashVariants.storage);
+
+    // Underground belt
+    registerBuildingVariant(22, MetaUndergroundBeltBuilding, defaultBuildingVariant, 0);
+    registerBuildingVariant(23, MetaUndergroundBeltBuilding, defaultBuildingVariant, 1);
+    registerBuildingVariant(24, MetaUndergroundBeltBuilding, enumUndergroundBeltVariants.tier2, 0);
+    registerBuildingVariant(25, MetaUndergroundBeltBuilding, enumUndergroundBeltVariants.tier2, 1);
+
+    // Hub
+    registerBuildingVariant(26, MetaHubBuilding);
 
     // Energy generator
-    registerBuildingVariant(111, MetaEnergyGenerator);
-    // Advanced processor
-    registerBuildingVariant(121, MetaAdvancedProcessorBuilding);
+    registerBuildingVariant(27, MetaEnergyGenerator);
 
     // Wire
-    registerBuildingVariant(16, MetaWireBaseBuilding, defaultBuildingVariant, 0);
-    registerBuildingVariant(17, MetaWireBaseBuilding, defaultBuildingVariant, 1);
-    registerBuildingVariant(18, MetaWireBaseBuilding, defaultBuildingVariant, 2);
+    registerBuildingVariant(28, MetaWireBaseBuilding, defaultBuildingVariant, 0);
+    registerBuildingVariant(29, MetaWireBaseBuilding, defaultBuildingVariant, 1);
+    registerBuildingVariant(30, MetaWireBaseBuilding, defaultBuildingVariant, 2);
+
+    // Advanced processor
+    registerBuildingVariant(31, MetaAdvancedProcessorBuilding);
 
     // Wire crossing
-    registerBuildingVariant(26, MetaWireCrossingsBuilding);
-    registerBuildingVariant(27, MetaWireCrossingsBuilding, enumWireCrossingVariants.merger);
+    registerBuildingVariant(32, MetaWireCrossingsBuilding);
+    registerBuildingVariant(33, MetaWireCrossingsBuilding, enumWireCrossingVariants.merger);
 
     for (let custom of allCustomBuildingData) {
         if (custom.meta && custom.variantId) {
