@@ -42,7 +42,7 @@ export class MetaQuaduoPainterBuilding extends MetaBuilding {
      */
     getAdditionalStatistics(root, variant) {
         const speed = root.hubGoals.getProcessorBaseSpeed(id);
-        return [[T.ingame.buildingPlacement.infoTexts.speed, formatItemsPerSecond(speed)]];
+        return [[T.ingame.buildingPlacement.infoTexts.speed, formatItemsPerSecond(speed, true)]];
     }
 
     /**
@@ -167,8 +167,8 @@ export const unstackerBuildingData = {
     // TODO: keybinding in KEYMAPPINGS
     // TODO: T
     Tname: "QuaduoPainter",
-    Tdesc: "Paints all layers of 2 shapes.",
-    speed: 1 / 5,
+    Tdesc: "Paints all layers of 2 shapes on insane speed.",
+    speed: 1 / 2,
     speedClass: "processors",
     meta: MetaQuaduoPainterBuilding,
     variantId: 560,

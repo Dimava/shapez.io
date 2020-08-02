@@ -53,7 +53,7 @@ export class RepeaterComponent extends Component {
     }
 
     duplicateWithoutContents() {
-        return new RepeaterComponent(this);
+        return new RepeaterComponent({ itemHash: this.itemHash, storedItem: this.storedItem });
     }
 }
 
