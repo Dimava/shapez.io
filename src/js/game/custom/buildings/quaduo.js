@@ -1,20 +1,19 @@
-import { MetaBuilding,
-	enumDirection,
-	enumItemProcessorTypes,
-	T,
-	ItemProcessorComponent,
-	ItemEjectorComponent,
-	ItemAcceptorComponent,
-	Vector,
-	formatItemsPerSecond,
-	ShapeItem,
-	ShapeDefinition,
+import {
+    MetaBuilding,
+    enumDirection,
+    enumItemProcessorTypes,
+    T,
+    ItemProcessorComponent,
+    ItemEjectorComponent,
+    ItemAcceptorComponent,
+    Vector,
+    formatItemsPerSecond,
+    ShapeItem,
+    ShapeDefinition,
     enumItemType,
 } from "../gameData";
 
-
 const id = "quaduo";
-
 
 export class MetaQuaduoPainterBuilding extends MetaBuilding {
     constructor() {
@@ -33,7 +32,7 @@ export class MetaQuaduoPainterBuilding extends MetaBuilding {
      * @param {GameRoot} root
      */
     getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(`reward_${ id }`);
+        return root.hubGoals.isRewardUnlocked(`reward_${id}`);
     }
 
     /**
@@ -106,7 +105,6 @@ export class MetaQuaduoPainterBuilding extends MetaBuilding {
     }
 }
 
-
 const cache = {};
 
 function colorShape(shape, c1, c2, c3, c4) {
@@ -114,20 +112,18 @@ function colorShape(shape, c1, c2, c3, c4) {
     let out = cache[recipeId];
     if (out) return out;
 
-    let layers = shape.split(':').map(e=>e.split(''));
+    let layers = shape.split(":").map(e => e.split(""));
     let colors = [c1, c2, c3, c4];
     for (let i = 0; i < 4; i++) {
         for (let j = layers.length - 1; j >= 0; --j) {
-            if (layers[j][2*i] != "-") {
-                layers[j][2*i+1] = colors[i];
+            if (layers[j][2 * i] != "-") {
+                layers[j][2 * i + 1] = colors[i];
             }
         }
     }
-    let result = layers.map(e=>e.join('')).join(':');
-    return cache[recipeId] = ShapeDefinition.fromShortKey(result);
+    let result = layers.map(e => e.join("")).join(":");
+    return (cache[recipeId] = ShapeDefinition.fromShortKey(result));
 }
-
-
 
 // returns trackProduction
 export function QuaduoPainterProcess({ items, trackProduction, entity, outItems, self }) {
@@ -138,26 +134,25 @@ export function QuaduoPainterProcess({ items, trackProduction, entity, outItems,
     let out1 = colorShape(input[0], input[2], input[3], input[4], input[5]);
     outItems.push({
         item: new ShapeItem(out1),
-    })
+    });
     let out2 = colorShape(input[1], input[2], input[3], input[4], input[5]);
     outItems.push({
         item: new ShapeItem(out2),
-    })
+    });
 
     // trackProduction
     return true;
 }
 
-
 export const Sprite = {
-    sprite: `sprites/buildings/${ id }.png`,
-    url: `./res/${ id }.png`,
+    sprite: `sprites/buildings/${id}.png`,
+    url: `./res/${id}.png`,
     w: 756,
     h: 378,
 };
 export const SpriteBp = {
-    sprite: `sprites/blueprints/${ id }.png`,
-    url: `./res/${ id }.png`, // NOT BP ATM
+    sprite: `sprites/blueprints/${id}.png`,
+    url: `./res/${id}.png`, // NOT BP ATM
     w: 756,
     h: 378,
 };

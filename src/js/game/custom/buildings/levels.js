@@ -1,14 +1,10 @@
-
-
-
-
 const painter = {
     id: "painter4",
     goal: {
         shape: "CuCuCuCu",
         required: 5000,
         reward: "painter_quad",
-    }
+    },
 };
 const inverter = {
     id: "inverter",
@@ -16,7 +12,7 @@ const inverter = {
         shape: "CuCuCuCu",
         required: 5000,
         reward: "inverter",
-    }
+    },
 };
 const counter = {
     id: "counter",
@@ -24,7 +20,7 @@ const counter = {
         shape: "CuCuCuCu",
         required: 5000,
         reward: "counter",
-    }
+    },
 };
 const checker = {
     id: "checker",
@@ -32,7 +28,7 @@ const checker = {
         shape: "CuCuCuCu",
         required: 5000,
         reward: "checker",
-    }
+    },
 };
 const combiner = {
     id: "combiner",
@@ -40,7 +36,7 @@ const combiner = {
         shape: "CuCuCuCu",
         required: 5000,
         reward: "combiner",
-    }
+    },
 };
 
 const unstacker = {
@@ -49,18 +45,9 @@ const unstacker = {
         shape: "CuCuCuCu",
         required: 5000,
         reward: "unstacker",
-    }
+    },
 };
 
-
-const levels = [
-    inverter,
-    counter,
-    checker,
-    combiner,
-    unstacker,
-]
-
-
+const levels = [inverter, counter, checker, combiner, unstacker];
 
 export default levels;

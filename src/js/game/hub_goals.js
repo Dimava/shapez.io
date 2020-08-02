@@ -11,7 +11,7 @@ import { enumHubGoalRewards, tutorialGoals } from "./tutorial_goals";
 import { UPGRADES, blueprintShape } from "./upgrades";
 import { customBuildingData } from "./custom/modBuildings";
 import { RandomNumberGenerator } from "../core/rng";
-import { ColorItem } from "./items/color_item"
+import { ColorItem } from "./items/color_item";
 
 export class HubGoals extends BasicSerializableObject {
     static getId() {
@@ -374,10 +374,13 @@ export class HubGoals extends BasicSerializableObject {
         const holeTier = 3; // max 2
 
         // @ts-ignore
-        const availableColors = Object.values(allColorData).filter(e => e.tier <= colorTier).map(e=>e.id);
+        const availableColors = Object.values(allColorData)
+            .filter(e => e.tier <= colorTier)
+            .map(e => e.id);
         // @ts-ignore
-        const availableShapes = Object.values(allShapeData).filter(e => e.tier <= shapeTier).map(e=>e.id);
-
+        const availableShapes = Object.values(allShapeData)
+            .filter(e => e.tier <= shapeTier)
+            .map(e => e.id);
 
         const randomColor = () => rng.choice(availableColors);
         const randomShape = () => rng.choice(availableShapes);

@@ -1,20 +1,19 @@
-import { MetaBuilding,
-	enumDirection,
-	enumItemProcessorTypes,
-	T,
-	ItemProcessorComponent,
-	ItemEjectorComponent,
-	ItemAcceptorComponent,
-	Vector,
-	formatItemsPerSecond,
-	ShapeItem,
-	ShapeDefinition,
+import {
+    MetaBuilding,
+    enumDirection,
+    enumItemProcessorTypes,
+    T,
+    ItemProcessorComponent,
+    ItemEjectorComponent,
+    ItemAcceptorComponent,
+    Vector,
+    formatItemsPerSecond,
+    ShapeItem,
+    ShapeDefinition,
     enumItemType,
 } from "../gameData";
 
-
 const id = "unstacker";
-
 
 export class MetaUnstackerBuilding extends MetaBuilding {
     constructor() {
@@ -33,7 +32,7 @@ export class MetaUnstackerBuilding extends MetaBuilding {
      * @param {GameRoot} root
      */
     getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(`reward_${ id }`);
+        return root.hubGoals.isRewardUnlocked(`reward_${id}`);
     }
 
     /**
@@ -85,9 +84,6 @@ export class MetaUnstackerBuilding extends MetaBuilding {
     }
 }
 
-
-
-
 // returns trackProduction
 export function UnstackerProcess({ items, trackProduction, entity, outItems, self }) {
     // console.log("Unstacker PROCESSES");
@@ -95,33 +91,26 @@ export function UnstackerProcess({ items, trackProduction, entity, outItems, sel
     const inputItem = items[0].item;
     trackProduction = true;
 
-//     debugger;
+    //     debugger;
     let input = items.map(e => e.item.definition.getHash());
-
-
 
     let [it] = input;
     let out = [];
-    let a = it.split(':');
+    let a = it.split(":");
     let top = a.shift();
-    let right = a.join(':');
-    out = [top, right]
-
-
-
-
+    let right = a.join(":");
+    out = [top, right];
 
     for (let i = 0; i < out.length; ++i) {
-    	if (!out[i]) continue;
-    	outItems.push({
-    		item: new ShapeItem(ShapeDefinition.fromShortKey(out[i])),
-    		requiredSlot: i,
-    	})
+        if (!out[i]) continue;
+        outItems.push({
+            item: new ShapeItem(ShapeDefinition.fromShortKey(out[i])),
+            requiredSlot: i,
+        });
     }
 
     return trackProduction;
 }
-
 
 export const Sprite = {
     sprite: "sprites/buildings/unstacker.png",

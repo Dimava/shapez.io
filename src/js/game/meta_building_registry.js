@@ -1,6 +1,6 @@
 import { gMetaBuildingRegistry } from "../core/global_registries";
 import { createLogger } from "../core/logging";
-import { MetaToolbarSwapperBuilding } from "./buildings/toolbar_swapper"
+import { MetaToolbarSwapperBuilding } from "./buildings/toolbar_swapper";
 import { MetaAdvancedProcessorBuilding } from "./buildings/advanced_processor";
 import { MetaBeltBuilding } from "./buildings/belt";
 import { MetaBeltBaseBuilding } from "./buildings/belt_base";

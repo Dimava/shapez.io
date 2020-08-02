@@ -15,7 +15,7 @@ export const supportedBuildings = [
     MetaBeltBaseBuilding,
     MetaSplitterBuilding,
     MetaUndergroundBeltBuilding,
-    
+
     MetaEnergyGenerator,
     MetaAdvancedProcessorBuilding,
 ];

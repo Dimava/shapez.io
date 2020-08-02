@@ -48,19 +48,21 @@ function addCustom(custom) {
     Object.assign(customBuildingData[custom.id], custom);
 
     if (custom.goal) {
-        if (tutorialGoals.find(e=>e.reward == custom.goal.reward)) {
-            let index = tutorialGoals.findIndex(e=>e.reward == custom.goal.reward);
+        if (tutorialGoals.find(e => e.reward == custom.goal.reward)) {
+            let index = tutorialGoals.findIndex(e => e.reward == custom.goal.reward);
             tutorialGoals.splice(index, 1);
         }
         tutorialGoals.push(custom.goal);
-        tutorialGoals.sort((a,b)=>a.required-b.required);
+        tutorialGoals.sort((a, b) => a.required - b.required);
         if (custom.goal.reward) {
             if (!custom.goal.reward.startsWith("reward_")) {
                 custom.goal.reward = "reward_" + custom.goal.reward;
             }
             enumHubGoalRewards[custom.goal.reward] = custom.goal.reward;
             if (!T.storyRewards[custom.goal.reward]) {
-                T.storyRewards[custom.goal.reward] = { title: custom.goal.Tname || custom.Tname || custom.id };
+                T.storyRewards[custom.goal.reward] = {
+                    title: custom.goal.Tname || custom.Tname || custom.id,
+                };
             }
         }
     }
@@ -102,8 +104,6 @@ function addCustom(custom) {
             tooolbar.push(custom.meta);
         }
     }
-
-
 
     if (custom.sprite) {
         (custom.sprite[0] || custom.sprite).sprite = `sprites/buildings/${custom.id}${

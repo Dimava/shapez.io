@@ -13,7 +13,7 @@ import { StorageComponent } from "./components/storage";
 import { EnergyGeneratorComponent } from "./components/energy_generator";
 import { WiredPinsComponent } from "./components/wired_pins";
 import { EnergyConsumerComponent } from "./components/energy_consumer";
-import { allCustomBuildingData } from "./custom/modBuildings"
+import { allCustomBuildingData } from "./custom/modBuildings";
 
 export function initComponentRegistry() {
     gComponentRegistry.register(StaticMapEntityComponent);
@@ -43,7 +43,7 @@ export function initComponentRegistry() {
 
     assert(
         // @ts-ignore
-        require.context("./components", false, /.*\.js/i).keys().length + 
+        require.context("./components", false, /.*\.js/i).keys().length +
             allCustomBuildingData.filter(e => e.component).length ===
             gComponentRegistry.getNumEntries(),
         "Not all components are registered"

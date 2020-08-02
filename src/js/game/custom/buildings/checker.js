@@ -21,8 +21,8 @@ import {
     ShapeItem,
     ShapeDefinition,
     enumDirection,
-    ItemProcessorComponent
- } from "../gameData";
+    ItemProcessorComponent,
+} from "../gameData";
 
 const id = "checker";
 const color = "#ff6000";
@@ -83,7 +83,7 @@ export class MetaTargetShapeCheckerBuilding extends MetaBuilding {
      * @param {GameRoot} root
      */
     getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(`reward_${ id }`);
+        return root.hubGoals.isRewardUnlocked(`reward_${id}`);
     }
 
     /**

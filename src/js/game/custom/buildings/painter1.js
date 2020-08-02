@@ -1,18 +1,18 @@
-import { MetaBuilding,
-	enumDirection,
-	enumItemProcessorTypes,
-	T,
-	ItemProcessorComponent,
-	ItemEjectorComponent,
-	ItemAcceptorComponent,
-	Vector,
-	formatItemsPerSecond,
-	ShapeItem,
-	ShapeDefinition,
+import {
+    MetaBuilding,
+    enumDirection,
+    enumItemProcessorTypes,
+    T,
+    ItemProcessorComponent,
+    ItemEjectorComponent,
+    ItemAcceptorComponent,
+    Vector,
+    formatItemsPerSecond,
+    ShapeItem,
+    ShapeDefinition,
     ColorItem,
     enumItemType,
 } from "../gameData";
-
 
 const id = "painter";
 
@@ -23,19 +23,19 @@ function colorShape(shape, color) {
     let out = cache[recipeId];
     if (out) return out;
 
-    let layers = shape.split(':').map(e=>e.split(''));
+    let layers = shape.split(":").map(e => e.split(""));
     for (let i = 0; i < 4; i++) {
         let charges = 4;
         for (let j = layers.length - 1; j >= 0; --j) {
-            if (layers[j][2*i] != "-") {
-                layers[j][2*i+1] = color;
+            if (layers[j][2 * i] != "-") {
+                layers[j][2 * i + 1] = color;
                 charges--;
                 if (!charges) break;
             }
         }
     }
-    let result = layers.map(e=>e.join('')).join(':');
-    return cache[recipeId] = ShapeDefinition.fromShortKey(result);
+    let result = layers.map(e => e.join("")).join(":");
+    return (cache[recipeId] = ShapeDefinition.fromShortKey(result));
 }
 
 // returns trackProduction
@@ -49,7 +49,6 @@ export function Painter1Process({ items, trackProduction, entity, outItems, self
 
     return true;
 }
-
 
 export const BuildingData = {
     id: id,

@@ -20,7 +20,6 @@ export { DrawParameters } from "../../core/draw_parameters";
 export { formatBigNumber, lerp } from "../../core/utils";
 export { Loader } from "../../core/loader";
 
-
 export { GameTime } from "../time/game_time";
 
 export { ShapeItem } from "../items/shape_item";

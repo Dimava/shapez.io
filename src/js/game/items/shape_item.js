@@ -22,7 +22,7 @@ export class ShapeItem extends BaseItem {
     }
 
     getHash() {
-        return this.definition.getHash()
+        return this.definition.getHash();
     }
 
     /** @returns {ShapeItem} */

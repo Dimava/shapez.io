@@ -22,8 +22,8 @@ import {
     ShapeDefinition,
     ColorItem,
     enumDirection,
-    ItemProcessorComponent
- } from "../gameData";
+    ItemProcessorComponent,
+} from "../gameData";
 
 const id = "repeater";
 const color = "#ff6000";
@@ -35,16 +35,12 @@ export class RepeaterComponent extends Component {
 
     static getSchema() {
         return {
-            itemHash: types.string, 
+            itemHash: types.string,
             storedItem: types.nullable(types.obj(gItemRegistry)),
             charges: types.int,
         };
     }
-    constructor({
-        itemHash = "",
-        storedItem = null,
-        charges = 0,
-    }) {
+    constructor({ itemHash = "", storedItem = null, charges = 0 }) {
         super();
 
         this.itemHash = itemHash;
@@ -135,7 +131,6 @@ export class RepeaterSystem extends GameSystemWithFilter {
     }
 
     update() {
-
         const storedShapes = this.root.hubGoals.storedShapes;
 
         for (let i = 0; i < this.allEntities.length; ++i) {
@@ -169,11 +164,13 @@ export class RepeaterSystem extends GameSystemWithFilter {
                             comp.charges++;
                         }
                         comp.charges--;
-                        slots[i].item = item instanceof ShapeItem ? ShapeItem.createFromHash(comp.itemHash) : ColorItem.createFromHash(comp.itemHash);
+                        slots[i].item =
+                            item instanceof ShapeItem
+                                ? ShapeItem.createFromHash(comp.itemHash)
+                                : ColorItem.createFromHash(comp.itemHash);
                     }
                 }
             }
-
         }
     }
 
@@ -229,7 +226,7 @@ export function repeaterProcess({ items, trackProduction, entity, outItems, self
 export const tscSprite = [
     {
         // data:
-        sprite: `sprites/buildings/${ id }.png`,
+        sprite: `sprites/buildings/${id}.png`,
         w: 192,
         h: 192,
     },
@@ -261,7 +258,7 @@ export const tscSprite = [
 export const tscSpriteBp = [
     {
         // data:
-        sprite: `sprites/blueprints/${ id }.png`,
+        sprite: `sprites/blueprints/${id}.png`,
         w: 192,
         h: 192,
         transparent: true,

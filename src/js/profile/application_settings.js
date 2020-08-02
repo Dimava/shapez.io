@@ -264,14 +264,14 @@ export const allApplicationSettings = [
 
 if (IS_DEBUG) {
     for (let k in globalConfig.debug) {
-        if (k.startsWith('_')) continue;
-        const setting = new BoolSetting(`debug_${ k }`, enumCategories.debug, (app, value) => {
+        if (k.startsWith("_")) continue;
+        const setting = new BoolSetting(`debug_${k}`, enumCategories.debug, (app, value) => {
             globalConfig.debug[k] = value;
         });
         setting.validate = () => true;
-        T.settings.labels[`debug_${ k }`] = {
+        T.settings.labels[`debug_${k}`] = {
             title: k.replace(/(?!^)([A-Z])/g, " $1"),
-            description: globalConfig.debug[`_${ k }`],
+            description: globalConfig.debug[`_${k}`],
         };
         allApplicationSettings.push(setting);
     }
@@ -349,7 +349,7 @@ export class ApplicationSettings extends ReadWriteProxy {
      * @param {string} key
      */
     getSetting(key) {
-        if (!key.startsWith('debug_')) {
+        if (!key.startsWith("debug_")) {
             assert(this.getAllSettings().hasOwnProperty(key), "Setting not known: " + key);
         }
         return this.getAllSettings()[key];

@@ -152,22 +152,21 @@ registerCustomShape({
     code: "F",
     ...customDefaults,
     draw: "M 0 0 v 0.5 a 0.5 0.5 0 0 0 0.5 0.5 h 0.5 v -0.5 a 0.5 0.5 0 0 0 -0.5 -0.5 z",
-})
+});
 
 registerCustomShape({
     id: "diamond",
     code: "D",
     ...customDefaults,
     draw: "M 0 0 l 0 0.5 0.5 0.5 0.5 0 0 -0.5 -0.5 -0.5 z",
-
-})
+});
 
 registerCustomShape({
     id: "mill",
     code: "M",
     ...customDefaults,
     draw: "M 0 0 L 0 1 1 1 Z",
-})
+});
 
 // registerCustomShape({
 //     id: "halfleaf",
@@ -199,14 +198,14 @@ registerCustomShape({
     //     arc(0.5, 0.5, 0.1, 0, 2*PI)
     //     }}
 
-
     // },
-    draw: "120.71 M 0 50 A 50 50 0 1 1 85.355 85.355 A 120.71 120.71 0 0 1 -85.355 85.355 A 50 50 0 0 0 0 50 Z M 40 50 A 10 10 0 1 0 40 49.99 Z",
-})
+    draw:
+        "120.71 M 0 50 A 50 50 0 1 1 85.355 85.355 A 120.71 120.71 0 0 1 -85.355 85.355 A 50 50 0 0 0 0 50 Z M 40 50 A 10 10 0 1 0 40 49.99 Z",
+});
 
 registerCustomShape({
     id: "octagon",
     code: "O",
     ...customDefaults,
     draw: "M 0 0 L 0 1 0.4142 1 1 0.4142 1 0 Z",
-})
+});

@@ -128,280 +128,289 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
                 self: this,
             });
         } else
-        switch (processorComp.type) {
-            // SPLITTER
-            case enumItemProcessorTypes.splitterWires:
-            case enumItemProcessorTypes.splitter: {
-                trackProduction = false;
-                const availableSlots = entity.components.ItemEjector.slots.length;
+            switch (processorComp.type) {
+                // SPLITTER
+                case enumItemProcessorTypes.splitterWires:
+                case enumItemProcessorTypes.splitter: {
+                    trackProduction = false;
+                    const availableSlots = entity.components.ItemEjector.slots.length;
 
-                let nextSlot = processorComp.nextOutputSlot++ % availableSlots;
-                for (let i = 0; i < items.length; ++i) {
-                    outItems.push({
-                        item: items[i].item,
-                        preferredSlot: (nextSlot + i) % availableSlots,
-                    });
-                }
-                break;
-            }
-
-            // CUTTER
-            case enumItemProcessorTypes.cutter: {
-                const inputItem = /** @type {ShapeItem} */ (items[0].item);
-                assert(inputItem instanceof ShapeItem, "Input for cut is not a shape");
-                const inputDefinition = inputItem.definition;
-
-                const cutDefinitions = this.root.shapeDefinitionMgr.shapeActionCutHalf(inputDefinition);
-
-                for (let i = 0; i < cutDefinitions.length; ++i) {
-                    const definition = cutDefinitions[i];
-                    if (!definition.isEntirelyEmpty()) {
+                    let nextSlot = processorComp.nextOutputSlot++ % availableSlots;
+                    for (let i = 0; i < items.length; ++i) {
                         outItems.push({
-                            item: new ShapeItem(definition),
-                            requiredSlot: i,
+                            item: items[i].item,
+                            preferredSlot: (nextSlot + i) % availableSlots,
                         });
                     }
+                    break;
                 }
 
-                break;
-            }
+                // CUTTER
+                case enumItemProcessorTypes.cutter: {
+                    const inputItem = /** @type {ShapeItem} */ (items[0].item);
+                    assert(inputItem instanceof ShapeItem, "Input for cut is not a shape");
+                    const inputDefinition = inputItem.definition;
 
-            // CUTTER (Quad)
-            case enumItemProcessorTypes.cutterQuad: {
-                const inputItem = /** @type {ShapeItem} */ (items[0].item);
-                assert(inputItem instanceof ShapeItem, "Input for cut is not a shape");
-                const inputDefinition = inputItem.definition;
+                    const cutDefinitions = this.root.shapeDefinitionMgr.shapeActionCutHalf(inputDefinition);
 
-                const cutDefinitions = this.root.shapeDefinitionMgr.shapeActionCutQuad(inputDefinition);
-
-                for (let i = 0; i < cutDefinitions.length; ++i) {
-                    const definition = cutDefinitions[i];
-                    if (!definition.isEntirelyEmpty()) {
-                        outItems.push({
-                            item: new ShapeItem(definition),
-                            requiredSlot: i,
-                        });
+                    for (let i = 0; i < cutDefinitions.length; ++i) {
+                        const definition = cutDefinitions[i];
+                        if (!definition.isEntirelyEmpty()) {
+                            outItems.push({
+                                item: new ShapeItem(definition),
+                                requiredSlot: i,
+                            });
+                        }
                     }
+
+                    break;
                 }
 
-                break;
-            }
+                // CUTTER (Quad)
+                case enumItemProcessorTypes.cutterQuad: {
+                    const inputItem = /** @type {ShapeItem} */ (items[0].item);
+                    assert(inputItem instanceof ShapeItem, "Input for cut is not a shape");
+                    const inputDefinition = inputItem.definition;
 
-            // ROTATER
-            case enumItemProcessorTypes.rotater: {
-                const inputItem = /** @type {ShapeItem} */ (items[0].item);
-                assert(inputItem instanceof ShapeItem, "Input for rotation is not a shape");
-                const inputDefinition = inputItem.definition;
+                    const cutDefinitions = this.root.shapeDefinitionMgr.shapeActionCutQuad(inputDefinition);
 
-                const rotatedDefinition = this.root.shapeDefinitionMgr.shapeActionRotateCW(inputDefinition);
-                outItems.push({
-                    item: new ShapeItem(rotatedDefinition),
-                });
-                break;
-            }
+                    for (let i = 0; i < cutDefinitions.length; ++i) {
+                        const definition = cutDefinitions[i];
+                        if (!definition.isEntirelyEmpty()) {
+                            outItems.push({
+                                item: new ShapeItem(definition),
+                                requiredSlot: i,
+                            });
+                        }
+                    }
 
-            // ROTATER (CCW)
-            case enumItemProcessorTypes.rotaterCCW: {
-                const inputItem = /** @type {ShapeItem} */ (items[0].item);
-                assert(inputItem instanceof ShapeItem, "Input for rotation is not a shape");
-                const inputDefinition = inputItem.definition;
-
-                const rotatedDefinition = this.root.shapeDefinitionMgr.shapeActionRotateCCW(inputDefinition);
-                outItems.push({
-                    item: new ShapeItem(rotatedDefinition),
-                });
-                break;
-            }
-
-            // ROTATER (FL)
-            case enumItemProcessorTypes.rotaterFL: {
-                const inputItem = /** @type {ShapeItem} */ (items[0].item);
-                assert(inputItem instanceof ShapeItem, "Input for rotation is not a shape");
-                const inputDefinition = inputItem.definition;
-
-                const rotatedDefinition = this.root.shapeDefinitionMgr.shapeActionRotateFL(inputDefinition);
-                outItems.push({
-                    item: new ShapeItem(rotatedDefinition),
-                });
-                break;
-            }
-
-            // STACKER
-
-            case enumItemProcessorTypes.stacker: {
-                const lowerItem = /** @type {ShapeItem} */ (itemsBySlot[0].item);
-                const upperItem = /** @type {ShapeItem} */ (itemsBySlot[1].item);
-
-                assert(lowerItem instanceof ShapeItem, "Input for lower stack is not a shape");
-                assert(upperItem instanceof ShapeItem, "Input for upper stack is not a shape");
-
-                const stackedDefinition = this.root.shapeDefinitionMgr.shapeActionStack(
-                    lowerItem.definition,
-                    upperItem.definition
-                );
-                outItems.push({
-                    item: new ShapeItem(stackedDefinition),
-                });
-                break;
-            }
-
-            // TRASH
-
-            case enumItemProcessorTypes.trash: {
-                // Well this one is easy .. simply do nothing with the item
-                break;
-            }
-
-            // MIXER
-
-            case enumItemProcessorTypes.mixer: {
-                // Find both colors and combine them
-                const item1 = /** @type {ColorItem} */ (items[0].item);
-                const item2 = /** @type {ColorItem} */ (items[1].item);
-                assert(item1 instanceof ColorItem, "Input for color mixer is not a color");
-                assert(item2 instanceof ColorItem, "Input for color mixer is not a color");
-
-                const color1 = item1.color;
-                const color2 = item2.color;
-
-                // Try finding mixer color, and if we can't mix it we simply return the same color
-                const mixedColor = enumColorMixingResults[color1][color2];
-                let resultColor = color1;
-                if (mixedColor) {
-                    resultColor = mixedColor;
-                }
-                outItems.push({
-                    item: new ColorItem(resultColor),
-                });
-
-                break;
-            }
-
-            // PAINTER
-
-            case enumItemProcessorTypes.painter: {
-                const shapeItem = /** @type {ShapeItem} */ (itemsBySlot[0].item);
-                const colorItem = /** @type {ColorItem} */ (itemsBySlot[1].item);
-
-                const colorizedDefinition = this.root.shapeDefinitionMgr.shapeActionPaintWith(
-                    shapeItem.definition,
-                    colorItem.color
-                );
-
-                outItems.push({
-                    item: new ShapeItem(colorizedDefinition),
-                });
-
-                break;
-            }
-
-            // PAINTER (DOUBLE)
-
-            case enumItemProcessorTypes.painterDouble: {
-                const shapeItem1 = /** @type {ShapeItem} */ (itemsBySlot[0].item);
-                const shapeItem2 = /** @type {ShapeItem} */ (itemsBySlot[1].item);
-                const colorItem = /** @type {ColorItem} */ (itemsBySlot[2].item);
-
-                assert(shapeItem1 instanceof ShapeItem, "Input for painter is not a shape");
-                assert(shapeItem2 instanceof ShapeItem, "Input for painter is not a shape");
-                assert(colorItem instanceof ColorItem, "Input for painter is not a color");
-
-                const colorizedDefinition1 = this.root.shapeDefinitionMgr.shapeActionPaintWith(
-                    shapeItem1.definition,
-                    colorItem.color
-                );
-
-                const colorizedDefinition2 = this.root.shapeDefinitionMgr.shapeActionPaintWith(
-                    shapeItem2.definition,
-                    colorItem.color
-                );
-                outItems.push({
-                    item: new ShapeItem(colorizedDefinition1),
-                });
-
-                outItems.push({
-                    item: new ShapeItem(colorizedDefinition2),
-                });
-
-                break;
-            }
-
-            // PAINTER (QUAD)
-
-            case enumItemProcessorTypes.painterQuad: {
-                const shapeItem = /** @type {ShapeItem} */ (itemsBySlot[0].item);
-                const colorItem1 = /** @type {ColorItem} */ (itemsBySlot[1].item);
-                const colorItem2 = /** @type {ColorItem} */ (itemsBySlot[2].item);
-                const colorItem3 = /** @type {ColorItem} */ (itemsBySlot[3].item);
-                const colorItem4 = /** @type {ColorItem} */ (itemsBySlot[4].item);
-
-                assert(shapeItem instanceof ShapeItem, "Input for painter is not a shape");
-                assert(colorItem1 instanceof ColorItem, "Input for painter is not a color");
-                assert(colorItem2 instanceof ColorItem, "Input for painter is not a color");
-                assert(colorItem3 instanceof ColorItem, "Input for painter is not a color");
-                assert(colorItem4 instanceof ColorItem, "Input for painter is not a color");
-
-                const colorizedDefinition = this.root.shapeDefinitionMgr.shapeActionPaintWith4Colors(
-                    shapeItem.definition,
-                    [colorItem2.color, colorItem3.color, colorItem4.color, colorItem1.color]
-                );
-
-                outItems.push({
-                    item: new ShapeItem(colorizedDefinition),
-                });
-
-                break;
-            }
-
-            // HUB
-
-            case enumItemProcessorTypes.hub: {
-                trackProduction = false;
-
-                const hubComponent = entity.components.Hub;
-                assert(hubComponent, "Hub item processor has no hub component");
-
-                for (let i = 0; i < items.length; ++i) {
-                    // const shapeItem = /** @type {ShapeItem} */ (items[i].item);
-                    // hubComponent.queueShapeDefinition(shapeItem.definition);
-                    hubComponent.queueByHash(items[i].item.getHash());
+                    break;
                 }
 
-                break;
-            }
+                // ROTATER
+                case enumItemProcessorTypes.rotater: {
+                    const inputItem = /** @type {ShapeItem} */ (items[0].item);
+                    assert(inputItem instanceof ShapeItem, "Input for rotation is not a shape");
+                    const inputDefinition = inputItem.definition;
 
-            // ADVANCED PROCESSING
-
-            case enumItemProcessorTypes.advancedProcessor: {
-                const item = items[0].item;
-
-                if (item.getItemType() === enumItemType.color) {
-                    const colorItem = /** @type {ColorItem} */ (items[0].item);
-                    const newColor = enumInvertedColors[colorItem.color];
+                    const rotatedDefinition = this.root.shapeDefinitionMgr.shapeActionRotateCW(
+                        inputDefinition
+                    );
                     outItems.push({
-                        item: new ColorItem(newColor),
-                        requiredSlot: 0,
+                        item: new ShapeItem(rotatedDefinition),
                     });
-                } else if (item.getItemType() === enumItemType.shape) {
-                    const shapeItem = /** @type {ShapeItem} */ (items[0].item);
-                    const newItem = this.root.shapeDefinitionMgr.shapeActionInvertColors(
-                        shapeItem.definition
+                    break;
+                }
+
+                // ROTATER (CCW)
+                case enumItemProcessorTypes.rotaterCCW: {
+                    const inputItem = /** @type {ShapeItem} */ (items[0].item);
+                    assert(inputItem instanceof ShapeItem, "Input for rotation is not a shape");
+                    const inputDefinition = inputItem.definition;
+
+                    const rotatedDefinition = this.root.shapeDefinitionMgr.shapeActionRotateCCW(
+                        inputDefinition
+                    );
+                    outItems.push({
+                        item: new ShapeItem(rotatedDefinition),
+                    });
+                    break;
+                }
+
+                // ROTATER (FL)
+                case enumItemProcessorTypes.rotaterFL: {
+                    const inputItem = /** @type {ShapeItem} */ (items[0].item);
+                    assert(inputItem instanceof ShapeItem, "Input for rotation is not a shape");
+                    const inputDefinition = inputItem.definition;
+
+                    const rotatedDefinition = this.root.shapeDefinitionMgr.shapeActionRotateFL(
+                        inputDefinition
+                    );
+                    outItems.push({
+                        item: new ShapeItem(rotatedDefinition),
+                    });
+                    break;
+                }
+
+                // STACKER
+
+                case enumItemProcessorTypes.stacker: {
+                    const lowerItem = /** @type {ShapeItem} */ (itemsBySlot[0].item);
+                    const upperItem = /** @type {ShapeItem} */ (itemsBySlot[1].item);
+
+                    assert(lowerItem instanceof ShapeItem, "Input for lower stack is not a shape");
+                    assert(upperItem instanceof ShapeItem, "Input for upper stack is not a shape");
+
+                    const stackedDefinition = this.root.shapeDefinitionMgr.shapeActionStack(
+                        lowerItem.definition,
+                        upperItem.definition
+                    );
+                    outItems.push({
+                        item: new ShapeItem(stackedDefinition),
+                    });
+                    break;
+                }
+
+                // TRASH
+
+                case enumItemProcessorTypes.trash: {
+                    // Well this one is easy .. simply do nothing with the item
+                    break;
+                }
+
+                // MIXER
+
+                case enumItemProcessorTypes.mixer: {
+                    // Find both colors and combine them
+                    const item1 = /** @type {ColorItem} */ (items[0].item);
+                    const item2 = /** @type {ColorItem} */ (items[1].item);
+                    assert(item1 instanceof ColorItem, "Input for color mixer is not a color");
+                    assert(item2 instanceof ColorItem, "Input for color mixer is not a color");
+
+                    const color1 = item1.color;
+                    const color2 = item2.color;
+
+                    // Try finding mixer color, and if we can't mix it we simply return the same color
+                    const mixedColor = enumColorMixingResults[color1][color2];
+                    let resultColor = color1;
+                    if (mixedColor) {
+                        resultColor = mixedColor;
+                    }
+                    outItems.push({
+                        item: new ColorItem(resultColor),
+                    });
+
+                    break;
+                }
+
+                // PAINTER
+
+                case enumItemProcessorTypes.painter: {
+                    const shapeItem = /** @type {ShapeItem} */ (itemsBySlot[0].item);
+                    const colorItem = /** @type {ColorItem} */ (itemsBySlot[1].item);
+
+                    const colorizedDefinition = this.root.shapeDefinitionMgr.shapeActionPaintWith(
+                        shapeItem.definition,
+                        colorItem.color
                     );
 
                     outItems.push({
-                        item: new ShapeItem(newItem),
-                        requiredSlot: 0,
+                        item: new ShapeItem(colorizedDefinition),
                     });
-                } else {
-                    assertAlways(false, "Bad item type: " + item.getItemType() + " for advanced processor.");
+
+                    break;
                 }
 
-                break;
-            }
+                // PAINTER (DOUBLE)
 
-            default:
-                assertAlways(false, "Unkown item processor type: " + processorComp.type);
-        }
+                case enumItemProcessorTypes.painterDouble: {
+                    const shapeItem1 = /** @type {ShapeItem} */ (itemsBySlot[0].item);
+                    const shapeItem2 = /** @type {ShapeItem} */ (itemsBySlot[1].item);
+                    const colorItem = /** @type {ColorItem} */ (itemsBySlot[2].item);
+
+                    assert(shapeItem1 instanceof ShapeItem, "Input for painter is not a shape");
+                    assert(shapeItem2 instanceof ShapeItem, "Input for painter is not a shape");
+                    assert(colorItem instanceof ColorItem, "Input for painter is not a color");
+
+                    const colorizedDefinition1 = this.root.shapeDefinitionMgr.shapeActionPaintWith(
+                        shapeItem1.definition,
+                        colorItem.color
+                    );
+
+                    const colorizedDefinition2 = this.root.shapeDefinitionMgr.shapeActionPaintWith(
+                        shapeItem2.definition,
+                        colorItem.color
+                    );
+                    outItems.push({
+                        item: new ShapeItem(colorizedDefinition1),
+                    });
+
+                    outItems.push({
+                        item: new ShapeItem(colorizedDefinition2),
+                    });
+
+                    break;
+                }
+
+                // PAINTER (QUAD)
+
+                case enumItemProcessorTypes.painterQuad: {
+                    const shapeItem = /** @type {ShapeItem} */ (itemsBySlot[0].item);
+                    const colorItem1 = /** @type {ColorItem} */ (itemsBySlot[1].item);
+                    const colorItem2 = /** @type {ColorItem} */ (itemsBySlot[2].item);
+                    const colorItem3 = /** @type {ColorItem} */ (itemsBySlot[3].item);
+                    const colorItem4 = /** @type {ColorItem} */ (itemsBySlot[4].item);
+
+                    assert(shapeItem instanceof ShapeItem, "Input for painter is not a shape");
+                    assert(colorItem1 instanceof ColorItem, "Input for painter is not a color");
+                    assert(colorItem2 instanceof ColorItem, "Input for painter is not a color");
+                    assert(colorItem3 instanceof ColorItem, "Input for painter is not a color");
+                    assert(colorItem4 instanceof ColorItem, "Input for painter is not a color");
+
+                    const colorizedDefinition = this.root.shapeDefinitionMgr.shapeActionPaintWith4Colors(
+                        shapeItem.definition,
+                        [colorItem2.color, colorItem3.color, colorItem4.color, colorItem1.color]
+                    );
+
+                    outItems.push({
+                        item: new ShapeItem(colorizedDefinition),
+                    });
+
+                    break;
+                }
+
+                // HUB
+
+                case enumItemProcessorTypes.hub: {
+                    trackProduction = false;
+
+                    const hubComponent = entity.components.Hub;
+                    assert(hubComponent, "Hub item processor has no hub component");
+
+                    for (let i = 0; i < items.length; ++i) {
+                        // const shapeItem = /** @type {ShapeItem} */ (items[i].item);
+                        // hubComponent.queueShapeDefinition(shapeItem.definition);
+                        hubComponent.queueByHash(items[i].item.getHash());
+                    }
+
+                    break;
+                }
+
+                // ADVANCED PROCESSING
+
+                case enumItemProcessorTypes.advancedProcessor: {
+                    const item = items[0].item;
+
+                    if (item.getItemType() === enumItemType.color) {
+                        const colorItem = /** @type {ColorItem} */ (items[0].item);
+                        const newColor = enumInvertedColors[colorItem.color];
+                        outItems.push({
+                            item: new ColorItem(newColor),
+                            requiredSlot: 0,
+                        });
+                    } else if (item.getItemType() === enumItemType.shape) {
+                        const shapeItem = /** @type {ShapeItem} */ (items[0].item);
+                        const newItem = this.root.shapeDefinitionMgr.shapeActionInvertColors(
+                            shapeItem.definition
+                        );
+
+                        outItems.push({
+                            item: new ShapeItem(newItem),
+                            requiredSlot: 0,
+                        });
+                    } else {
+                        assertAlways(
+                            false,
+                            "Bad item type: " + item.getItemType() + " for advanced processor."
+                        );
+                    }
+
+                    break;
+                }
+
+                default:
+                    assertAlways(false, "Unkown item processor type: " + processorComp.type);
+            }
 
         // Track produced items
         if (trackProduction) {

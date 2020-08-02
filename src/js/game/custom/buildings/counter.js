@@ -149,7 +149,7 @@ export class MetaCounterBuilding extends MetaBuilding {
      * @param {GameRoot} root
      */
     getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(`reward_${ id }`);
+        return root.hubGoals.isRewardUnlocked(`reward_${id}`);
     }
 
     /**

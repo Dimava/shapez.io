@@ -1,22 +1,20 @@
-import { MetaBuilding,
-	enumDirection,
-	enumItemProcessorTypes,
-	T,
-	ItemProcessorComponent,
-	ItemEjectorComponent,
-	ItemAcceptorComponent,
-	Vector,
-	formatItemsPerSecond,
-	ShapeItem,
-	ShapeDefinition,
+import {
+    MetaBuilding,
+    enumDirection,
+    enumItemProcessorTypes,
+    T,
+    ItemProcessorComponent,
+    ItemEjectorComponent,
+    ItemAcceptorComponent,
+    Vector,
+    formatItemsPerSecond,
+    ShapeItem,
+    ShapeDefinition,
     enumItemType,
 } from "../gameData";
 
-
 const id = "combiner";
 const color = "blue";
-
-
 
 export class MetaCombinerBuilding extends MetaBuilding {
     constructor() {
@@ -35,7 +33,7 @@ export class MetaCombinerBuilding extends MetaBuilding {
      * @param {GameRoot} root
      */
     getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(`reward_${ id }`);
+        return root.hubGoals.isRewardUnlocked(`reward_${id}`);
     }
 
     /**
@@ -89,33 +87,33 @@ export class MetaCombinerBuilding extends MetaBuilding {
 }
 
 const components = {
-    "R": "R",
-    "C": "C",
-    "S": "S",
-    "W": "W",
-    "B": "RC",
-    "D": "RS",
-    "O": "RW",
-    "F": "CS",
-    "U": "CW",
-    "M": "SW",
-    "Z": "RCS",
-    "T": "RCW",
-    "L": "RSW",
-    "P": "CSW",
-    "Y": "RCSW",
-}
+    R: "R",
+    C: "C",
+    S: "S",
+    W: "W",
+    B: "RC",
+    D: "RS",
+    O: "RW",
+    F: "CS",
+    U: "CW",
+    M: "SW",
+    Z: "RCS",
+    T: "RCW",
+    L: "RSW",
+    P: "CSW",
+    Y: "RCSW",
+};
 
 const recipes = {};
 
 for (let s in components) {
-    components[s] = components[s].split('').sort().join('')
+    components[s] = components[s].split("").sort().join("");
 }
 
 for (let s1 in components) {
     let res = {};
     for (let s2 in components) {
-        let cm = [...new Set(components[s1]+components[s2])].sort().join('')
+        let cm = [...new Set(components[s1] + components[s2])].sort().join("");
         for (let r in components) {
             if (cm == components[r]) {
                 res[s2] = r;
@@ -125,7 +123,6 @@ for (let s1 in components) {
     recipes[s1] = res;
 }
 
-
 // returns trackProduction
 export function CombinerProcess({ items, trackProduction, entity, outItems, self }) {
     // console.log("Combiner PROCESSES");
@@ -133,21 +130,26 @@ export function CombinerProcess({ items, trackProduction, entity, outItems, self
     const inputItem = items[0].item;
     trackProduction = true;
 
-//     debugger;
+    //     debugger;
     let input = items.map(e => e.item.definition.getHash());
-
 
     let [it1, it2] = input;
     let out = [];
-    let a = ""; 
+    let a = "";
 
     // for (let i = 0; i < 4; i++) {
     //     let empty = it1[i*2] == "-" || it2[i*2] == "-";
     //     let r = recipes[it1[i*2] + it2[i*2]] || "C";
     //     a += empty ? "--" : r + "u";
     // }
-    let quads1 = it1.split(':').flatMap(e => e.match(/../g)).map(e=>e[0]);
-    let quads2 = it2.split(':').flatMap(e => e.match(/../g)).map(e=>e[0]);
+    let quads1 = it1
+        .split(":")
+        .flatMap(e => e.match(/../g))
+        .map(e => e[0]);
+    let quads2 = it2
+        .split(":")
+        .flatMap(e => e.match(/../g))
+        .map(e => e[0]);
 
     let r = [];
     for (let i = 0; i < Math.max(quads1.length, quads2.length); ++i) {
@@ -155,18 +157,18 @@ export function CombinerProcess({ items, trackProduction, entity, outItems, self
             r.push(quads1[i] || quads2[i]);
             continue;
         }
-        if (quads1[i] == '-' || quads2[i] == '-') {
-            r.push(quads1[i] == '-' ? quads2[i] : quads1[i]);
+        if (quads1[i] == "-" || quads2[i] == "-") {
+            r.push(quads1[i] == "-" ? quads2[i] : quads1[i]);
         }
-        assertAlways(recipes[quads1[i]][quads2[i]])
+        assertAlways(recipes[quads1[i]][quads2[i]]);
         r.push(recipes[quads1[i]][quads2[i]]);
     }
-    a = r.map((e, i) => `${ i&&!(i%4)?':':'' }${ e }${ e=='-'?'-':'u' }`).join('')
+    a = r.map((e, i) => `${i && !(i % 4) ? ":" : ""}${e}${e == "-" ? "-" : "u"}`).join("");
 
     if (a != "--------") {
         outItems.push({
             item: new ShapeItem(ShapeDefinition.fromShortKey(a)),
-        })
+        });
     }
 
     // for (let i = 0; i < out.length; ++i) {
@@ -180,16 +182,15 @@ export function CombinerProcess({ items, trackProduction, entity, outItems, self
     return trackProduction;
 }
 
-
 export const Sprite = {
-    sprite: `sprites/buildings/${ id }.png`,
-    url: `./res/${ id }.png`,
+    sprite: `sprites/buildings/${id}.png`,
+    url: `./res/${id}.png`,
     w: 192 * 2,
     h: 192 * 2,
 };
 export const SpriteBp = {
-    sprite: `sprites/blueprints/${ id }.png`,
-    url: `./res/${ id }-bp.png`,
+    sprite: `sprites/blueprints/${id}.png`,
+    url: `./res/${id}-bp.png`,
     w: 192 * 2,
     h: 192 * 2,
 };

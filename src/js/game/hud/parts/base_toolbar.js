@@ -53,7 +53,8 @@ export class HUDBaseToolbar extends BaseHUDPart {
             const binding = mapping && actionMapper.getBinding(mapping);
 
             const itemContainer = makeDiv(items, null, ["building"]);
-            itemContainer.style.backgroundImage = "url(./res/ui/building_icons/" + metaBuilding.getId() + ".png)";
+            itemContainer.style.backgroundImage =
+                "url(./res/ui/building_icons/" + metaBuilding.getId() + ".png)";
             itemContainer.setAttribute("data-icon", "building_icons/" + metaBuilding.getId() + ".png");
 
             if (binding) {
