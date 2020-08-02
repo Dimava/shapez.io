@@ -355,6 +355,10 @@ export const checker = {
     variantId: 500,
     meta: MetaTargetShapeCheckerBuilding,
     speed: 2,
+
+    Tname: "Checker",
+    Tdesc:
+        "Toggles output direction depending on current hub goal shape, allowing automation of random levels.",
 };
 
 export default checker;

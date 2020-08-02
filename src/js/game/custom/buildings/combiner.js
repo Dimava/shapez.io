@@ -204,8 +204,8 @@ export const unstackerBuildingData = {
     process: CombinerProcess,
     // TODO: keybinding in KEYMAPPINGS
     // TODO: T
-    Tname: id,
-    Tdesc: "Whatever...",
+    Tname: "Combiner",
+    Tdesc: "Combines shapes into shapes of higher class. Works with shapes same as Merger works with colors.",
     speed: 1 / 5,
     speedClass: "processors",
     meta: MetaCombinerBuilding,

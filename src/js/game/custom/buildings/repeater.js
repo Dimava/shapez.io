@@ -309,7 +309,7 @@ export const repeater = {
     meta: MetaRepeaterBuilding,
     speed: 2,
     Tname: "Repeater",
-    Tdesc: "Duplicates items, taking them from hub",
+    Tdesc: "Duplicates shapes or colors, taking them from hub. Can store up to 1000 items itself.",
 };
 
 export default repeater;

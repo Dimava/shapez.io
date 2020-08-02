@@ -167,7 +167,7 @@ export const unstackerBuildingData = {
     // TODO: keybinding in KEYMAPPINGS
     // TODO: T
     Tname: "QuaduoPainter",
-    Tdesc: "Whatever...",
+    Tdesc: "Paints all layers of 2 shapes.",
     speed: 1 / 5,
     speedClass: "processors",
     meta: MetaQuaduoPainterBuilding,

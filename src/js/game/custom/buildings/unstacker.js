@@ -135,7 +135,7 @@ export const unstackerBuildingData = {
     // TODO: keybinding in KEYMAPPINGS
     // TODO: T
     Tname: "Unstacker",
-    Tdesc: "Whatever...",
+    Tdesc: "Splits lowest layer out of a shape.",
     speed: 1 / 5,
     speedClass: "processors",
     meta: MetaUnstackerBuilding,

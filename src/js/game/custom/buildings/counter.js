@@ -229,7 +229,7 @@ export const counterBuildingData = {
     // TODO: keybinding in KEYMAPPINGS
     // TODO: T
     Tname: "Counter",
-    Tdesc: "Whatever...",
+    Tdesc: "Displays current throughput of a belt.",
     variantId: 510,
     meta: MetaCounterBuilding,
     speed: 2,
