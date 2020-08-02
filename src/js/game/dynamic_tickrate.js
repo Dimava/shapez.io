@@ -76,7 +76,7 @@ export class DynamicTickrate {
         }
 
         const desiredFps = this.root.app.settings.getDesiredFps();
-        this.setTickRate(Math.round(Math.max(desiredFps / 3, this.currentTickRate * 0.8)));
+        this.setTickRate(Math.round(Math.max(desiredFps / 2, this.currentTickRate * 0.8)));
     }
 
     /**

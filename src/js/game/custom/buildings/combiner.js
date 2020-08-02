@@ -88,7 +88,42 @@ export class MetaCombinerBuilding extends MetaBuilding {
     }
 }
 
+const components = {
+    "R": "R",
+    "C": "C",
+    "S": "S",
+    "W": "W",
+    "B": "RC",
+    "D": "RS",
+    "O": "RW",
+    "F": "CS",
+    "U": "CW",
+    "M": "SW",
+    "Z": "RCS",
+    "T": "RCW",
+    "L": "RSW",
+    "P": "CSW",
+    "Y": "RCSW",
+}
 
+const recipes = {};
+
+for (let s in components) {
+    components[s] = components[s].split('').sort().join('')
+}
+
+for (let s1 in components) {
+    let res = {};
+    for (let s2 in components) {
+        let cm = [...new Set(components[s1]+components[s2])].sort().join('')
+        for (let r in components) {
+            if (cm == components[r]) {
+                res[s2] = r;
+            }
+        }
+    }
+    recipes[s1] = res;
+}
 
 
 // returns trackProduction
@@ -104,20 +139,29 @@ export function CombinerProcess({ items, trackProduction, entity, outItems, self
 
     let [it1, it2] = input;
     let out = [];
-    const recipes = {
-        "CC": "L",
-        "RR": "P",
-        "SS": "T",
-        "WW": "Z",
-        "CR" : "B", "RC" : "B",
-        "CS" : "U", "SC" : "U",
-    };
     let a = ""; 
-    for (let i = 0; i < 4; i++) {
-        let empty = it1[i*2] == "-" || it2[i*2] == "-";
-        let r = recipes[it1[i*2] + it2[i*2]] || "C";
-        a += empty ? "--" : r + "u";
+
+    // for (let i = 0; i < 4; i++) {
+    //     let empty = it1[i*2] == "-" || it2[i*2] == "-";
+    //     let r = recipes[it1[i*2] + it2[i*2]] || "C";
+    //     a += empty ? "--" : r + "u";
+    // }
+    let quads1 = it1.split(':').flatMap(e => e.match(/../g)).map(e=>e[0]);
+    let quads2 = it2.split(':').flatMap(e => e.match(/../g)).map(e=>e[0]);
+
+    let r = [];
+    for (let i = 0; i < Math.max(quads1.length, quads2.length); ++i) {
+        if (!quads1[i] || !quads2[i]) {
+            r.push(quads1[i] || quads2[i]);
+            continue;
+        }
+        if (quads1[i] == '-' || quads2[i] == '-') {
+            r.push(quads1[i] == '-' ? quads2[i] : quads1[i]);
+        }
+        assertAlways(recipes[quads1[i]][quads2[i]])
+        r.push(recipes[quads1[i]][quads2[i]]);
     }
+    a = r.map((e, i) => `${ i&&!(i%4)?':':'' }${ e }${ e=='-'?'-':'u' }`).join('')
 
     if (a != "--------") {
         outItems.push({

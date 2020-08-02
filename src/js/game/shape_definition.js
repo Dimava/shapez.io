@@ -323,17 +323,29 @@ export class ShapeDefinition extends BasicSerializableObject {
         context.fill();
 
         for (let layerIndex = 0; layerIndex < this.layers.length; ++layerIndex) {
+            
             const quadrants = this.layers[layerIndex];
+
+            let quads =
+                quadrants.map((e, i) => ({e, i}))
+                .filter(e=>e.e)
+                .map(e=>({...e.e, quadrantIndex: e.i}))
+                .sort((a, b) => (allShapeData[a.subShape] || noSuchShape(a.subShape)).layer - (allShapeData[b.subShape] || noSuchShape(b.subShape)).layer);
+
 
             const layerScale = Math.max(0.1, 0.9 - layerIndex * 0.22);
 
-            for (let quadrantIndex = 0; quadrantIndex < 4; ++quadrantIndex) {
-                if (!quadrants[quadrantIndex]) {
+            for (let quad of quads) {
+                if (!quad) {
                     continue;
                 }
-                const { subShape, color } = quadrants[quadrantIndex];
+                const {subShape, color, quadrantIndex} = quad;
+                if (subShape == '-') {
+                    continue;
+                }
 
                 const quadrantPos = arrayQuadrantIndexToOffset[quadrantIndex];
+
                 const centerQuadrantX = quadrantPos.x * quadrantHalfSize;
                 const centerQuadrantY = quadrantPos.y * quadrantHalfSize;
 

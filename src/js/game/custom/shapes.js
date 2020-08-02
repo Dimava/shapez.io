@@ -94,7 +94,7 @@ registerCustomShape({
 });
 
 registerCustomShape({
-    id: "razor",
+    id: "saw",
     code: "Z",
     ...customDefaults,
     draw({ dims, innerDims, layer, quad, context, color, begin }) {
@@ -146,3 +146,67 @@ registerCustomShape({
     },
     tier: 4,
 });
+
+registerCustomShape({
+    id: "leaf",
+    code: "F",
+    ...customDefaults,
+    draw: "M 0 0 v 0.5 a 0.5 0.5 0 0 0 0.5 0.5 h 0.5 v -0.5 a 0.5 0.5 0 0 0 -0.5 -0.5 z",
+})
+
+registerCustomShape({
+    id: "diamond",
+    code: "D",
+    ...customDefaults,
+    draw: "M 0 0 l 0 0.5 0.5 0.5 0.5 0 0 -0.5 -0.5 -0.5 z",
+
+})
+
+registerCustomShape({
+    id: "mill",
+    code: "M",
+    ...customDefaults,
+    draw: "M 0 0 L 0 1 1 1 Z",
+})
+
+// registerCustomShape({
+//     id: "halfleaf",
+//     code: "H",
+//     ...customDefaults,
+//     draw: "100 M 0 0 L 0 100 A 45 45 0 0 0 30 30 A 45 45 0 0 0 100 0 Z",
+// })
+
+registerCustomShape({
+    id: "yinyang",
+    code: "Y",
+    ...customDefaults,
+    // draw({ dims, innerDims, layer, quad, context, color, begin }) {
+    //     begin({ size: 1/(0.5+Math.SQRT1_2), path: true });
+
+    //     /** @type{CanvasRenderingContext2D} */
+    //     let ctx = context;
+
+    //     with (ctx) { with (Math) {
+    //     ////////////////////////
+    //     // draw mostly in [0,1]x[0,1] square
+    //     // draw: "100 M 0 50 A 50 50 0 1 1 85 85 A 121 121 0 0 1 -85 85 A 50 50 0 0 0 0 50",
+    //     moveTo(0, 0.5);
+    //     arc(0.5, 0.5, 0.5, PI, PI/4)
+    //     arc(0, 0, 0.5+SQRT1_2, PI/4, PI/4+PI/2, 0)
+    //     arc(-0.5, 0.5, 0.5, 3*PI/4, 0, 1)
+
+    //     moveTo(0.6, 0.5)
+    //     arc(0.5, 0.5, 0.1, 0, 2*PI)
+    //     }}
+
+
+    // },
+    draw: "120.71 M 0 50 A 50 50 0 1 1 85.355 85.355 A 120.71 120.71 0 0 1 -85.355 85.355 A 50 50 0 0 0 0 50 Z M 40 50 A 10 10 0 1 0 40 49.99 Z",
+})
+
+registerCustomShape({
+    id: "octagon",
+    code: "O",
+    ...customDefaults,
+    draw: "M 0 0 L 0 1 0.4142 1 1 0.4142 1 0 Z",
+})

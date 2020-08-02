@@ -47,7 +47,7 @@ export class RepeaterComponent extends Component {
     }) {
         super();
 
-        this.itemHash = "";
+        this.itemHash = itemHash;
         /**
          * Currently stored item
          * @type {BaseItem}
