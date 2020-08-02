@@ -201,8 +201,21 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
     if (!tscComponent.isfil && inputItem instanceof ShapeItem) {
         // setting filter type:
         let item = inputItem.definition.getHash();
+        // color:
+        if (item.match(/(.[^u-].[u-].[u-].[u-]|.[u-].[^u-].[u-].[u-]|.[u-].[u-].[^u-].[u-]|.[u-].[u-].[u-].[^u-])$/)) {
+            let m = item.match(/([^u])(.u)*$/);
+            tscComponent.filterType = "color";
+            tscComponent.filterIndex = m.index;
+            tscComponent.filter = m[0].slice(0, 1);
+            tscComponent.isfil = true;
+            let layer = item.split(":").length;
+            let index = ((m.index % 9) - 1) / 2;
+            let topKey = `${"--".repeat(index)}C${tscComponent.filter}${"--".repeat(3 - index)}`;
+            let key = (topKey + ":").repeat(layer - 1) + topKey;
+            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
+        }
         //shape:
-        if (item.match(/([^-][^-]------|--[^-][^-]----|----[^-][^-]--|------[^-][^-])$/)) {
+        else if (item.match(/([^-][^-]------|--[^-][^-]----|----[^-][^-]--|------[^-][^-])$/)) {
             let m = item.match(/([^-][^-])(--)*$/);
             tscComponent.filterType = "shape";
             tscComponent.filterIndex = m.index;
@@ -228,19 +241,6 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
             let layer = item.split(":").length;
             let index = (m.index % 9) / 2;
             let topKey = `${"Cu".repeat(index)}--${"Cu".repeat(3 - index)}`;
-            let key = (topKey + ":").repeat(layer - 1) + topKey;
-            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
-        }
-        // color:
-        else if (item.match(/(.[^u].u.u.u|.u.[^u].u.u|.u.u.[^u].u|.u.u.u.[^u])$/)) {
-            let m = item.match(/([^u])(.u)*$/);
-            tscComponent.filterType = "color";
-            tscComponent.filterIndex = m.index;
-            tscComponent.filter = m[0].slice(0, 1);
-            tscComponent.isfil = true;
-            let layer = item.split(":").length;
-            let index = ((m.index % 9) - 1) / 2;
-            let topKey = `${"--".repeat(index)}C${tscComponent.filter}${"--".repeat(3 - index)}`;
             let key = (topKey + ":").repeat(layer - 1) + topKey;
             tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
         }
