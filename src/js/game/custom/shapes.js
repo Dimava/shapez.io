@@ -36,7 +36,7 @@ let customDefaults = {
     minChance: 4,
     distChance: 1 / 3,
     maxChance: 12,
-    tier: 3,
+    tier: 2,
 };
 
 registerCustomShape({
@@ -82,7 +82,6 @@ registerCustomShape({
         context.arcTo(0, 1, 1, 0, rad);
         context.arcTo(1, 0, 0, 0, rad);
     },
-    tier: 4,
 });
 
 registerCustomShape({
@@ -144,7 +143,6 @@ registerCustomShape({
         context.rotate(-Math.PI / 4);
         context.arc(c, 0, b, PI - PI3, PI);
     },
-    tier: 4,
 });
 
 registerCustomShape({
@@ -201,6 +199,7 @@ registerCustomShape({
     // },
     draw:
         "120.71 M 0 50 A 50 50 0 1 1 85.355 85.355 A 120.71 120.71 0 0 1 -85.355 85.355 A 50 50 0 0 0 0 50 Z M 40 50 A 10 10 0 1 0 40 49.99 Z",
+    tier: 4,
 });
 
 registerCustomShape({

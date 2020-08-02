@@ -29,7 +29,7 @@ export const enumColorToShortcode = {
     [enumColors.white]: "w",
     [enumColors.uncolored]: "u",
 
-    [enumColors.black]: "0",
+    [enumColors.black]: "k",
 };
 
 /** @enum {enumColors} */

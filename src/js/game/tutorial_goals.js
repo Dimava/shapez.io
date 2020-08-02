@@ -176,6 +176,8 @@ export const tutorialGoals = [
     },
 ];
 
+export const fixedGoals = [];
+
 if (G_IS_DEV) {
     tutorialGoals.forEach(({ shape }) => {
         try {

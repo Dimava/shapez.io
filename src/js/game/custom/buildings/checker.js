@@ -202,7 +202,11 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
         // setting filter type:
         let item = inputItem.definition.getHash();
         // color:
-        if (item.match(/(.[^u-].[u-].[u-].[u-]|.[u-].[^u-].[u-].[u-]|.[u-].[u-].[^u-].[u-]|.[u-].[u-].[u-].[^u-])$/)) {
+        if (
+            item.match(
+                /(.[^u-].[u-].[u-].[u-]|.[u-].[^u-].[u-].[u-]|.[u-].[u-].[^u-].[u-]|.[u-].[u-].[u-].[^u-])$/
+            )
+        ) {
             let m = item.match(/([^u])(.u)*$/);
             tscComponent.filterType = "color";
             tscComponent.filterIndex = m.index;

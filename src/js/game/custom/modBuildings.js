@@ -4,7 +4,7 @@ import { supportedBuildings as tooolbar } from "../hud/parts/tools_toolbar";
 import { enumItemProcessorTypes } from "../components/item_processor";
 import { T } from "../../translations";
 import { addSprite } from "./modSpriteDrawer";
-import { enumHubGoalRewards, tutorialGoals } from "../tutorial_goals";
+import { enumHubGoalRewards, tutorialGoals, fixedGoals } from "../tutorial_goals";
 
 import * as gameData from "./gameData";
 
@@ -48,21 +48,42 @@ function addCustom(custom) {
     Object.assign(customBuildingData[custom.id], custom);
 
     if (custom.goal) {
-        if (tutorialGoals.find(e => e.reward == custom.goal.reward)) {
-            let index = tutorialGoals.findIndex(e => e.reward == custom.goal.reward);
-            tutorialGoals.splice(index, 1);
+        if (!custom.goal.fixed) {
+            if (tutorialGoals.find(e => e.reward == custom.goal.reward)) {
+                let index = tutorialGoals.findIndex(e => e.reward == custom.goal.reward);
+                tutorialGoals.splice(index, 1);
+            }
+            tutorialGoals.push(custom.goal);
+            tutorialGoals.sort((a, b) => a.required - b.required);
+        } else {
+            if (!custom.goal.reward) {
+                custom.goal.reward = "no_reward_freeplay";
+            }
+            custom.goal.shape = custom.goal.shape || {};
+            if (typeof custom.goal.shape != "string") {
+                custom.goal.shape.holeTier = custom.goal.shape.holeTier || 1;
+                custom.goal.shape.shapeTier = custom.goal.shape.shapeTier || 1;
+                custom.goal.shape.colorTier = custom.goal.shape.colorTier || 1;
+                custom.goal.shape.layerTier = custom.goal.shape.layerTier || 1;
+            }
+            custom.goal.minLevel = custom.goal.minLevel || 1;
+            custom.goal.maxLevel = custom.goal.maxLevel || 1;
+            fixedGoals.push(custom.goal);
         }
-        tutorialGoals.push(custom.goal);
-        tutorialGoals.sort((a, b) => a.required - b.required);
+
         if (custom.goal.reward) {
-            if (!custom.goal.reward.startsWith("reward_")) {
+            if (!custom.goal.reward.includes("reward_")) {
                 custom.goal.reward = "reward_" + custom.goal.reward;
             }
             enumHubGoalRewards[custom.goal.reward] = custom.goal.reward;
             if (!T.storyRewards[custom.goal.reward]) {
                 T.storyRewards[custom.goal.reward] = {
-                    title: custom.goal.Tname || custom.Tname || custom.id,
+                    title: custom.goal.title || custom.Tname || custom.id,
+                    desc: "no description",
                 };
+            }
+            if (custom.goal.desc) {
+                T.storyRewards[custom.goal.reward].desc = custom.goal.desc;
             }
         }
     }

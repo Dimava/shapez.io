@@ -82,7 +82,7 @@ export const allShapeData = {
         distChance: 1,
         maxChance: 50,
         draw: "M 0 0 L 0 0.6 1 1 0.6 0 z",
-        tier: 1,
+        tier: 0.5,
     },
     windmill: {
         id: "windmill",
@@ -95,7 +95,7 @@ export const allShapeData = {
         distChance: 1 / 2,
         maxChance: 26,
         draw: "M 0 0 L 0 0.6 1 1 1 0 z",
-        tier: 2,
+        tier: 1,
     },
 };
 
