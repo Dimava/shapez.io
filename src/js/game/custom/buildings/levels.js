@@ -11,7 +11,7 @@ const painter = {
 const inverter = {
     id: "inverter",
     goal: {
-        shape: "CuCuCuCu",
+        shape: "CuCuCuCu", // <-----------------------------------------
         required: 5000,
         reward: "inverter",
         title: "Inversion",
@@ -22,7 +22,7 @@ const inverter = {
 const counter = {
     id: "counter",
     goal: {
-        shape: "RwCwSbCw:RwCwSrCw:RwCwSyCw",
+        shape: "RwCwSbCw:RcCwSrCw:RwCwSyCw", // onion rocket
         required: 5000,
         reward: "counter",
         title: "The Speed Unravelled",
@@ -33,7 +33,7 @@ const counter = {
 const checker = {
     id: "checker",
     goal: {
-        shape: "CuCuCuCu",
+        shape: "CuCuCuCu", // <-----------------------------------------
         required: 5000,
         reward: "checker",
         title: "The Full Automation",
@@ -48,7 +48,7 @@ const checker = {
 const combiner = {
     id: "combiner",
     goal: {
-        shape: "CuCuCuCu",
+        shape: "CuCuCuCu", // <-----------------------------------------
         required: 5000,
         reward: "combiner",
     },
@@ -56,15 +56,17 @@ const combiner = {
 const unstacker = {
     id: "unstacker",
     goal: {
-        shape: "CuCuCuCu",
+        shape: "RyRyRcRc:SySc:ScSy:CyCyCcCc", // cyan-yellow stack
         required: 5000,
         reward: "unstacker",
+        title: "unstacker unlocked",
+        desc: "<strong>unstacker</strong> is unlocked, no comments.",
     },
 };
 const repeater = {
     id: "repeater",
     goal: {
-        shape: "CuCuCuCu",
+        shape: "CuCuCuCu", // <-----------------------------------------
         required: 5000,
         reward: "repeater",
     },
