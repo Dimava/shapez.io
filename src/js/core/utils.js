@@ -434,23 +434,32 @@ export function formatBigNumber(num, separator = T.global.decimalSeparator) {
 
     if (num < 1000) {
         return sign + "" + num;
-    } else {
-        let leadingDigits = num;
-        let suffix = "";
-        for (let suffixIndex = 0; suffixIndex < bigNumberSuffixTranslationKeys.length; ++suffixIndex) {
-            leadingDigits = leadingDigits / 1000;
-            suffix = T.global.suffix[bigNumberSuffixTranslationKeys[suffixIndex]];
-            if (leadingDigits < 1000) {
-                break;
-            }
-        }
-        const leadingDigitsRounded = round1Digit(leadingDigits);
-        const leadingDigitsNoTrailingDecimal = leadingDigitsRounded
-            .toString()
-            .replace(".0", "")
-            .replace(".", separator);
-        return sign + leadingDigitsNoTrailingDecimal + suffix;
     }
+
+    let leadingDigits = num;
+    let suffix = "";
+    for (let suffixIndex = 0; suffixIndex < bigNumberSuffixTranslationKeys.length; ++suffixIndex) {
+        leadingDigits = leadingDigits / 1000;
+        suffix = T.global.suffix[bigNumberSuffixTranslationKeys[suffixIndex]];
+        if (leadingDigits < 1000) {
+            break;
+        }
+    }
+    let mul = 1;
+    while (leadingDigits > 1) {
+        mul *= 10
+        leadingDigits /= 10;
+    }
+    const leadingDigitsRounded = Math.round(+leadingDigits.toFixed(3)*1e4) * mul / 1e4;
+
+    // const leadingDigitsRounded = round1Digit(leadingDigits);
+    // const leadingDigitsRounded = leadingDigits.toFixed();
+    const leadingDigitsNoTrailingDecimal = leadingDigitsRounded
+        .toString()
+        .replace(/\.0*$/, "")
+        .replace(".", separator);
+    return sign + leadingDigitsNoTrailingDecimal + suffix;
+
 }
 
 /**
