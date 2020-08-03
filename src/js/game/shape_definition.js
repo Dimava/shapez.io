@@ -15,6 +15,7 @@ import {
     enumInvertedColors,
 } from "./colors";
 import { THEME } from "./theme";
+import { BaseItem } from "./base_item";
 
 const rusha = require("rusha");
 
@@ -81,6 +82,11 @@ export class ShapeDefinition extends BasicSerializableObject {
 
     serialize() {
         return this.getHash();
+    }
+
+    /** @returns {ShapeDefinition} */
+    static createFromHash(hash) {
+        return ShapeDefinition.fromShortKey(hash);
     }
 
     /**
@@ -626,3 +632,5 @@ export class ShapeDefinition extends BasicSerializableObject {
         return new ShapeDefinition({ layers: newLayers });
     }
 }
+
+BaseItem.ShapeDefinition = ShapeDefinition;

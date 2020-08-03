@@ -116,3 +116,5 @@ export class ColorItem extends BaseItem {
         return canvas;
     }
 }
+
+BaseItem.ColorItem = ColorItem;

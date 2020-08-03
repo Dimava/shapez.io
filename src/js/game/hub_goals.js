@@ -198,7 +198,7 @@ export class HubGoals extends BasicSerializableObject {
         const hash = definition.getHash();
         this.storedShapes[hash] = (this.storedShapes[hash] || 0) + 1;
 
-        this.root.signals.shapeDelivered.dispatch(definition);
+        this.root.signals.shapeDelivered.dispatch(hash);
 
         // Check if we have enough for the next level
         const targetHash = this.currentGoal.definition.getHash();
@@ -218,12 +218,7 @@ export class HubGoals extends BasicSerializableObject {
     handleDeliveredByHash(hash) {
         this.storedShapes[hash] = (this.storedShapes[hash] || 0) + 1;
 
-        if (hash.length % 5 == 4) {
-            this.root.signals.shapeDelivered.dispatch(ShapeDefinition.fromShortKey(hash));
-        } else {
-            // FIXME
-            // this.root.signals.shapeDelivered.dispatch(ColorItem.createFromHash(hash));
-        }
+        this.root.signals.shapeDelivered.dispatch(hash);
 
         // Check if we have enough for the next level
         const targetHash = this.currentGoal.definition.getHash();

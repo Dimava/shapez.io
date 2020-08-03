@@ -193,15 +193,14 @@ export class MapChunk {
         } else if (distanceToOriginInChunks < 15) {
             // Later patches can also have mixed ones
             quads = [quads[0], quads[0], quads[1], quads[1]];
-        } else {
-            // if (quads[0] == quads[2] && quads[0] != quads[3] && quads[0] != quads[1]) {
-            //     quads = [quads[0], quads[2], quads[1], quads[3]];
-            // }
-            // if (quads[1] == quads[3] && quads[1] != quads[0] && quads[1] != quads[2]) {
-            //     quads = [quads[0], quads[2], quads[1], quads[3]];
-            // }
         }
 
+        // diagonal shape is impossible
+        if (quads[0] == quads[2] && quads[1] == quads[3] && quads[0] != quads[1]) {
+            return this.internalGenerateShapePatch(rng, shapePatchSize, distanceToOriginInChunks);
+        }
+
+        // too much quads is impossible
         if (
             quads.filter(q => q == quads[0]).length > allShapeData[quads[0]].maxQuarters ||
             quads.filter(q => q == quads[1]).length > allShapeData[quads[1]].maxQuarters ||
@@ -209,6 +208,10 @@ export class MapChunk {
         ) {
             return this.internalGenerateShapePatch(rng, shapePatchSize, distanceToOriginInChunks);
         }
+
+        let rotation = rng.choice([0, 1, 2, 3]);
+        // @ts-ignore
+        quads = quads.slice(rotation).concat(quads.slice(0, rotation));
 
         let colors = quads.map(q => allShapeData[q].spawnColor);
 
@@ -245,6 +248,8 @@ export class MapChunk {
      */
     generateLowerLayer() {
         const rng = new RandomNumberGenerator(this.x + "|" + this.y + "|" + this.root.map.seed);
+        const rng1 = new RandomNumberGenerator("patch1" + this.x + "|" + this.y + "|" + this.root.map.seed);
+        const rng2 = new RandomNumberGenerator("patch2" + this.x + "|" + this.y + "|" + this.root.map.seed);
 
         if (this.generatePredefined(rng)) {
             return;
