@@ -200,14 +200,14 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
     const tscComponent = entity.components[id];
     if (!tscComponent.isfil && inputItem instanceof ShapeItem) {
         // setting filter type:
-        let item = inputItem.definition.getHash();
+        let item = inputItem.getHash();
         // color:
         if (
             item.match(
                 /(.[^u-].[u-].[u-].[u-]|.[u-].[^u-].[u-].[u-]|.[u-].[u-].[^u-].[u-]|.[u-].[u-].[u-].[^u-])$/
             )
         ) {
-            let m = item.match(/([^u])(.u)*$/);
+            let m = item.match(/([^u-])(.[u-])*$/);
             tscComponent.filterType = "color";
             tscComponent.filterIndex = m.index;
             tscComponent.filter = m[0].slice(0, 1);

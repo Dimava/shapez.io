@@ -56,7 +56,7 @@ const combiner = {
 const unstacker = {
     id: "unstacker",
     goal: {
-        shape: "RyRyRcRc:SySc:ScSy:CyCyCcCc", // cyan-yellow stack
+        shape: "RyRyRcRc:SyScSySc:ScSyScSy:CyCyCcCc", // cyan-yellow stack
         required: 5000,
         reward: "unstacker",
         title: "unstacker unlocked",
