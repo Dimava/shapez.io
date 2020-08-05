@@ -219,6 +219,7 @@ export class Savegame extends ReadWriteProxy {
         shadowData.dump = dump;
         shadowData.lastUpdate = new Date().getTime();
         shadowData.version = this.getCurrentVersion();
+        shadowData.lastVersion = G_BUILD_VERSION;
 
         const reader = this.getDumpReaderForExternalData(shadowData);
 
@@ -247,6 +248,7 @@ export class Savegame extends ReadWriteProxy {
     saveMetadata() {
         this.metaDataRef.lastUpdate = new Date().getTime();
         this.metaDataRef.version = this.getCurrentVersion();
+        this.metaDataRef.lastVersion = G_BUILD_VERSION;
         if (!this.hasGameDump()) {
             this.metaDataRef.level = 0;
         } else {

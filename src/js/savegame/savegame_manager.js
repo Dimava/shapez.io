@@ -104,6 +104,7 @@ export class SavegameManager extends ReadWriteProxy {
      * @param {SavegameMetadata} game
      */
     deleteSavegame(game) {
+//        debugger;
         const handle = new Savegame(this.app, {
             internalId: game.internalId,
             metaDataRef: game,
@@ -128,6 +129,7 @@ export class SavegameManager extends ReadWriteProxy {
      * @returns {SavegameMetadata}
      */
     getGameMetaDataByInternalId(id) {
+//        debugger;
         for (let i = 0; i < this.currentData.savegames.length; ++i) {
             const data = this.currentData.savegames[i];
             if (data.internalId === id) {
@@ -181,6 +183,7 @@ export class SavegameManager extends ReadWriteProxy {
      * @returns {Promise<any>}
      */
     sortSavegames() {
+//        debugger;
         this.currentData.savegames.sort((a, b) => b.lastUpdate - a.lastUpdate);
         let promiseChain = Promise.resolve();
         while (this.currentData.savegames.length > 30) {

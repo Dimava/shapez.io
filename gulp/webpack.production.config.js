@@ -142,7 +142,7 @@ module.exports = ({
                             braces: false,
                             ecma: es6 ? 6 : 5,
                             preamble:
-                                "/* shapez.io Codebase - Copyright 2020 Tobias Springer - " +
+                                "/* shapez.io Codebase - Modded 2020 @Dimava - " +
                                 utils.getVersion() +
                                 " @ " +
                                 utils.getRevision() +

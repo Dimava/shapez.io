@@ -1,5 +1,22 @@
 export const CHANGELOG = [
     {
+        version: "modZ 0.9.9",
+        date: "by Dimava",
+        entries: [
+            "Added new buildings: Checker, Counter, Unstacker, Combiner, Repeater, Quaduo Painter",
+            "Added 11 new shapes. Use Combiner to obtain them.",
+            "Made some levels for custom buildings (some are still missing)",
+            "Fixed lower-that-written speeds of producers (tnx isa) and miners",
+            "Added 2nd toolbar for modded buildings, toggle-building, and hotkey to toggle it (key Z)",
+            "Added descriptions, toolbar icons and tutorial images for modded buildings (some are still missing)",
+            "Added Freeplay levels with growing difficulty. Required shape count for freeplay was greatly reduced.",
+            "Reduced required shapes for levels - you have probably finished the main game so you don't have to proof anything exept freeplay builds",
+            "Made numbers longer (3 digits)",
+            "Added debug settings - basically a sandbox mode, as well as F6 key in-game. I highly recommend turning on the \"Show chunk borders\" permanently.",
+        ]
+    },
+
+    {
         version: "1.2.0",
         date: "unreleased",
         entries: [

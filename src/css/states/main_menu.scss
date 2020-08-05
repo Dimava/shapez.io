@@ -182,6 +182,17 @@
             @include DarkThemeOverride {
                 color: $colorBlueBright;
             }
+
+            &.bigger {
+                transform: translateX(50%) rotate(-5deg) scale(2);
+
+                @include InlineAnimation(1.3s ease-in-out infinite) {
+                    50% {
+                        transform: translateX(50%) rotate(-7deg) scale(2.2);
+                    }
+                }
+
+            }
         }
     }
 
@@ -270,7 +281,7 @@
         }
 
         .savegames {
-            @include S(max-height, 105px);
+            @include S(max-height, 250px);
             overflow-y: auto;
             @include S(width, 250px);
             pointer-events: all;
