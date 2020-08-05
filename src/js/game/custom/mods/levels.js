@@ -1,9 +1,9 @@
 const painter = {
-    id: "painter4",
+    id: "painter42",
     goal: {
-        shape: "CuCuCuCu",
+        shape: "CwCcCmCy:RwRcRmRy:SwScSmSy:WwWcWmWy",
         required: 5000,
-        reward: "painter_quad",
+        reward: "quaduo",
         title: "Ultimate painting",
         desc: "You have unlocked the <strong>Quaduo painter</strong> - It can paints a whole belt.",
     },
@@ -11,7 +11,7 @@ const painter = {
 const inverter = {
     id: "inverter",
     goal: {
-        shape: "CuCuCuCu", // <-----------------------------------------
+        shape: "CwCrCgCb:CuCcCmCy:CwCrCgCb:CuCcCmCy",
         required: 5000,
         reward: "inverter",
         title: "Inversion",
@@ -33,7 +33,7 @@ const counter = {
 const checker = {
     id: "checker",
     goal: {
-        shape: "CuCuCuCu", // <-----------------------------------------
+        shape: "RuCrSgWb:CcRmWySu:SwWwRwCw",
         required: 5000,
         reward: "checker",
         title: "The Full Automation",
@@ -48,7 +48,7 @@ const checker = {
 const combiner = {
     id: "combiner",
     goal: {
-        shape: "CuCuCuCu", // <-----------------------------------------
+        shape: "CuRuSuWu:RrSrWrCr:SgWgCgRg:WbCbRbSb",
         required: 5000,
         reward: "combiner",
     },
@@ -59,7 +59,7 @@ const unstacker = {
         shape: "RyRyRcRc:SyScSySc:ScSyScSy:CyCyCcCc", // cyan-yellow stack
         required: 5000,
         reward: "unstacker",
-        title: "unstacker unlocked",
+        title: "unstacker",
         desc: "<strong>unstacker</strong> is unlocked, no comments.",
     },
 };
@@ -72,7 +72,7 @@ const repeater = {
     },
 };
 
-const levels = [inverter, counter, checker, combiner, unstacker];
+const levels = [inverter, counter, checker, combiner, unstacker, painter];
 
 let baseCount = 1000;
 let countPerLevel = 200;
