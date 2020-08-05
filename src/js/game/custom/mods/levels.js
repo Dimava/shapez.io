@@ -96,7 +96,7 @@ levels.push({
             "So, this was the first <strong>Freeplay</strong> level. Nothing really special, just a random shape." +
             " This one was easy, but next ones are going to be harder, slowly becoming harder and harder once a while to keep you stuffed." +
             " Make sure to use <strong>Checker</strong> and make a fully automated Ultimate Factory that can produce Anywhing! <strong>Onwards, to FREEPLAY!!!</strong>",
-        shape: {},
+        shape: "CwRrSgWb",
     }
 })
 
