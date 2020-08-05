@@ -435,13 +435,13 @@ export class HubGoals extends BasicSerializableObject {
             }
 
             if (holeTier >= 3) {
-                let holeIndex = rng.nextIntRange(0, 4);
-                layer[holeIndex] = null;
+                let holeIndex = rng.nextIntRange(0, 8);
+                if (holeIndex < 4) {
+                    layer[holeIndex] = null;
+                }
                 if (i == layerWith2Holes) {
-                    let hole2Index = rng.nextIntRange(0, 3);
-                    if (hole2Index == holeIndex) {
-                        hole2Index = 3;
-                    }
+                    layer[holeIndex % 4] = null;
+                    let hole2Index = rng.nextIntRange(0, 4);
                     layer[hole2Index] = null;
                 }
             }
