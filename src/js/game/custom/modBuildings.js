@@ -55,7 +55,7 @@ function addCustom(custom) {
                 tutorialGoals.splice(index, 1);
             }
             tutorialGoals.push(custom.goal);
-            tutorialGoals.sort((a, b) => a.required - b.required);
+            tutorialGoals.sort((a, b) => (a.sort_index || a.required) - (b.sort_index || b.required));
         } else {
             if (!custom.goal.reward) {
                 custom.goal.reward = "no_reward_freeplay";

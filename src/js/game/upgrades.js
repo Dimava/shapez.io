@@ -28,7 +28,7 @@ export const UPGRADES = {
                 improvement: 2,
             },
             {
-                required: [{ shape: finalGameShape, amount: 150000 }],
+                required: [{ shape: finalGameShape, amount: 50000 }],
                 improvement: 5,
                 excludePrevious: true,
             },
@@ -58,7 +58,7 @@ export const UPGRADES = {
                 improvement: 2,
             },
             {
-                required: [{ shape: finalGameShape, amount: 150000 }],
+                required: [{ shape: finalGameShape, amount: 50000 }],
                 improvement: 5,
                 excludePrevious: true,
             },
@@ -88,7 +88,7 @@ export const UPGRADES = {
                 improvement: 2,
             },
             {
-                required: [{ shape: finalGameShape, amount: 150000 }],
+                required: [{ shape: finalGameShape, amount: 50000 }],
                 improvement: 5,
                 excludePrevious: true,
             },
@@ -118,7 +118,7 @@ export const UPGRADES = {
                 improvement: 2,
             },
             {
-                required: [{ shape: finalGameShape, amount: 150000 }],
+                required: [{ shape: finalGameShape, amount: 50000 }],
                 improvement: 5,
                 excludePrevious: true,
             },
