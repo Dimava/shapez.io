@@ -168,12 +168,12 @@ export const tutorialGoals = [
         reward: enumHubGoalRewards.reward_painter_quad,
     },
 
-    // 18
-    {
-        shape: finalGameShape,
-        required: 250000,
-        reward: enumHubGoalRewards.reward_freeplay,
-    },
+    // // 18
+    // {
+    //     shape: finalGameShape,
+    //     required: 250000,
+    //     reward: enumHubGoalRewards.reward_freeplay,
+    // },
 ];
 
 export const fixedGoals = [];

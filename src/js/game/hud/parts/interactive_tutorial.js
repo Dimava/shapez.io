@@ -6,8 +6,9 @@ import { DynamicDomAttach } from "../dynamic_dom_attach";
 import { TrackedState } from "../../../core/tracked_state";
 import { cachebust } from "../../../core/cachebust";
 import { T } from "../../../translations";
+import { tutorialGoals, fixedGoals } from "../../tutorial_goals";
 
-const tutorialsByLevel = [
+export const tutorialsByLevel = [
     // Level 1
     [
         // 1.1. place an extractor
@@ -50,6 +51,11 @@ export class HUDInteractiveTutorial extends BaseHUDPart {
     initialize() {
         this.domAttach = new DynamicDomAttach(this.root, this.element);
         this.currentHintId = new TrackedState(this.onHintChanged, this);
+        for (let i = 0; i < tutorialGoals.length; ++i) {
+            if (tutorialGoals[i].tutorial) {
+                tutorialsByLevel[i+1] = tutorialGoals[i].tutorial;
+            }
+        }
     }
 
     onHintChanged(hintId) {

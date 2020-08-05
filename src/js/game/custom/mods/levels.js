@@ -2,7 +2,7 @@ const painter = {
     id: "painter42",
     goal: {
         shape: "CwCcCmCy:RwRcRmRy:SwScSmSy:WwWcWmWy",
-        required: 5000,
+        required: 25e3,
         reward: "quaduo",
         title: "Ultimate painting",
         desc: "You have unlocked the <strong>Quaduo painter</strong> - It can paints a whole belt.",
@@ -12,7 +12,7 @@ const inverter = {
     id: "inverter",
     goal: {
         shape: "CwCrCgCb:CuCcCmCy:CwCrCgCb:CuCcCmCy",
-        required: 5000,
+        required: 30e3,
         reward: "inverter",
         title: "Inversion",
         desc:
@@ -23,33 +23,18 @@ const counter = {
     id: "counter",
     goal: {
         shape: "RwCwSbCw:RcCwSrCw:RwCwSyCw", // onion rocket
-        required: 5000,
+        required: 12.5e3,
         reward: "counter",
         title: "The Speed Unravelled",
         desc:
             "The <strong>Counter</strong> will allow you to see the speed not onli as a blinking of insanely fast shapes.",
     },
 };
-const checker = {
-    id: "checker",
-    goal: {
-        shape: "RuCrSgWb:CcRmWySu:SwWwRwCw",
-        required: 5000,
-        reward: "checker",
-        title: "The Full Automation",
-        desc:
-            "Say hello to the <strong>Checker</strong>, the king of Automation." +
-            " - Set it a simple filter - a <strong>shape quad</strong> or a <strong>colored quad</strong>" +
-            " and it will <strong>select path</strong> depending on <strong>current Hub Goal</strong>, itself, forever!" +
-            " In case you need some more advanced options, <strong>layer</strong> quads to filter a higher layer," +
-            " color 3 of 4 quads for <strong>uncolored</strong> or leave a single <strong>hole</strong> to get a hole one",
-    },
-};
 const combiner = {
     id: "combiner",
     goal: {
         shape: "CuRuSuWu:RrSrWrCr:SgWgCgRg:WbCbRbSb",
-        required: 5000,
+        required: 35e3,
         reward: "combiner",
     },
 };
@@ -57,7 +42,7 @@ const unstacker = {
     id: "unstacker",
     goal: {
         shape: "RyRyRcRc:SyScSySc:ScSyScSy:CyCyCcCc", // cyan-yellow stack
-        required: 5000,
+        required: 20e3,
         reward: "unstacker",
         title: "unstacker",
         desc: "<strong>unstacker</strong> is unlocked, no comments.",
@@ -66,13 +51,13 @@ const unstacker = {
 const repeater = {
     id: "repeater",
     goal: {
-        shape: "CuCuCuCu", // <-----------------------------------------
-        required: 5000,
+        shape: "CuRuSuWu:CuRuSuWu:CuRuSuWu:CuRuSuWu", // <-----------------------------------------
+        required: 7.5e3,
         reward: "repeater",
     },
 };
 
-const levels = [inverter, counter, checker, combiner, unstacker, painter];
+const levels = [inverter, counter, combiner, unstacker, painter, repeater];
 
 let baseCount = 1000;
 let countPerLevel = 200;
@@ -101,6 +86,19 @@ function makeFreeplay(minLevel, maxLevel, holeTier, shapeTier, colorTier, layerT
 
     ++freeplayIndex;
 }
+
+levels.push({
+    id: "freeplay",
+    goal: {
+        reward: "freeplay",
+        title: "The Freeplay",
+        desc:
+            "So, this was the first <strong>Freeplay</strong> level. Nothing really special, just a random shape." +
+            " This one was easy, but next ones are going to be harder, slowly becoming harder and harder once a while to keep you stuffed." +
+            " Make sure to use <strong>Checker</strong> and make a fully automated Ultimate Factory that can produce Anywhing! <strong>Onwards, to FREEPLAY!!!</strong>",
+        shape: {},
+    }
+})
 
 makeFreeplay(25, 25, 1, 1, 1, 1, {
     title: "The Freeplay",

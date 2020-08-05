@@ -5,13 +5,14 @@ import { enumItemProcessorTypes } from "../components/item_processor";
 import { T } from "../../translations";
 import { addSprite } from "./modSpriteDrawer";
 import { enumHubGoalRewards, tutorialGoals, fixedGoals } from "../tutorial_goals";
+import { tutorialsByLevel } from "../hud/parts/interactive_tutorial";
 
 import * as gameData from "./gameData";
 
 export let allCustomBuildingData = [];
 export const customBuildingData = {};
 
-const localMods = require.context("./buildings", false, /.*\.js/i);
+const localMods = require.context("./mods", false, /.*\.js/i);
 for (let key of localMods.keys()) {
     let mod = localMods(key).default;
     if (!Array.isArray(mod)) {

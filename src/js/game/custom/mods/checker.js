@@ -343,6 +343,30 @@ export const tscSpriteBp = [
     },
 ];
 
+const tutorial = [
+    {
+        id: "checker_1",
+        /** @param {GameRoot} root */
+        condition(root) {
+            return root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent).length === 0;
+        },
+    },
+];
+
+const goal = {
+    shape: "RuCrSgWb:CcRmWySu:SwWwRwCw",
+    required: 40e3,
+    reward: "checker",
+    title: "The Full Automation",
+    desc:
+        "Say hello to the <strong>Checker</strong>, the king of Automation." +
+        " - Set it a simple filter - a <strong>shape quad</strong> or a <strong>colored quad</strong>" +
+        " and it will <strong>select path</strong> depending on <strong>current Hub Goal</strong>, itself, forever!" +
+        " In case you need some more advanced options, <strong>layer</strong> quads to filter a higher layer," +
+        " color 3 of 4 quads for <strong>uncolored</strong> or leave a single <strong>hole</strong> to get a hole one",
+    tutorial
+};
+
 export const checker = {
     id: "checker",
     component: TargetShapeCheckerComponent,
@@ -351,7 +375,6 @@ export const checker = {
     system: TargetShapeCheckerSystem,
     sysOrder: 4.5,
     process: targetShapeCheckerProcess,
-    speed: 100,
     draw: true,
     sprite: tscSprite,
     spriteBp: tscSpriteBp,
@@ -363,6 +386,8 @@ export const checker = {
     Tname: "Checker",
     Tdesc:
         "Toggles output direction depending on current hub goal shape, allowing automation of random levels.",
+
+    goal,
 };
 
 export default checker;
