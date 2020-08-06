@@ -87,6 +87,11 @@ function addCustom(custom) {
                 T.storyRewards[custom.goal.reward].desc = custom.goal.desc;
             }
         }
+        if (custom.goal.tutorial) {
+            for (let step of custom.goal.tutorial) {
+                T.ingame.interactiveTutorial.hints[step.id] = step.Tdesc;
+            }
+        }
     }
 
     if (custom.building) {

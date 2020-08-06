@@ -345,11 +345,52 @@ export const tscSpriteBp = [
 
 const tutorial = [
     {
-        id: "checker_1",
+        id: `checker_build`,
         /** @param {GameRoot} root */
         condition(root) {
-            return root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent).length === 0;
+            let entities = root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent);
+            return !entities.length;
         },
+        Tdesc: "Checker is VERY HARD TO EXPLAIN so here's tutorial. Build one for a start.",
+    },
+    {
+        id: `checker_shapes`,
+        /** @param {GameRoot} root */
+        condition(root) {
+            let entities = root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent);
+            return !entities.find(e => e.components[id].filter == 'C' && e.components[id].filterIndex == 0) ||
+                !entities.find(e => e.components[id].filter == 'R' && e.components[id].filterIndex == 0);
+        },
+        Tdesc: "Put in a single quad of a shape to make a SHAPE filter. Make circle and square filters to proceed.",
+    },
+    {
+        id: `checker_colors`,
+        /** @param {GameRoot} root */
+        condition(root) {
+            let entities = root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent);
+            return !entities.find(e => e.components[id].filter == 'r' && e.components[id].filterIndex == 1) ||
+                !entities.find(e => e.components[id].filter == 'g' && e.components[id].filterIndex == 1);
+        },
+        Tdesc: "Put in a single quad of a colored shape to make a COLOR filter. Make red and greed filters to proceed.",
+    },
+    {
+        id: `checker_lines`,
+        /** @param {GameRoot} root */
+        condition(root) {
+            let entities = root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent);
+            return !entities.find(e => e.components[id].filter == 'w');
+        },
+        Tdesc: "Checkers choose their output based on current goal. Any input is accepted. Make a white filter to proceed.",
+    },
+    {
+        id: `checker_advanced`,
+        /** @param {GameRoot} root */
+        condition(root) { // AaAaAaAa:BbBbBbBb:CcCcCcCc:DdDdDdDd
+            let entities = root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent);
+            return !entities.find(e => e.components[id].filter == '-' && e.components[id].filterIndex > 17 && e.components[id].filterIndex < 27) ||
+            !entities.find(e => e.components[id].filter == 'u' && e.components[id].filterIndex > 27);
+        },
+        Tdesc: ". Make filters for a hole on 3rd layer and for uncolored quad on 4th to finish tutorial.",
     },
 ];
 
