@@ -184,11 +184,11 @@
             }
 
             &.bigger {
-                transform: translateX(50%) rotate(-5deg) scale(2);
+                transform: translateX(50%) translateY(100%) rotate(-5deg) scale(3);
 
                 @include InlineAnimation(1.3s ease-in-out infinite) {
                     50% {
-                        transform: translateX(50%) rotate(-7deg) scale(2.2);
+                        transform: translateX(50%) translateY(100%) rotate(-7deg) scale(3.3);
                     }
                 }
 
