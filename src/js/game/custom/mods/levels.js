@@ -99,36 +99,37 @@ levels.push({
         shape: "CwRrSgWb",
         required: 5000,
         sort_index: 100e3,
-    }
-})
-
+    },
+});
 
 function makeNoDescFreeplay(minLevel, maxLevel, holeTier, colorTier, shapeTier, layerTier) {
     let args = [holeTier, colorTier, shapeTier, layerTier];
     return makeFreeplay(minLevel, maxLevel, holeTier, colorTier, shapeTier, layerTier, {
         title: `Freeplay [${args}]`,
         desc: `I, Dimava, have not wrote all the descriptions yet. Hardness id [${args}]. Harder levels are to come...`,
-    })
+    });
 }
 
-
-
-
-let n = 25, h, c, s, l;
-makeNoDescFreeplay(25,   n=34, h=1, c=1, s=1, l=1); // base
-makeNoDescFreeplay(n+=1, n+=4, h,   c=2, s,   l  ); // +cmy
-makeNoDescFreeplay(n+=1, n+=4, h,   c=3, s,   l  ); // +w
-makeNoDescFreeplay(n+=1, n+=4, h=2, c,   s=2, l  ); // +uk +shape +COMBINER
-makeNoDescFreeplay(n+=1, n+=4, h,   c=4, s,   l=2); // +black +layer +INVERTOR
-makeNoDescFreeplay(n+=1, n+=4, h=3, c,   s,   l  ); // +hole
-makeNoDescFreeplay(n+=1, n+=4, h,   c,   s,   l=3); // +
-makeNoDescFreeplay(n+=1, n+=4, h,   c,   s=3, l  ); // +shape3
-makeNoDescFreeplay(n+=1, n+=4, h=4, c,   s,   l  ); // +hole*2
-makeNoDescFreeplay(n+=1, n+=4, h,   c,   s,   l=4); // +layer
-makeFreeplay(
-    n+=1, Math.max(100, n+=4), h,   c,   s=4, l , { // +shape4
+let n = 25,
+    h,
+    c,
+    s,
+    l;
+makeNoDescFreeplay(25, (n = 34), (h = 1), (c = 1), (s = 1), (l = 1)); // base
+makeNoDescFreeplay((n += 1), (n += 4), h, (c = 2), s, l); // +cmy
+makeNoDescFreeplay((n += 1), (n += 4), h, (c = 3), s, l); // +w
+makeNoDescFreeplay((n += 1), (n += 4), (h = 2), c, (s = 2), l); // +uk +shape +COMBINER
+makeNoDescFreeplay((n += 1), (n += 4), h, (c = 4), s, (l = 2)); // +black +layer +INVERTOR
+makeNoDescFreeplay((n += 1), (n += 4), (h = 3), c, s, l); // +hole
+makeNoDescFreeplay((n += 1), (n += 4), h, c, s, (l = 3)); // +
+makeNoDescFreeplay((n += 1), (n += 4), h, c, (s = 3), l); // +shape3
+makeNoDescFreeplay((n += 1), (n += 4), (h = 4), c, s, l); // +hole*2
+makeNoDescFreeplay((n += 1), (n += 4), h, c, s, (l = 4)); // +layer
+makeFreeplay((n += 1), Math.max(100, (n += 4)), h, c, (s = 4), l, {
+    // +shape4
     title: "Freeplay [4, 4, 4, 4]",
-    desc: "I, Dimava, have not wrote all the descriptions yet. Hardness id [4, 4, 4, 4]. This is the TOP hardness so far.",
+    desc:
+        "I, Dimava, have not wrote all the descriptions yet. Hardness id [4, 4, 4, 4]. This is the TOP hardness so far.",
 });
 
 export default levels;

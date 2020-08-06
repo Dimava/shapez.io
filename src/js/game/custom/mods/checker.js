@@ -364,7 +364,7 @@ const goal = {
         " and it will <strong>select path</strong> depending on <strong>current Hub Goal</strong>, itself, forever!" +
         " In case you need some more advanced options, <strong>layer</strong> quads to filter a higher layer," +
         " color 3 of 4 quads for <strong>uncolored</strong> or leave a single <strong>hole</strong> to get a hole one",
-    tutorial
+    tutorial,
 };
 
 export const checker = {

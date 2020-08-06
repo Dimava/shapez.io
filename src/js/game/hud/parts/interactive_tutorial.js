@@ -53,7 +53,7 @@ export class HUDInteractiveTutorial extends BaseHUDPart {
         this.currentHintId = new TrackedState(this.onHintChanged, this);
         for (let i = 0; i < tutorialGoals.length; ++i) {
             if (tutorialGoals[i].tutorial) {
-                tutorialsByLevel[i+1] = tutorialGoals[i].tutorial;
+                tutorialsByLevel[i + 1] = tutorialGoals[i].tutorial;
             }
         }
     }

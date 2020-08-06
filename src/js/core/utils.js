@@ -447,10 +447,10 @@ export function formatBigNumber(num, separator = T.global.decimalSeparator) {
     }
     let mul = 1;
     while (leadingDigits > 1) {
-        mul *= 10
+        mul *= 10;
         leadingDigits /= 10;
     }
-    const leadingDigitsRounded = Math.round(+leadingDigits.toFixed(3)*1e4) * mul / 1e4;
+    const leadingDigitsRounded = (Math.round(+leadingDigits.toFixed(3) * 1e4) * mul) / 1e4;
 
     // const leadingDigitsRounded = round1Digit(leadingDigits);
     // const leadingDigitsRounded = leadingDigits.toFixed();
@@ -459,7 +459,6 @@ export function formatBigNumber(num, separator = T.global.decimalSeparator) {
         .replace(/\.0*$/, "")
         .replace(".", separator);
     return sign + leadingDigitsNoTrailingDecimal + suffix;
-
 }
 
 /**

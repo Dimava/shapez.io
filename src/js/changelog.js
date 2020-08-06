@@ -12,8 +12,8 @@ export const CHANGELOG = [
             "Added Freeplay levels with growing difficulty. Required shape count for freeplay was greatly reduced.",
             "Reduced required shapes for levels - you have probably finished the main game so you don't have to proof anything exept freeplay builds",
             "Made numbers longer (3 digits)",
-            "Added debug settings - basically a sandbox mode, as well as F6 key in-game. I highly recommend turning on the \"Show chunk borders\" permanently.",
-        ]
+            'Added debug settings - basically a sandbox mode, as well as F6 key in-game. I highly recommend turning on the "Show chunk borders" permanently.',
+        ],
     },
 
     {

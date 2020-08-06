@@ -376,12 +376,7 @@ export class MainMenuState extends GameState {
 
                 let TlastVersion = "@<x>";
 
-                makeDiv(
-                    elem,
-                    null,
-                    ["version"],
-                    TlastVersion.replace("<x>", "" + games[i].lastVersion)
-                );
+                makeDiv(elem, null, ["version"], TlastVersion.replace("<x>", "" + games[i].lastVersion));
 
                 const deleteButton = document.createElement("button");
                 deleteButton.classList.add("styledButton", "deleteGame");
