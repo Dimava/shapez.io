@@ -1,7 +1,7 @@
 #state_MainMenuState {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     flex-direction: column;
 
     // background: #aaacb4 center center / cover !important;
@@ -144,7 +144,7 @@
 
     .logo {
         display: flex;
-        flex-grow: 1;
+        flex-grow: 0;
         align-items: center;
         justify-content: center;
 
@@ -360,6 +360,8 @@
     }
 
     .footer {
+        position: fixed;
+        bottom: 0;
         display: grid;
         flex-grow: 1;
         justify-content: center;
