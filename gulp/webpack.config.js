@@ -51,7 +51,7 @@ module.exports = ({ watch = false, standalone = false }) => {
                 exclude: /node_modules/,
 
                 // add errors to webpack instead of warnings
-                failOnError: true,
+                failOnError: false,
 
                 // allow import cycles that include an asyncronous import,
                 // e.g. via import(/* webpackMode: "weak" */ './file.js')
