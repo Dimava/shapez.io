@@ -136,7 +136,7 @@ export const unstackerBuildingData = {
     // TODO: T
     Tname: "Unstacker",
     Tdesc: "Splits lowest layer out of a shape.",
-    speed: 1 / 5,
+    speed: 1 / 4,
     speedClass: "processors",
     meta: MetaUnstackerBuilding,
     variantId: 530,

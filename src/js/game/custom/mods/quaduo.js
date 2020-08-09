@@ -131,14 +131,32 @@ export function QuaduoPainterProcess({ items, trackProduction, entity, outItems,
 
     let input = items.map(e => e.item.getHash());
 
-    let out1 = colorShape(input[0], input[2], input[3], input[4], input[5]);
+    const processorComp = entity.components.ItemProcessor;
+    if (!processorComp.slot1a) {
+        processorComp.slot1a = items[0].item.getHash();
+        processorComp.slot2a = items[1].item.getHash();
+        processorComp.inputSlots = items.slice(2);
+        return;
+    }
+
+    let out1 = colorShape(processorComp.slot1a, input[2], input[3], input[4], input[5]);
     outItems.push({
         item: new ShapeItem(out1),
     });
-    let out2 = colorShape(input[1], input[2], input[3], input[4], input[5]);
+    let out2 = colorShape(processorComp.slot2a, input[2], input[3], input[4], input[5]);
     outItems.push({
         item: new ShapeItem(out2),
     });
+    let out3 = colorShape(input[0], input[2], input[3], input[4], input[5]);
+    outItems.push({
+        item: new ShapeItem(out3),
+    });
+    let out4 = colorShape(input[1], input[2], input[3], input[4], input[5]);
+    outItems.push({
+        item: new ShapeItem(out4),
+    });
+    processorComp.slot1a = "";
+    processorComp.slot2a = "";
 
     // trackProduction
     return true;
