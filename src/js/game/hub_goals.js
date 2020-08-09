@@ -251,7 +251,7 @@ export class HubGoals extends BasicSerializableObject {
                 continue;
             }
             let definition = null;
-            if (fixed.shape === "string") {
+            if (typeof fixed.shape === "string") {
                 definition = this.root.shapeDefinitionMgr.getShapeFromShortKey(fixed.shape);
             } else {
                 definition = this.createRandomShapeOfTiers(fixed.shape);
