@@ -11,6 +11,16 @@ function key(str) {
     return str.toUpperCase().charCodeAt(0);
 }
 
+export function keyCodeOf(key) {
+    if (typeof key == 'number') {
+        return key;
+    }
+    if (key.match(/F\d+/)) {
+        return 111 + (+key.slice(1));
+    }
+    return key.toUpperCase().charCodeAt(0);
+}
+
 export const KEYMAPPINGS = {
     general: {
         confirm: { keyCode: 13 }, // enter

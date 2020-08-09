@@ -429,6 +429,9 @@ export const checker = {
         "Toggles output direction depending on current hub goal shape, allowing automation of random levels.",
 
     goal,
+
+    keyCode: "0",
+    toolbarIndex: 10,
 };
 
 export default checker;

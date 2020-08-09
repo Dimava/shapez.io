@@ -233,6 +233,9 @@ export const counterBuildingData = {
     variantId: 510,
     meta: MetaCounterBuilding,
     speed: 2,
+
+    keyCode: "5",
+    toolbarIndex: 5,
 };
 
 export default counterBuildingData;

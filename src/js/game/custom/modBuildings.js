@@ -7,6 +7,8 @@ import { addSprite } from "./modSpriteDrawer";
 import { enumHubGoalRewards, tutorialGoals, fixedGoals } from "../tutorial_goals";
 import { tutorialsByLevel } from "../hud/parts/interactive_tutorial";
 
+import { KEYMAPPINGS, keyCodeOf } from "../key_action_mapper";
+
 import * as gameData from "./gameData";
 
 export let allCustomBuildingData = [];
@@ -124,11 +126,21 @@ function addCustom(custom) {
             custom.speedClass = "belt";
         }
 
+        if (custom.meta && custom.toolbarIndex) {
+            custom.meta.toolbarIndex = custom.toolbarIndex;
+        }
         if (custom.meta && custom.toolbar == 0) {
             toolbar.push(custom.meta);
+            sortToolbar(toolbar);
         }
         if (custom.meta && custom.toolbar == 2) {
             tooolbar.push(custom.meta);
+            sortToolbar(tooolbar);
+        }
+
+        if (custom.keyCode) {
+            KEYMAPPINGS.buildings[custom.id] = { keyCode: keyCodeOf(custom.keyCode), id: custom.id };
+            T.keybindings.mappings[custom.id] = custom.Tname;
         }
     }
 
@@ -143,6 +155,19 @@ function addCustom(custom) {
         custom.spriteBp.transparent = true;
         addSprite(custom.spriteBp);
     }
+}
+
+function sortToolbar(toolbar) {
+    let copy = tooolbar.slice().sort((a, b) => (a.toolbarIndex || 0) - (b.toolbarIndex || 0));
+    while(toolbar.length) toolbar.pop();
+    for (let meta of copy) {
+        if (!meta.toolbarIndex) {
+            toolbar.push(meta);
+        } else {
+            toolbar.splice(meta.toolbarIndex, 0, meta);
+        }
+    }
+
 }
 
 export function getCustomBuildingSystemsNulled() {

@@ -172,6 +172,9 @@ export const unstackerBuildingData = {
     speedClass: "processors",
     meta: MetaQuaduoPainterBuilding,
     variantId: 560,
+
+    keyCode: "9",
+    toolbarIndex: 9,
 };
 
 export default unstackerBuildingData;

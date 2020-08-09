@@ -310,6 +310,9 @@ export const repeater = {
     speed: 2,
     Tname: "Repeater",
     Tdesc: "Duplicates shapes or colors, taking them from hub. Can store up to 1000 items itself.",
+
+    keyCode: "4",
+    toolbarIndex: 4,
 };
 
 export default repeater;

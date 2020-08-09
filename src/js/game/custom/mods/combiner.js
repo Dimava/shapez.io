@@ -210,6 +210,9 @@ export const unstackerBuildingData = {
     speedClass: "processors",
     meta: MetaCombinerBuilding,
     variantId: 540,
+
+    keyCode: "8",
+    toolbarIndex: 8,
 };
 
 export default unstackerBuildingData;
