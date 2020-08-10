@@ -25,7 +25,7 @@ function colorShape(shape, color) {
 
     let layers = shape.split(":").map(e => e.split(""));
     for (let i = 0; i < 4; i++) {
-        let charges = 4;
+        let charges = 3;
         for (let j = layers.length - 1; j >= 0; --j) {
             if (layers[j][2 * i] != "-") {
                 layers[j][2 * i + 1] = color;
