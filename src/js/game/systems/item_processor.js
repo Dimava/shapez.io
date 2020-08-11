@@ -20,12 +20,12 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
             const ejectorComp = entity.components.ItemEjector;
 
             // First of all, process the current recipe
-            processorComp.secondsUntilEject = Math.max(
-                0,
-                processorComp.secondsUntilEject - this.root.dynamicTickrate.deltaSeconds
-            );
-
-            if (G_IS_DEV && globalConfig.debug.instantProcessors) {
+            if (processorComp.secondsUntilEject > 0) {
+                processorComp.secondsUntilEject -= this.root.dynamicTickrate.deltaSeconds;
+                if (G_IS_DEV && globalConfig.debug.instantProcessors) {
+                    processorComp.secondsUntilEject = 0;
+                }
+            } else if (processorComp.itemsToEject.length == 0) {
                 processorComp.secondsUntilEject = 0;
             }
 
@@ -363,6 +363,11 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
             for (let i = 0; i < outItems.length; ++i) {
                 this.root.signals.itemProduced.dispatch(outItems[i].item);
             }
+        }
+
+        if (outItems.length > 1) {
+            const baseBeltSpeed = this.root.hubGoals.getBeltBaseSpeed(enumLayer.regular);
+            processorComp.secondsUntilEject -= (outItems.length - 1) / baseBeltSpeed;
         }
 
         processorComp.itemsToEject = outItems;
