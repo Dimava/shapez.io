@@ -42,4 +42,21 @@ export class SavegameInterface_V1005 extends SavegameInterface_V1004 {
             }
         }
     }
+
+    static migrate1005(data) {
+        data.dump.entities.filter(e=>e.components.Unremovable)
+            .map(e => delete e.components.Unremovable)
+
+        data.dump.entities.filter(e=>e.components.ReplaceableMapEntity)
+            .map(e => delete e.components.ReplaceableMapEntity)
+
+        // data.dump.entities.filter(e=>e.components.EnergyConsumer)
+        //     .map(e => delete e.components.EnergyConsumer)
+
+        // data.dump.entities.filter(e=>e.components.EnergyGenerator)
+        //     .map(e => delete e.components.EnergyGenerator)
+
+         
+        // debugger;
+    }
 }

@@ -153,6 +153,7 @@ export class GameCore {
         const serializer = new SavegameSerializer();
 
         try {
+            this.root.savegame.migrate(this.root.savegame.currentData);
             const status = serializer.deserialize(this.root.savegame.getCurrentDump(), this.root);
             if (!status.isGood()) {
                 logger.error("savegame-deserialize-failed:" + status.reason);
