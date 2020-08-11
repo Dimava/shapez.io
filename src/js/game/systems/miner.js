@@ -46,13 +46,14 @@ export class MinerSystem extends GameSystemWithFilter {
                 }
             }
 
-            if (this.root.time.isIngameTimerExpired(minerComp.lastMiningTime, 1 / miningSpeed)) {
+            let now = this.root.time.now();
+            if (minerComp.lastMiningTime < now) {
                 if (this.tryPerformMinerEject(entity, minerComp.cachedMinedItem)) {
                     // Analytics hook
                     this.root.signals.itemProduced.dispatch(minerComp.cachedMinedItem);
 
                     // Actually mine
-                    minerComp.lastMiningTime = this.root.time.now();
+                    minerComp.lastMiningTime = Math.max(now, minerComp.lastMiningTime + 1 / miningSpeed);
                 }
             }
         }
