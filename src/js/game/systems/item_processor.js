@@ -371,7 +371,7 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
         }
 
         if (outItems.length > 1) {
-            const baseBeltSpeed = this.root.hubGoals.getBeltBaseSpeed(enumLayer.regular);
+            const baseBeltSpeed = this.root.hubGoals.getBeltBaseSpeed();
             processorComp.secondsUntilEject -= (outItems.length - 1) / baseBeltSpeed;
         }
 
