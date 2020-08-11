@@ -1,11 +1,13 @@
 import { queryParamOptions } from "./query_parameters";
 
 export const IS_DEBUG =
-    G_IS_DEV &&
-    typeof window !== "undefined" &&
-    window.location.port === "3005" &&
-    (window.location.host.indexOf("localhost:") >= 0 || window.location.host.indexOf("192.168.0.") >= 0) &&
-    window.location.search.indexOf("nodebug") < 0;
+    true ||
+    (G_IS_DEV &&
+        typeof window !== "undefined" &&
+        window.location.port === "3005" &&
+        (window.location.host.indexOf("localhost:") >= 0 ||
+            window.location.host.indexOf("192.168.0.") >= 0) &&
+        window.location.search.indexOf("nodebug") < 0);
 
 export const IS_DEMO = queryParamOptions.fullVersion
     ? false
