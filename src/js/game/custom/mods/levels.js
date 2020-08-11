@@ -2,7 +2,7 @@ const painter = {
     id: "painter42",
     goal: {
         shape: "CwCcCmCy:RwRcRmRy:SwScSmSy:WwWcWmWy",
-        required: 25e3,
+        required: 20e3,
         reward: "quaduo",
         title: "Ultimate painting",
         desc: "You have unlocked the <strong>Quaduo painter</strong> - It can paints a whole belt.",
@@ -42,7 +42,7 @@ const unstacker = {
     id: "unstacker",
     goal: {
         shape: "RyRyRcRc:SyScSySc:ScSyScSy:CyCyCcCc", // cyan-yellow stack
-        required: 20e3,
+        required: 25e3,
         reward: "unstacker",
         title: "unstacker",
         desc: "<strong>unstacker</strong> is unlocked, no comments.",
