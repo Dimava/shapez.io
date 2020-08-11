@@ -74,6 +74,18 @@ export class TextualGameState extends GameState {
     }
 
     /**
+     * Goes to a new state, telling him to go back to this state later
+     * @param {string} stateId
+     */
+    switchToState(stateId) {
+//         debugger;
+        this.moveToState(stateId, {
+            backToStateId: this.backToStateId,
+            backToStatePayload: this.backToStatePayload,
+        }, true);
+    }
+
+    /**
      * Removes all click detectors, except the one on the back button. Useful when regenerating
      * content.
      */
