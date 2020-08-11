@@ -62,6 +62,9 @@ export default {
     _testAds: "Enables ads in the local build (normally they are deactivated there)",
     testAds: false,
     // -----------------------------------------------------------------------------------
+    _noApiCalls: "Disables API calls",
+    noApiCalls: true,
+    // -----------------------------------------------------------------------------------
     _disableMapOverview: "Disables the automatic switch to an overview when zooming out",
     disableMapOverview: false,
     // -----------------------------------------------------------------------------------
