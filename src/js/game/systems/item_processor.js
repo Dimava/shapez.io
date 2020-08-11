@@ -353,8 +353,8 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
                 case enumItemProcessorTypes.hub: {
                     trackProduction = false;
                     for (let i = 0; i < items.length; ++i) {
-                        const item = /** @type {ShapeItem} */ (items[i].item);
-                        this.root.hubGoals.handleDefinitionDelivered(item.definition);
+                        const item = /** @type {BaseItem} */ (items[i].item);
+                        this.root.hubGoals.handleDeliveredByHash(item.getHash());
                     }
                     break;
                 }
