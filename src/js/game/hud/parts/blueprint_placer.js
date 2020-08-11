@@ -125,6 +125,12 @@ export class HUDBlueprintPlacer extends BaseHUDPart {
         if (blueprint.tryPlace(this.root, tile)) {
             const cost = blueprint.getCost();
             this.root.hubGoals.takeShapeByKey(blueprintShape, cost);
+
+            const leftover = this.root.hubGoals.getShapesStoredByKey(blueprintShape);
+            if (leftover < 50) {
+                this.root.hubGoals.putShapeByKey(blueprintShape, 50 - leftover);
+            }
+
             this.root.soundProxy.playUi(SOUNDS.placeBuilding);
         }
     }

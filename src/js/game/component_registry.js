@@ -9,6 +9,7 @@ import { UndergroundBeltComponent } from "./components/underground_belt";
 import { HubComponent } from "./components/hub";
 import { StorageComponent } from "./components/storage";
 import { WiredPinsComponent } from "./components/wired_pins";
+import { allCustomBuildingData } from "./custom/modBuildings";
 import { BeltUnderlaysComponent } from "./components/belt_underlays";
 
 export function initComponentRegistry() {
@@ -24,13 +25,20 @@ export function initComponentRegistry() {
     gComponentRegistry.register(WiredPinsComponent);
     gComponentRegistry.register(BeltUnderlaysComponent);
 
+    for (let custom of allCustomBuildingData) {
+        if (custom.component) {
+            gComponentRegistry.register(custom.component);
+        }
+    }
+
     // IMPORTANT ^^^^^ UPDATE ENTITY COMPONENT STORAGE AFTERWARDS
 
     // Sanity check - If this is thrown, you (=me, lol) forgot to add a new component here
 
     assert(
         // @ts-ignore
-        require.context("./components", false, /.*\.js/i).keys().length ===
+        require.context("./components", false, /.*\.js/i).keys().length +
+            allCustomBuildingData.filter(e => e.component).length ===
             gComponentRegistry.getNumEntries(),
         "Not all components are registered"
     );

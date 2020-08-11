@@ -6,6 +6,7 @@ import { MetaBuilding } from "../../meta_building";
 import { GameRoot } from "../../root";
 import { BaseHUDPart } from "../base_hud_part";
 import { DynamicDomAttach } from "../dynamic_dom_attach";
+import { globalConfig } from "../../../core/config";
 import { MetaToolbarSwapperBuilding } from "../../buildings/toolbar_swapper";
 
 export class HUDBaseToolbar extends BaseHUDPart {
@@ -48,12 +49,19 @@ export class HUDBaseToolbar extends BaseHUDPart {
 
         for (let i = 0; i < this.supportedBuildings.length; ++i) {
             const metaBuilding = gMetaBuildingRegistry.findByClass(this.supportedBuildings[i]);
-            const binding = actionMapper.getBinding(KEYMAPPINGS.buildings[metaBuilding.getId()]);
+            const mapping = KEYMAPPINGS.buildings[metaBuilding.getId()];
+            const binding = mapping && actionMapper.getBinding(mapping);
 
             const itemContainer = makeDiv(items, null, ["building"]);
+            itemContainer.style.backgroundImage =
+                "url(./res/ui/building_icons/" + metaBuilding.getId() + ".png)";
             itemContainer.setAttribute("data-icon", "building_icons/" + metaBuilding.getId() + ".png");
 
-            binding.add(() => this.selectBuildingForPlacement(metaBuilding));
+            if (binding) {
+                binding.add(() => this.selectBuildingForPlacement(metaBuilding));
+            } else {
+                console.warn(`${metaBuilding.getId()} has no keybinding`);
+            }
 
             this.trackClicks(itemContainer, () => this.selectBuildingForPlacement(metaBuilding), {
                 clickSound: null,
@@ -97,7 +105,10 @@ export class HUDBaseToolbar extends BaseHUDPart {
         if (visible) {
             for (const buildingId in this.buildingHandles) {
                 const handle = this.buildingHandles[buildingId];
-                const newStatus = handle.metaBuilding.getIsUnlocked(this.root);
+                let newStatus = handle.metaBuilding.getIsUnlocked(this.root);
+                if (G_IS_DEV && globalConfig.debug.allBuildingsUnlocked) {
+                    newStatus = true;
+                }
                 if (handle.unlocked !== newStatus) {
                     handle.unlocked = newStatus;
                     handle.element.classList.toggle("unlocked", newStatus);
@@ -164,8 +175,10 @@ export class HUDBaseToolbar extends BaseHUDPart {
         }
 
         if (!metaBuilding.getIsUnlocked(this.root)) {
-            this.root.soundProxy.playUiError();
-            return STOP_PROPAGATION;
+            if (!G_IS_DEV || !globalConfig.debug.allBuildingsUnlocked) {
+                this.root.soundProxy.playUiError();
+                return STOP_PROPAGATION;
+            }
         }
 
         // Allow clicking an item again to deselect it

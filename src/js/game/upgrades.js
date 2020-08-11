@@ -16,19 +16,19 @@ export const UPGRADES = {
                 improvement: 2,
             },
             {
-                required: [{ shape: "CpCpCpCp", amount: 15000 }],
+                required: [{ shape: "CmCmCmCm", amount: 5000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: "SrSrSrSr:CyCyCyCy", amount: 40000 }],
+                required: [{ shape: "SrSrSrSr:CyCyCyCy", amount: 10000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: "SrSrSrSr:CyCyCyCy:SwSwSwSw", amount: 40000 }],
+                required: [{ shape: "SrSrSrSr:CyCyCyCy:SwSwSwSw", amount: 10000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: finalGameShape, amount: 150000 }],
+                required: [{ shape: finalGameShape, amount: 50000 }],
                 improvement: 5,
                 excludePrevious: true,
             },
@@ -46,19 +46,19 @@ export const UPGRADES = {
                 improvement: 2,
             },
             {
-                required: [{ shape: "ScScScSc", amount: 20000 }],
+                required: [{ shape: "ScScScSc", amount: 6000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: "CwCwCwCw:WbWbWbWb", amount: 40000 }],
+                required: [{ shape: "CwCwCwCw:WbWbWbWb", amount: 10000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: "CbRbRbCb:CwCwCwCw:WbWbWbWb", amount: 40000 }],
+                required: [{ shape: "CbRbRbCb:CwCwCwCw:WbWbWbWb", amount: 10000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: finalGameShape, amount: 150000 }],
+                required: [{ shape: finalGameShape, amount: 50000 }],
                 improvement: 5,
                 excludePrevious: true,
             },
@@ -76,19 +76,19 @@ export const UPGRADES = {
                 improvement: 2,
             },
             {
-                required: [{ shape: "CgScScCg", amount: 25000 }],
+                required: [{ shape: "CgScScCg", amount: 7000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: "CwCrCwCr:SgSgSgSg", amount: 40000 }],
+                required: [{ shape: "CwCrCwCr:SgSgSgSg", amount: 10000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: "WrRgWrRg:CwCrCwCr:SgSgSgSg", amount: 40000 }],
+                required: [{ shape: "WrRgWrRg:CwCrCwCr:SgSgSgSg", amount: 10000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: finalGameShape, amount: 150000 }],
+                required: [{ shape: finalGameShape, amount: 50000 }],
                 improvement: 5,
                 excludePrevious: true,
             },
@@ -106,19 +106,19 @@ export const UPGRADES = {
                 improvement: 1,
             },
             {
-                required: [{ shape: "RpRpRpRp:CwCwCwCw", amount: 30000 }],
+                required: [{ shape: "RmRmRmRm:CwCwCwCw", amount: 8000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: "WpWpWpWp:CwCwCwCw:WpWpWpWp", amount: 40000 }],
+                required: [{ shape: "WmWmWmWm:CwCwCwCw:WmWmWmWm", amount: 10000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: "WpWpWpWp:CwCwCwCw:WpWpWpWp:CwCwCwCw", amount: 40000 }],
+                required: [{ shape: "WmWmWmWm:CwCwCwCw:WmWmWmWm:CwCwCwCw", amount: 10000 }],
                 improvement: 2,
             },
             {
-                required: [{ shape: finalGameShape, amount: 150000 }],
+                required: [{ shape: finalGameShape, amount: 50000 }],
                 improvement: 5,
                 excludePrevious: true,
             },

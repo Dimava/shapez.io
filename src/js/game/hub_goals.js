@@ -1,12 +1,16 @@
 import { globalConfig } from "../core/config";
 import { clamp, findNiceIntegerValue, randomChoice, randomInt } from "../core/utils";
 import { BasicSerializableObject, types } from "../savegame/serialization";
-import { enumColors } from "./colors";
+import { enumColors, allColorData } from "./colors";
+import { allShapeData } from "./shapes";
 import { enumItemProcessorTypes } from "./components/item_processor";
 import { GameRoot, enumLayer } from "./root";
 import { enumSubShape, ShapeDefinition } from "./shape_definition";
-import { enumHubGoalRewards, tutorialGoals } from "./tutorial_goals";
-import { UPGRADES } from "./upgrades";
+import { enumHubGoalRewards, tutorialGoals, fixedGoals } from "./tutorial_goals";
+import { UPGRADES, blueprintShape } from "./upgrades";
+import { customBuildingData } from "./custom/modBuildings";
+import { RandomNumberGenerator } from "../core/rng";
+import { ColorItem } from "./items/color_item";
 
 export class HubGoals extends BasicSerializableObject {
     static getId() {
@@ -40,6 +44,15 @@ export class HubGoals extends BasicSerializableObject {
                 this.gainedRewards[reward] = (this.gainedRewards[reward] || 0) + 1;
             }
         }
+        for (let i = 0; i < fixedGoals.length; ++i) {
+            if (fixedGoals[i].minLevel < this.level) {
+                const reward = fixedGoals[i].reward;
+                this.gainedRewards[reward] =
+                    (this.gainedRewards[reward] || 0) +
+                    Math.min(fixedGoals[i].maxLevel, this.level) -
+                    fixedGoals[i].minLevel;
+            }
+        }
 
         // Compute upgrade improvements
         for (const upgradeId in UPGRADES) {
@@ -53,15 +66,7 @@ export class HubGoals extends BasicSerializableObject {
         }
 
         // Compute current goal
-        const goal = tutorialGoals[this.level - 1];
-        if (goal) {
-            this.currentGoal = {
-                /** @type {ShapeDefinition} */
-                definition: this.root.shapeDefinitionMgr.getShapeFromShortKey(goal.shape),
-                required: goal.required,
-                reward: goal.reward,
-            };
-        }
+        this.createNextGoal();
     }
 
     /**
@@ -138,6 +143,17 @@ export class HubGoals extends BasicSerializableObject {
     }
 
     /**
+     * @param {string} key
+     * @param {number} amount
+     */
+    putShapeByKey(key, amount) {
+        assert(amount >= 0, "Amount < 0 for " + key);
+        assert(Number.isInteger(amount), "Invalid amount: " + amount);
+        this.storedShapes[key] = (this.storedShapes[key] || 0) + amount;
+        return;
+    }
+
+    /**
      * Returns how much of the current shape is stored
      * @param {string} key
      * @returns {number}
@@ -181,7 +197,27 @@ export class HubGoals extends BasicSerializableObject {
         const hash = definition.getHash();
         this.storedShapes[hash] = (this.storedShapes[hash] || 0) + 1;
 
-        this.root.signals.shapeDelivered.dispatch(definition);
+        this.root.signals.shapeDelivered.dispatch(hash);
+
+        // Check if we have enough for the next level
+        const targetHash = this.currentGoal.definition.getHash();
+        if (
+            this.storedShapes[targetHash] >= this.currentGoal.required ||
+            (G_IS_DEV && globalConfig.debug.rewardsInstant)
+        ) {
+            this.onGoalCompleted();
+        }
+    }
+
+    /**
+     * Handles the given hash, by either accounting it towards the
+     * goal or otherwise granting some points
+     * @param {string} hash
+     */
+    handleDeliveredByHash(hash) {
+        this.storedShapes[hash] = (this.storedShapes[hash] || 0) + 1;
+
+        this.root.signals.shapeDelivered.dispatch(hash);
 
         // Check if we have enough for the next level
         const targetHash = this.currentGoal.definition.getHash();
@@ -209,10 +245,28 @@ export class HubGoals extends BasicSerializableObject {
             return;
         }
 
+        for (let fixed of fixedGoals) {
+            if (fixed.minLevel > this.level || fixed.maxLevel < this.level) {
+                continue;
+            }
+            let definition = null;
+            if (typeof fixed.shape === "string") {
+                definition = this.root.shapeDefinitionMgr.getShapeFromShortKey(fixed.shape);
+            } else {
+                definition = this.createRandomShapeOfTiers(fixed.shape);
+            }
+            this.currentGoal = {
+                definition,
+                required: fixed.baseCount + (this.level - fixed.minLevel) * fixed.countPerLevel,
+                reward: fixed.reward,
+            };
+            return;
+        }
+
         this.currentGoal = {
             /** @type {ShapeDefinition} */
             definition: this.createRandomShape(),
-            required: 10000 + findNiceIntegerValue(this.level * 2000),
+            required: 5000 + findNiceIntegerValue((this.level - tutorialGoals.length) * 200),
             reward: enumHubGoalRewards.no_reward_freeplay,
         };
     }
@@ -323,14 +377,50 @@ export class HubGoals extends BasicSerializableObject {
      * @returns {ShapeDefinition}
      */
     createRandomShape() {
-        const layerCount = clamp(this.level / 25, 2, 4);
+        return this.createRandomShapeOfTiers({
+            holeTier: 4,
+            shapeTier: 4,
+            colorTier: 4,
+            layerTier: 4,
+        });
+    }
+
+    /**
+     * @param {object} arg
+     * @param {number} arg.holeTier
+     * @param {number} arg.shapeTier
+     * @param {number} arg.colorTier
+     * @param {number} arg.layerTier
+     * @returns {ShapeDefinition}
+     */
+    createRandomShapeOfTiers({ holeTier, shapeTier, colorTier, layerTier }) {
+        const layerCount = layerTier;
+
         /** @type {Array<import("./shape_definition").ShapeLayer>} */
         let layers = [];
 
-        const randomColor = () => randomChoice(Object.values(enumColors));
-        const randomShape = () => randomChoice(Object.values(enumSubShape));
+        const rng = new RandomNumberGenerator(this.level + "|" + this.root.map.seed);
 
-        let anyIsMissingTwo = false;
+        // @ts-ignore
+        const availableColors = Object.values(allColorData)
+            .filter(e => e.id != enumColors.uncolored)
+            .filter(e => e.tier <= colorTier)
+            .map(e => e.id);
+        // @ts-ignore
+        const availableShapes = Object.values(allShapeData)
+            .filter(e => e.tier <= shapeTier)
+            .map(e => e.id);
+
+        const randomColor = () => rng.choice(availableColors);
+        const randomShape = () => rng.choice(availableShapes);
+
+        let layerWith2Holes = -1;
+        if (holeTier >= 2) {
+            availableColors.push(enumColors.uncolored);
+        }
+        if (holeTier >= 4) {
+            layerWith2Holes = rng.nextIntRange(0, layerCount);
+        }
 
         for (let i = 0; i < layerCount; ++i) {
             /** @type {import("./shape_definition").ShapeLayer} */
@@ -343,17 +433,16 @@ export class HubGoals extends BasicSerializableObject {
                 };
             }
 
-            // Sometimes shapes are missing
-            if (Math.random() > 0.85) {
-                layer[randomInt(0, 3)] = null;
-            }
-
-            // Sometimes they actually are missing *two* ones!
-            // Make sure at max only one layer is missing it though, otherwise we could
-            // create an uncreateable shape
-            if (Math.random() > 0.95 && !anyIsMissingTwo) {
-                layer[randomInt(0, 3)] = null;
-                anyIsMissingTwo = true;
+            if (holeTier >= 3) {
+                let holeIndex = rng.nextIntRange(0, 8);
+                if (holeIndex < 4) {
+                    layer[holeIndex] = null;
+                }
+                if (i == layerWith2Holes) {
+                    layer[holeIndex % 4] = null;
+                    let hole2Index = rng.nextIntRange(0, 4);
+                    layer[hole2Index] = null;
+                }
             }
 
             layers.push(layer);
@@ -437,10 +526,25 @@ export class HubGoals extends BasicSerializableObject {
                 );
             }
             case enumItemProcessorTypes.advancedProcessor: {
-                return globalConfig.beltSpeedItemsPerSecond * globalConfig.buildingSpeeds[processorType];
+                return (
+                    globalConfig.beltSpeedItemsPerSecond *
+                    this.upgradeImprovements.painting *
+                    globalConfig.buildingSpeeds[processorType]
+                );
             }
-            default:
+            default: {
+                if (customBuildingData[processorType]) {
+                    let custom = customBuildingData[processorType];
+                    globalConfig.buildingSpeeds[processorType] = custom.speed;
+                    return (
+                        globalConfig.beltSpeedItemsPerSecond *
+                        this.upgradeImprovements[custom.speedClass] *
+                        globalConfig.buildingSpeeds[processorType]
+                    );
+                }
+
                 assertAlways(false, "invalid processor type: " + processorType);
+            }
         }
 
         return 1 / globalConfig.beltSpeedItemsPerSecond;

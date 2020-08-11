@@ -119,12 +119,20 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
         this.buildingInfoElements.label.innerHTML = T.buildings[metaBuilding.id][variant].name;
         this.buildingInfoElements.descText.innerHTML = T.buildings[metaBuilding.id][variant].description;
 
-        const binding = this.root.keyMapper.getBinding(KEYMAPPINGS.buildings[metaBuilding.getId()]);
-        this.buildingInfoElements.hotkey.innerHTML = T.ingame.buildingPlacement.hotkeyLabel.replace(
-            "<key>",
-            "<code class='keybinding'>" + binding.getKeyCodeString() + "</code>"
-        );
+        const mapping = KEYMAPPINGS.buildings[metaBuilding.getId()];
+        if (mapping) {
+            const binding = this.root.keyMapper.getBinding(mapping);
+            this.buildingInfoElements.hotkey.innerHTML = T.ingame.buildingPlacement.hotkeyLabel.replace(
+                "<key>",
+                "<code class='keybinding'>" + binding.getKeyCodeString() + "</code>"
+            );
+        } else {
+            this.buildingInfoElements.hotkey.innerHTML = "";
+        }
 
+        this.buildingInfoElements.tutorialImage.style.backgroundImage = `url(./res/ui/building_tutorials/${metaBuilding.getId()}${
+            variant === defaultBuildingVariant ? "" : "-" + variant
+        }.png)`;
         this.buildingInfoElements.tutorialImage.setAttribute(
             "data-icon",
             "building_tutorials/" +

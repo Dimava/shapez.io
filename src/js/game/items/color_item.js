@@ -47,7 +47,7 @@ export class ColorItem extends BaseItem {
     }
 
     getBackgroundColorAsResource() {
-        return THEME.map.resources[this.color];
+        return THEME.map.resources[this.color] || THEME.map.resources.shape;
     }
 
     /**

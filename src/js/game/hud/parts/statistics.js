@@ -192,11 +192,11 @@ export class HUDStatistics extends BaseHUDPart {
             const shapeKey = entry[0];
 
             let handle = this.activeHandles[shapeKey];
+            // TODO TODO TODO TODO TODO TODO TODO TODO TODO
             if (!handle) {
-                const definition = this.root.shapeDefinitionMgr.getShapeFromShortKey(shapeKey);
                 handle = this.activeHandles[shapeKey] = new HUDShapeStatisticsHandle(
                     this.root,
-                    definition,
+                    shapeKey,
                     this.intersectionObserver
                 );
             }

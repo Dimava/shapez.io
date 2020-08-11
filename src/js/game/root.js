@@ -167,7 +167,7 @@ export class GameRoot {
             // Can be used to trigger an async task
             performAsync: /** @type {TypedSignal<[function]>} */ (new Signal()),
 
-            shapeDelivered: /** @type {TypedSignal<[ShapeDefinition]>} */ (new Signal()),
+            shapeDelivered: /** @type {TypedSignal<[string]>} */ (new Signal()),
             itemProduced: /** @type {TypedSignal<[BaseItem]>} */ (new Signal()),
 
             bulkOperationFinished: /** @type {TypedSignal<[]>} */ (new Signal()),
