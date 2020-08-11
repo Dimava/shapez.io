@@ -322,4 +322,17 @@ gulp.task(
     gulp.series("build.standalone.dev", () => serve({ standalone: true }))
 );
 
-gulp.task("default", gulp.series("main.serveDev"));
+
+gulp.task("main.dev", gulp.series("build.dev", "js.dev"))
+
+gulp.task(
+    "main.devFast",
+    gulp.series(
+        "translations.fullBuild",
+        "css.dev",
+        "html.dev",
+        () => serve({ standalone: false }),
+    )
+);
+
+gulp.task("default", gulp.series("main.devFast"));
