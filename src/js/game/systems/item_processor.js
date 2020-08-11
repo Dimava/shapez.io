@@ -355,39 +355,7 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
                     for (let i = 0; i < items.length; ++i) {
                         const item = /** @type {ShapeItem} */ (items[i].item);
                         this.root.hubGoals.handleDefinitionDelivered(item.definition);
-                        break;
                     }
-                }
-
-                // ADVANCED PROCESSING
-
-                case enumItemProcessorTypes.advancedProcessor: {
-                    const item = items[0].item;
-
-                    if (item.getItemType() === enumItemType.color) {
-                        const colorItem = /** @type {ColorItem} */ (items[0].item);
-                        const newColor = enumInvertedColors[colorItem.color];
-                        outItems.push({
-                            item: new ColorItem(newColor),
-                            requiredSlot: 0,
-                        });
-                    } else if (item.getItemType() === enumItemType.shape) {
-                        const shapeItem = /** @type {ShapeItem} */ (items[0].item);
-                        const newItem = this.root.shapeDefinitionMgr.shapeActionInvertColors(
-                            shapeItem.definition
-                        );
-
-                        outItems.push({
-                            item: new ShapeItem(newItem),
-                            requiredSlot: 0,
-                        });
-                    } else {
-                        assertAlways(
-                            false,
-                            "Bad item type: " + item.getItemType() + " for advanced processor."
-                        );
-                    }
-
                     break;
                 }
 
