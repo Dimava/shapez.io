@@ -137,6 +137,8 @@ export class GameRoot {
         /** @type {enumLayer} */
         this.currentLayer = enumLayer.regular;
 
+        this.currentToolbar = 0;
+
         this.signals = {
             // Entities
             entityManuallyPlaced: /** @type {TypedSignal<[Entity]>} */ (new Signal()),

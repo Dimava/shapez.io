@@ -35,6 +35,12 @@ export class BaseItem extends BasicSerializableObject {
         return "";
     }
 
+    /** @returns {string} */
+    getHash() {
+        abstract;
+        return "";
+    }
+
     /**
      * Draws the item at the given position
      * @param {number} x

@@ -225,6 +225,53 @@ class LoaderImpl {
 
         this.spriteNotFoundSprite = sprite;
     }
+
+    /**
+     * Draw sprite with function
+     */
+    drawSprite(name, callback, { w = 128, h = 128, smooth = false, mipmap = false }) {
+        // TODO: mipmap
+        const [canvas, context] = makeOffscreenBuffer(w, h, {
+            smooth,
+            reusable: false,
+            label: "not-found-sprite",
+        });
+        const [canvas2, context2] = makeOffscreenBuffer(w, h, {
+            smooth,
+            reusable: true,
+            label: "not-found-sprite",
+        });
+
+        const resolution = 1; // mipmap scale, 1/0.75/0.5/...
+        context.save();
+        // TODO: scale and translate to make mipmap state same
+
+        callback({ canvas, context, canvas2, context2, w, h, smooth, mipmap, resolution });
+
+        const resolutions = ["0.1", "0.25", "0.5", "0.75", "1"];
+        const sprite = new AtlasSprite({
+            spriteName: name,
+        });
+        // TODO: remake for mipmapping
+        for (let i = 0; i < resolutions.length; ++i) {
+            const res = resolutions[i];
+            const link = new SpriteAtlasLink({
+                packedX: 0,
+                packedY: 0,
+                w,
+                h,
+                packOffsetX: 0,
+                packOffsetY: 0,
+                packedW: w,
+                packedH: h,
+                atlas: canvas,
+            });
+            sprite.linksByResolution[res] = link;
+        }
+
+        context.restore();
+        this.sprites.set(name, sprite);
+    }
 }
 
 export const Loader = new LoaderImpl();

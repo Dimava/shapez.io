@@ -6,6 +6,7 @@ import { MetaBuilding } from "../../meta_building";
 import { GameRoot } from "../../root";
 import { BaseHUDPart } from "../base_hud_part";
 import { DynamicDomAttach } from "../dynamic_dom_attach";
+import { MetaToolbarSwapperBuilding } from "../../buildings/toolbar_swapper";
 
 export class HUDBaseToolbar extends BaseHUDPart {
     /**
@@ -71,6 +72,8 @@ export class HUDBaseToolbar extends BaseHUDPart {
             this.onSelectedPlacementBuildingChanged,
             this
         );
+        // Probably not the best location, but the one which makes most sense
+        this.root.keyMapper.getBinding(KEYMAPPINGS.ingame.switchToolbar).add(this.switchToolbar, this);
 
         this.domAttach = new DynamicDomAttach(this.root, this.element, {
             timeToKeepSeconds: 0.12,
@@ -78,6 +81,10 @@ export class HUDBaseToolbar extends BaseHUDPart {
         });
         this.lastSelectedIndex = 0;
         actionMapper.getBinding(KEYMAPPINGS.placement.cycleBuildings).add(this.cycleBuildings, this);
+    }
+
+    switchToolbar() {
+        this.root.currentToolbar = (this.root.currentToolbar + 1) % 2;
     }
 
     /**
@@ -168,6 +175,11 @@ export class HUDBaseToolbar extends BaseHUDPart {
                 metaBuilding = null;
                 break;
             }
+        }
+
+        if (metaBuilding && metaBuilding.id == "toolbar_swapper") {
+            this.switchToolbar();
+            metaBuilding = null;
         }
 
         this.root.soundProxy.playUiClick();

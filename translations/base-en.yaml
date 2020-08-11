@@ -793,6 +793,8 @@ keybindings:
         toggleHud: Toggle HUD
         toggleFPSInfo: Toggle FPS and Debug Info
         switchLayers: Switch layers
+        switchToolbar: Switch toolbar
+
         exportScreenshot: Export whole Base as Image
         belt: *belt
         splitter: *splitter

@@ -41,6 +41,7 @@ import { HUDChangesDebugger } from "./parts/debug_changes";
 import { queryParamOptions } from "../../core/query_parameters";
 import { HUDSandboxController } from "./parts/sandbox_controller";
 import { HUDWiresToolbar } from "./parts/wires_toolbar";
+import { HUDToolsToolbar } from "./parts/tools_toolbar";
 
 export class GameHUD {
     /**
@@ -58,6 +59,8 @@ export class GameHUD {
             processingOverlay: new HUDProcessingOverlay(this.root),
             buildingsToolbar: new HUDBuildingsToolbar(this.root),
             wiresToolbar: new HUDWiresToolbar(this.root),
+            toolsToolbar: new HUDToolsToolbar(this.root),
+
             blueprintPlacer: new HUDBlueprintPlacer(this.root),
             buildingPlacer: new HUDBuildingPlacer(this.root),
             unlockNotification: new HUDUnlockNotification(this.root),

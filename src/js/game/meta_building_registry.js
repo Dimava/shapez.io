@@ -1,5 +1,6 @@
 import { gMetaBuildingRegistry } from "../core/global_registries";
 import { createLogger } from "../core/logging";
+import { MetaToolbarSwapperBuilding } from "./buildings/toolbar_swapper";
 import { MetaBeltBuilding } from "./buildings/belt";
 import { MetaBeltBaseBuilding } from "./buildings/belt_base";
 import { enumCutterVariants, MetaCutterBuilding } from "./buildings/cutter";
@@ -18,6 +19,7 @@ import { defaultBuildingVariant } from "./meta_building";
 const logger = createLogger("building_registry");
 
 export function initMetaBuildingRegistry() {
+    gMetaBuildingRegistry.register(MetaToolbarSwapperBuilding);
     gMetaBuildingRegistry.register(MetaSplitterBuilding);
     gMetaBuildingRegistry.register(MetaMinerBuilding);
     gMetaBuildingRegistry.register(MetaCutterBuilding);

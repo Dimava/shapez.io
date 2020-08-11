@@ -10,8 +10,12 @@ import { MetaTrashBuilding } from "../../buildings/trash";
 import { MetaUndergroundBeltBuilding } from "../../buildings/underground_belt";
 import { enumLayer } from "../../root";
 import { HUDBaseToolbar } from "./base_toolbar";
+// import { MetaAdvancedProcessorBuilding } from "../../buildings/advanced_processor";
+import { MetaToolbarSwapperBuilding } from "../../buildings/toolbar_swapper";
 
-const supportedBuildings = [
+export const supportedBuildings = [
+    MetaToolbarSwapperBuilding,
+
     MetaBeltBaseBuilding,
     MetaSplitterBuilding,
     MetaUndergroundBeltBuilding,
@@ -29,7 +33,9 @@ export class HUDBuildingsToolbar extends HUDBaseToolbar {
         super(root, {
             supportedBuildings,
             visibilityCondition: () =>
-                !this.root.camera.getIsMapOverlayActive() && this.root.currentLayer === enumLayer.regular,
+                !this.root.camera.getIsMapOverlayActive() &&
+                this.root.currentLayer === enumLayer.regular &&
+                this.root.currentToolbar === 0,
             htmlElementId: "ingame_HUD_buildings_toolbar",
         });
     }
