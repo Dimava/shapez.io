@@ -54,4 +54,16 @@ export class BaseItem extends BasicSerializableObject {
         abstract;
         return "";
     }
+
+    static generateAsCanvas(hash, size) {
+        if (hash.length % 9 == 8) {
+            // @ts-ignore
+            return BaseItem.ShapeDefinition.createFromHash(hash).generateAsCanvas(size);
+        }
+        if (hash.length == 1) {
+            // @ts-ignore
+            return BaseItem.ColorItem.createFromHash(hash).generateAsCanvas(size);
+        }
+        assertAlways(false, "undrawable item");
+    }
 }

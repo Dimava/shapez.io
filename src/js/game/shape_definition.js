@@ -1,3 +1,5 @@
+import { enumSubShape, enumSubShapeToShortcode, enumShortcodeToSubShape, allShapeData } from "./shapes.js";
+export { enumSubShape, enumSubShapeToShortcode, enumShortcodeToSubShape } from "./shapes.js";
 import { makeOffscreenBuffer } from "../core/buffer_utils";
 import { globalConfig } from "../core/config";
 import { smoothenDpi } from "../core/dpi_manager";
@@ -7,6 +9,7 @@ import { Vector } from "../core/vector";
 import { BasicSerializableObject, types } from "../savegame/serialization";
 import { enumColors, enumColorsToHexCode, enumColorToShortcode, enumShortcodeToColor } from "./colors";
 import { THEME } from "./theme";
+import { BaseItem } from "./base_item";
 
 const rusha = require("rusha");
 
@@ -95,6 +98,11 @@ export class ShapeDefinition extends BasicSerializableObject {
 
     serialize() {
         return this.getHash();
+    }
+
+    /** @returns {ShapeDefinition} */
+    static createFromHash(hash) {
+        return ShapeDefinition.fromShortKey(hash);
     }
 
     /**
@@ -611,3 +619,5 @@ export class ShapeDefinition extends BasicSerializableObject {
         return new ShapeDefinition({ layers: newLayers });
     }
 }
+
+BaseItem.ShapeDefinition = ShapeDefinition;

@@ -3,8 +3,9 @@ import { smoothenDpi } from "../../core/dpi_manager";
 import { DrawParameters } from "../../core/draw_parameters";
 import { types } from "../../savegame/serialization";
 import { BaseItem, enumItemType } from "../base_item";
-import { enumColors, enumColorsToHexCode } from "../colors";
+import { enumColors, enumColorToShortcode, enumShortcodeToColor, enumColorsToHexCode } from "../colors";
 import { THEME } from "../theme";
+import { makeOffscreenBuffer } from "../../core/buffer_utils";
 
 export class ColorItem extends BaseItem {
     static getId() {
@@ -21,6 +22,15 @@ export class ColorItem extends BaseItem {
 
     deserialize(data) {
         this.color = data;
+    }
+
+    getHash() {
+        return enumColorToShortcode[this.color];
+    }
+
+    /** @returns {ColorItem} */
+    static createFromHash(hash) {
+        return new ColorItem(enumShortcodeToColor[hash]);
     }
 
     getItemType() {
@@ -90,4 +100,21 @@ export class ColorItem extends BaseItem {
         context.stroke();
         context.fill();
     }
+
+    /**
+     * Generates this shape as a canvas
+     * @param {number} size
+     */
+    generateAsCanvas(size = 120) {
+        const [canvas, context] = makeOffscreenBuffer(size, size, {
+            smooth: true,
+            label: "definition-canvas-cache-" + this.getHash(),
+            reusable: false,
+        });
+
+        this.internalGenerateColorBuffer(canvas, context, size, size, 1);
+        return canvas;
+    }
 }
+
+BaseItem.ColorItem = ColorItem;
