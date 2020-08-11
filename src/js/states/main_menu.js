@@ -73,7 +73,7 @@ export class MainMenuState extends GameState {
 
             <div class="logo">
                 <img src="${cachebust("res/logo.png")}" alt="shapez.io Logo">
-                <span class="updateLabel">Wires update!</span>
+                <span class="updateLabel bigger">MODZ</span>
             </div>
 
 
@@ -117,7 +117,7 @@ export class MainMenuState extends GameState {
 
                 <div class="author">${T.mainMenu.madeBy.replace(
                     "<author-link>",
-                    '<a class="producerLink" target="_blank">Tobias Springer</a>'
+                    '<a class="producerLink" target="_blank">Tobspr & modded by Dimava</a>'
                 )}</div>
 
             </div>
@@ -391,6 +391,10 @@ export class MainMenuState extends GameState {
                         ? T.mainMenu.savegameLevel.replace("<x>", "" + games[i].level)
                         : T.mainMenu.savegameLevelUnknown
                 );
+
+                let TlastVersion = "@<x>";
+
+                makeDiv(elem, null, ["version"], TlastVersion.replace("<x>", "" + games[i].lastVersion));
 
                 const deleteButton = document.createElement("button");
                 deleteButton.classList.add("styledButton", "deleteGame");

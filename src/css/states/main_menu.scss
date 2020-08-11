@@ -1,7 +1,7 @@
 #state_MainMenuState {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     flex-direction: column;
 
     // background: #aaacb4 center center / cover !important;
@@ -144,7 +144,7 @@
 
     .logo {
         display: flex;
-        flex-grow: 1;
+        flex-grow: 0;
         align-items: center;
         justify-content: center;
 
@@ -181,6 +181,17 @@
 
             @include DarkThemeOverride {
                 color: $colorBlueBright;
+            }
+
+            &.bigger {
+                transform: translateX(50%) translateY(100%) rotate(-5deg) scale(3);
+
+                @include InlineAnimation(1.3s ease-in-out infinite) {
+                    50% {
+                        transform: translateX(50%) translateY(100%) rotate(-7deg) scale(3.3);
+                    }
+                }
+
             }
         }
     }
@@ -270,7 +281,7 @@
         }
 
         .savegames {
-            @include S(max-height, 105px);
+            @include S(max-height, 250px);
             overflow-y: auto;
             @include S(width, 250px);
             pointer-events: all;
@@ -349,6 +360,8 @@
     }
 
     .footer {
+        position: fixed;
+        bottom: 0;
         display: grid;
         flex-grow: 1;
         justify-content: center;
