@@ -334,5 +334,22 @@ gulp.task(
         () => serve({ standalone: false }),
     )
 );
+gulp.task(
+    "main.fast.staging",
+    gulp.series(
+        "js.staging",
+        "css.prod",
+        "html.staging",
+        "step.postbuild",
+    )
+);
+gulp.task(
+    "main.win",
+    gulp.series(
+        "build.standalone-prod",
+        "standalone.prepare",
+        "standalone.package.prod.win64",
+    )
+);
 
 gulp.task("default", gulp.series("main.devFast"));
