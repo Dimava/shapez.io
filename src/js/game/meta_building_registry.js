@@ -1,7 +1,6 @@
 import { gMetaBuildingRegistry } from "../core/global_registries";
 import { createLogger } from "../core/logging";
 import { MetaToolbarSwapperBuilding } from "./buildings/toolbar_swapper";
-import { MetaAdvancedProcessorBuilding } from "./buildings/advanced_processor";
 import { MetaBeltBuilding } from "./buildings/belt";
 import { MetaBeltBaseBuilding } from "./buildings/belt_base";
 import { enumCutterVariants, MetaCutterBuilding } from "./buildings/cutter";
@@ -38,7 +37,6 @@ export function initMetaBuildingRegistry() {
     gMetaBuildingRegistry.register(MetaHubBuilding);
     gMetaBuildingRegistry.register(MetaEnergyGenerator);
     gMetaBuildingRegistry.register(MetaWireBaseBuilding);
-    gMetaBuildingRegistry.register(MetaAdvancedProcessorBuilding);
     gMetaBuildingRegistry.register(MetaWireCrossingsBuilding);
 
     for (let custom of allCustomBuildingData) {
@@ -105,7 +103,6 @@ export function initMetaBuildingRegistry() {
     registerBuildingVariant(30, MetaWireBaseBuilding, defaultBuildingVariant, 2);
 
     // Advanced processor
-    registerBuildingVariant(31, MetaAdvancedProcessorBuilding);
 
     // Wire crossing
     registerBuildingVariant(32, MetaWireCrossingsBuilding);

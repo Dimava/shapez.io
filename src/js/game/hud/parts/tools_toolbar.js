@@ -6,7 +6,6 @@ import { MetaBeltBaseBuilding } from "../../buildings/belt_base";
 import { MetaSplitterBuilding } from "../../buildings/splitter";
 import { MetaUndergroundBeltBuilding } from "../../buildings/underground_belt";
 
-import { MetaAdvancedProcessorBuilding } from "../../buildings/advanced_processor";
 import { MetaToolbarSwapperBuilding } from "../../buildings/toolbar_swapper";
 
 export const supportedBuildings = [
@@ -17,7 +16,6 @@ export const supportedBuildings = [
     MetaUndergroundBeltBuilding,
 
     MetaEnergyGenerator,
-    MetaAdvancedProcessorBuilding,
 ];
 
 export class HUDToolsToolbar extends HUDBaseToolbar {
