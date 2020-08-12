@@ -1,7 +1,5 @@
 import {
     MetaBuilding,
-    enumDirection,
-    enumItemProcessorTypes,
     T,
     ItemProcessorComponent,
     ItemEjectorComponent,
@@ -9,9 +7,11 @@ import {
     Vector,
     formatItemsPerSecond,
     ShapeItem,
-    ShapeDefinition,
-    enumItemType,
+    GameRoot,
+    Entity,
 } from "../gameData";
+/** @typedef {import('../gameData').ModData} ModData */
+/** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
 const id = "unstacker";
 
@@ -61,11 +61,11 @@ export class MetaUnstackerBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 0),
-                        direction: enumDirection.top,
+                        direction: "top",
                     },
                     {
                         pos: new Vector(1, 0),
-                        direction: enumDirection.top,
+                        direction: "top",
                     },
                 ],
             })
@@ -75,8 +75,8 @@ export class MetaUnstackerBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 0),
-                        directions: [enumDirection.bottom],
-                        filter: enumItemType.shape,
+                        directions: ["bottom"],
+                        filter: "shape",
                     },
                 ],
             })
@@ -84,17 +84,11 @@ export class MetaUnstackerBuilding extends MetaBuilding {
     }
 }
 
-// returns trackProduction
-export function UnstackerProcess({ items, trackProduction, entity, outItems, self }) {
+/** @param {ModProcessData} */
+export function UnstackerProcess({ items, trackProduction, outItems }) {
     // console.log("Unstacker PROCESSES");
 
-    const inputItem = items[0].item;
-    trackProduction = true;
-
-    //     debugger;
-    let input = items.map(e => e.item.definition.getHash());
-
-    let [it] = input;
+    let it = items[0].getHash();
     let out = [];
     let a = it.split(":");
     let top = a.shift();
@@ -104,7 +98,7 @@ export function UnstackerProcess({ items, trackProduction, entity, outItems, sel
     for (let i = 0; i < out.length; ++i) {
         if (!out[i]) continue;
         outItems.push({
-            item: new ShapeItem(ShapeDefinition.fromShortKey(out[i])),
+            item: ShapeItem.createFromHash(out[i]),
             requiredSlot: i,
         });
     }
@@ -125,6 +119,7 @@ export const SpriteBp = {
     h: 192,
 };
 
+/** @type {ModData} */
 export const unstackerBuildingData = {
     id,
     building: MetaUnstackerBuilding,

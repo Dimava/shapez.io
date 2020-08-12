@@ -1,25 +1,20 @@
-import { types } from "../../../savegame/serialization";
-import { Component } from "../../component";
-import { BaseItem } from "../../base_item";
-import { gItemRegistry } from "../../../core/global_registries";
-import { GameTime } from "../../time/game_time";
-
-import { DrawParameters } from "../../../core/draw_parameters";
-import { Entity } from "../../entity";
-import { GameSystemWithFilter } from "../../game_system_with_filter";
-import { ShapeItem } from "../../items/shape_item";
-import { ColorItem } from "../../items/color_item";
-
-import { formatItemsPerSecond } from "../../../core/utils";
-import { enumDirection, Vector } from "../../../core/vector";
-import { T } from "../../../translations";
-import { ItemAcceptorComponent } from "../../components/item_acceptor";
-import { ItemEjectorComponent } from "../../components/item_ejector";
-import { MetaBuilding } from "../../meta_building";
-import { GameRoot } from "../../root";
-import { enumItemType } from "../../base_item";
-
-import { enumItemProcessorTypes, ItemProcessorComponent } from "../../components/item_processor";
+import {
+    Component,
+    types,GameSystemWithFilter,
+    DrawParameters,
+    MetaBuilding,
+    T,
+    ItemProcessorComponent,
+    ItemEjectorComponent,
+    ItemAcceptorComponent,
+    Vector,
+    formatItemsPerSecond,
+    ShapeItem,
+    GameRoot,
+    Entity,
+} from "../gameData";
+/** @typedef {import('../gameData').ModData} ModData */
+/** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
 const id = "counter";
 
@@ -160,14 +155,14 @@ export class MetaCounterBuilding extends MetaBuilding {
         entity.addComponent(
             new ItemProcessorComponent({
                 inputsPerCharge: 1,
-                processorType: enumItemProcessorTypes[id],
+                processorType: id,
             })
         );
         entity.addComponent(new ItemCounterComponent());
 
         entity.addComponent(
             new ItemEjectorComponent({
-                slots: [{ pos: new Vector(0, 0), direction: enumDirection.top }],
+                slots: [{ pos: new Vector(0, 0), direction: "top" }],
             })
         );
         entity.addComponent(
@@ -175,7 +170,7 @@ export class MetaCounterBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 0),
-                        directions: [enumDirection.bottom],
+                        directions: ["bottom"],
                     },
                 ],
             })
@@ -183,17 +178,17 @@ export class MetaCounterBuilding extends MetaBuilding {
     }
 }
 
-// returns trackProduction
-export function counterProcess({ items, trackProduction, entity, outItems, self }) {
+/** @param {ModProcessData} */
+export function counterProcess({ items, trackProduction, entity, outItems, system }) {
     // console.log("counter PROCESSES");
 
-    const inputItem = items[0].item;
+    const inputItem = items[0];
     trackProduction = false;
 
     /** @type {ItemCounterComponent} */
     const counterComp = entity.components[id];
     counterComp.itemTickHistory.shift();
-    let now = self.root.time.timeSeconds;
+    let now = system.root.time.timeSeconds;
     // now = performance.now() / 1e3;
     counterComp.itemTickHistory.push(now);
 
@@ -217,6 +212,7 @@ export const counterSpriteBp = {
     h: 192,
 };
 
+/** @type {ModData} */
 export const counterBuildingData = {
     id,
     component: ItemCounterComponent,

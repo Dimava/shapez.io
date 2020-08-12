@@ -1,18 +1,8 @@
 import {
-    MetaBuilding,
-    enumDirection,
-    enumItemProcessorTypes,
-    T,
-    ItemProcessorComponent,
-    ItemEjectorComponent,
-    ItemAcceptorComponent,
-    Vector,
-    formatItemsPerSecond,
     ShapeItem,
-    ShapeDefinition,
-    ColorItem,
-    enumItemType,
 } from "../gameData";
+/** @typedef {import('../gameData').ModData} ModData */
+/** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
 const id = "painter";
 
@@ -35,19 +25,19 @@ function colorShape(shape, color) {
         }
     }
     let result = layers.map(e => e.join("")).join(":");
-    return (cache[recipeId] = ShapeDefinition.fromShortKey(result));
+    return cache[recipeId] = result;
 }
 
-// returns trackProduction
+/** @param {ModProcessData} */
 export function Painter1Process({ items, trackProduction, entity, outItems, self }) {
-    const shape = items[0].item.getHash();
-    const color = items[1].item.getHash();
+    const shape = items[0].getHash();
+    const color = items[1].getHash();
 
     outItems.push({
-        item: new ShapeItem(colorShape(shape, color)),
+        item: ShapeItem.createFromHash(colorShape(shape, color)),
     });
 
-    return true;
+    return trackProduction;
 }
 
 export const BuildingData = {

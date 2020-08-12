@@ -1,7 +1,5 @@
 import {
     MetaBuilding,
-    enumDirection,
-    enumItemProcessorTypes,
     T,
     ItemProcessorComponent,
     ItemEjectorComponent,
@@ -9,9 +7,11 @@ import {
     Vector,
     formatItemsPerSecond,
     ShapeItem,
-    ShapeDefinition,
-    enumItemType,
+    GameRoot,
+    Entity,
 } from "../gameData";
+/** @typedef {import('../gameData').ModData} ModData */
+/** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
 const id = "combiner";
 const color = "blue";
@@ -62,7 +62,7 @@ export class MetaCombinerBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 0),
-                        direction: enumDirection.top,
+                        direction: "top",
                     },
                 ],
             })
@@ -72,13 +72,13 @@ export class MetaCombinerBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 1),
-                        directions: [enumDirection.bottom],
-                        filter: enumItemType.shape,
+                        directions: ["bottom"],
+                        filter: "shape",
                     },
                     {
                         pos: new Vector(1, 1),
-                        directions: [enumDirection.bottom],
-                        filter: enumItemType.shape,
+                        directions: ["bottom"],
+                        filter: "shape",
                     },
                 ],
             })
@@ -123,25 +123,9 @@ for (let s1 in components) {
     recipes[s1] = res;
 }
 
-// returns trackProduction
-export function CombinerProcess({ items, trackProduction, entity, outItems, self }) {
-    // console.log("Combiner PROCESSES");
+const cache = {};
 
-    const inputItem = items[0].item;
-    trackProduction = true;
-
-    //     debugger;
-    let input = items.map(e => e.item.definition.getHash());
-
-    let [it1, it2] = input;
-    let out = [];
-    let a = "";
-
-    // for (let i = 0; i < 4; i++) {
-    //     let empty = it1[i*2] == "-" || it2[i*2] == "-";
-    //     let r = recipes[it1[i*2] + it2[i*2]] || "C";
-    //     a += empty ? "--" : r + "u";
-    // }
+function doCombine(it1, it2) {
     let quads1 = it1
         .split(":")
         .flatMap(e => e.match(/../g))
@@ -163,21 +147,21 @@ export function CombinerProcess({ items, trackProduction, entity, outItems, self
             r.push(recipes[quads1[i]][quads2[i]]);
         }
     }
-    a = r.map((e, i) => `${i && !(i % 4) ? ":" : ""}${e}${e == "-" ? "-" : "u"}`).join("");
+    return r.map((e, i) => `${i && !(i % 4) ? ":" : ""}${e}${e == "-" ? "-" : "u"}`).join("");
+}
 
-    if (a != "--------") {
-        outItems.push({
-            item: new ShapeItem(ShapeDefinition.fromShortKey(a)),
-        });
-    }
 
-    // for (let i = 0; i < out.length; ++i) {
-    // 	if (!out[i]) continue;
-    // 	outItems.push({
-    // 		item: new ShapeItem(ShapeDefinition.fromShortKey(out[i])),
-    // 		requiredSlot: i,
-    // 	})
-    // }
+/** @param {ModProcessData} */
+export function CombinerProcess({ items, trackProduction, outItems }) {
+    // console.log("Combiner PROCESSES");
+
+    let it1 = items[0].getHash();
+    let it2 = items[1].getHash();
+    let out = cache[it1 + "+" + it2] || (cache[it1 + "+" + it2] = doCombine(it1, it2));
+
+    outItems.push({
+        item: ShapeItem.createFromHash(out),
+    });
 
     return trackProduction;
 }
@@ -195,6 +179,7 @@ export const SpriteBp = {
     h: 192 * 2,
 };
 
+/** @type {ModData} */
 export const unstackerBuildingData = {
     id: id,
     building: MetaCombinerBuilding,

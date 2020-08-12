@@ -4,25 +4,21 @@ import {
     gItemRegistry,
     BaseItem,
     Vector,
-    globalConfig,
     ItemAcceptorComponent,
     ItemEjectorComponent,
-    enumItemProcessorTypes,
     Entity,
     MetaBuilding,
     GameRoot,
-    enumHubGoalRewards,
     T,
     formatItemsPerSecond,
     GameSystemWithFilter,
     DrawParameters,
-    formatBigNumber,
     Loader,
     ShapeItem,
-    ShapeDefinition,
-    enumDirection,
     ItemProcessorComponent,
 } from "../gameData";
+/** @typedef {import('../gameData').ModData} ModData */
+/** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
 const id = "checker";
 const color = "#ff6000";
@@ -92,7 +88,7 @@ export class MetaTargetShapeCheckerBuilding extends MetaBuilding {
      * @returns {Array<[string, string]>}
      */
     getAdditionalStatistics(root, variant) {
-        const speed = root.hubGoals.getProcessorBaseSpeed(enumItemProcessorTypes[id]);
+        const speed = root.hubGoals.getProcessorBaseSpeed(id);
         return [[T.ingame.buildingPlacement.infoTexts.speed, formatItemsPerSecond(speed)]];
     }
 
@@ -104,7 +100,7 @@ export class MetaTargetShapeCheckerBuilding extends MetaBuilding {
         entity.addComponent(
             new ItemProcessorComponent({
                 inputsPerCharge: 1,
-                processorType: enumItemProcessorTypes[id],
+                processorType: id,
             })
         );
         entity.addComponent(new TargetShapeCheckerComponent({}));
@@ -113,11 +109,11 @@ export class MetaTargetShapeCheckerBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 0),
-                        direction: enumDirection.top,
+                        direction: "top",
                     },
                     {
                         pos: new Vector(0, 0),
-                        direction: enumDirection.right,
+                        direction: "right",
                     },
                 ],
             })
@@ -127,7 +123,7 @@ export class MetaTargetShapeCheckerBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 0),
-                        directions: [enumDirection.bottom],
+                        directions: ["bottom"],
                     },
                 ],
             })
@@ -190,11 +186,11 @@ export class TargetShapeCheckerSystem extends GameSystemWithFilter {
     }
 }
 
-// returns trackProduction
-export function targetShapeCheckerProcess({ items, trackProduction, entity, outItems, self }) {
+/** @param {ModProcessData} */
+export function targetShapeCheckerProcess({ items, trackProduction, entity, outItems, system }) {
     // console.log("targetShapeChecker PROCESSES");
 
-    const inputItem = /** @type {ShapeItem} */ (items[0].item);
+    const inputItem = items[0];
     trackProduction = false;
 
     const tscComponent = entity.components[id];
@@ -216,7 +212,7 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
             let index = ((m.index % 9) - 1) / 2;
             let topKey = `${"--".repeat(index)}C${tscComponent.filter}${"--".repeat(3 - index)}`;
             let key = (topKey + ":").repeat(layer - 1) + topKey;
-            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
+            tscComponent.storedItem = ShapeItem.createFromHash(key);
         }
         //shape:
         else if (item.match(/([^-][^-]------|--[^-][^-]----|----[^-][^-]--|------[^-][^-])$/)) {
@@ -229,7 +225,7 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
             let index = (m.index % 9) / 2;
             let topKey = `${"--".repeat(index)}${tscComponent.filter}u${"--".repeat(3 - index)}`;
             let key = (topKey + ":").repeat(layer - 1) + topKey;
-            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
+            tscComponent.storedItem = ShapeItem.createFromHash(key);
         }
         // hole:
         else if (
@@ -246,7 +242,7 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
             let index = (m.index % 9) / 2;
             let topKey = `${"Cu".repeat(index)}--${"Cu".repeat(3 - index)}`;
             let key = (topKey + ":").repeat(layer - 1) + topKey;
-            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
+            tscComponent.storedItem = ShapeItem.createFromHash(key);
         }
         // uncolored:
         else if (
@@ -263,13 +259,13 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
             let index = ((m.index % 9) - 1) / 2;
             let topKey = `${"--".repeat(index)}C${tscComponent.filter}${"--".repeat(3 - index)}`;
             let key = (topKey + ":").repeat(layer - 1) + topKey;
-            tscComponent.storedItem = new ShapeItem(ShapeDefinition.fromShortKey(key));
+            tscComponent.storedItem = ShapeItem.createFromHash(key);
         }
         return false;
     }
 
     if (tscComponent.isfil) {
-        let goal = self.root.hubGoals.currentGoal.definition.getHash();
+        let goal = system.root.hubGoals.currentGoal.definition.getHash();
 
         let matches = true;
 
@@ -290,7 +286,7 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
         });
     }
 
-    return trackProduction;
+    return false;
 }
 
 export const tscSprite = [
@@ -408,15 +404,14 @@ const goal = {
     tutorial,
 };
 
+/** @type {ModData} */
 export const checker = {
     id: "checker",
     component: TargetShapeCheckerComponent,
     building: MetaTargetShapeCheckerBuilding,
     toolbar: 2,
     system: TargetShapeCheckerSystem,
-    sysOrder: 4.5,
     process: targetShapeCheckerProcess,
-    draw: true,
     sprite: tscSprite,
     spriteBp: tscSpriteBp,
 

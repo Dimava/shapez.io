@@ -1,18 +1,19 @@
-import { formatItemsPerSecond } from "../../../core/utils";
-import { enumDirection, Vector } from "../../../core/vector";
-import { T } from "../../../translations";
-import { enumItemType } from "../../base_item";
-import { EnergyConsumerComponent } from "../../components/energy_consumer";
-import { ItemAcceptorComponent } from "../../components/item_acceptor";
-import { ItemEjectorComponent } from "../../components/item_ejector";
-import { enumItemProcessorTypes, ItemProcessorComponent } from "../../components/item_processor";
-import { enumPinSlotType, WiredPinsComponent } from "../../components/wired_pins";
-import { Entity } from "../../entity";
-import { MetaBuilding } from "../../meta_building";
-import { enumLayer, GameRoot } from "../../root";
-
-import { ColorItem, ShapeItem } from "../gameData";
-import { enumInvertedColors } from "../../colors";
+import {
+    MetaBuilding,
+    T,
+    ItemProcessorComponent,
+    ItemEjectorComponent,
+    ItemAcceptorComponent,
+    Vector,
+    formatItemsPerSecond,
+    ShapeItem,
+    GameRoot,
+    Entity,
+    ColorItem,
+    enumInvertedColors,
+} from "../gameData";
+/** @typedef {import('../gameData').ModData} ModData */
+/** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
 const id = "advanced_processor";
 
@@ -35,7 +36,7 @@ export class MetaInverterBuilding extends MetaBuilding {
      * @returns {Array<[string, string]>}
      */
     getAdditionalStatistics(root, variant) {
-        const speed = root.hubGoals.getProcessorBaseSpeed(enumItemProcessorTypes.advancedProcessor);
+        const speed = root.hubGoals.getProcessorBaseSpeed(id);
         return [[T.ingame.buildingPlacement.infoTexts.speed, formatItemsPerSecond(speed)]];
     }
 
@@ -54,13 +55,13 @@ export class MetaInverterBuilding extends MetaBuilding {
         entity.addComponent(
             new ItemProcessorComponent({
                 inputsPerCharge: 2,
-                processorType: enumItemProcessorTypes[id],
+                processorType: id,
             })
         );
         entity.addComponent(
             new ItemEjectorComponent({
                 slots: [
-                    { pos: new Vector(1, 0), direction: enumDirection.right },
+                    { pos: new Vector(1, 0), direction: "right" },
                     // { pos: new Vector(1, 0), direction: enumDirection.top, layer: enumLayer.wires },
                 ],
             })
@@ -80,13 +81,13 @@ export class MetaInverterBuilding extends MetaBuilding {
         //         slots: [
         //             {
         //                 pos: new Vector(0, 0),
-        //                 direction: enumDirection.top,
-        //                 type: enumPinSlotType.positiveEnergyAcceptor,
+        //                 direction: "top",
+        //                 type: "positiveEnergyAcceptor",
         //             },
         //             {
         //                 pos: new Vector(1, 0),
-        //                 direction: enumDirection.top,
-        //                 type: enumPinSlotType.negativeEnergyEjector,
+        //                 direction: "top",
+        //                 type: "negativeEnergyEjector",
         //             },
         //         ],
         //     })
@@ -96,18 +97,18 @@ export class MetaInverterBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 1),
-                        directions: [enumDirection.left],
+                        directions: ["left"],
                     },
                     // {
                     //     pos: new Vector(0, 0),
-                    //     directions: [enumDirection.top],
-                    //     filter: enumItemType.positiveEnergy,
-                    //     layer: enumLayer.wires,
+                    //     directions: ["top"],
+                    //     filter: "positiveEnergy",
+                    //     layer: "wires",
                     // },
                     {
                         pos: new Vector(0, 0),
-                        directions: [enumDirection.top],
-                        filter: enumItemType.shape,
+                        directions: ["top"],
+                        filter: "shape",
                     },
                 ],
             })
@@ -116,29 +117,29 @@ export class MetaInverterBuilding extends MetaBuilding {
 }
 
 
-// returns trackProduction
-export function Process({ items, trackProduction, entity, outItems, self }) {
-    const item = items[0].item;
+/** @param {ModProcessData} */
+export function Process({ items, itemsBySlot, trackProduction, entity, outItems, system }) {
+    const item = items[0];
 
     const processorComp = entity.components.ItemProcessor;
     if (!processorComp.charges) {
-    	let hash = items[1].item.getHash().slice(0, 8);
+    	let hash = items[1].getHash().slice(0, 8);
     	processorComp.charges = hash.split('').filter(e => e == 'C').length - 1;
     } else {
-        processorComp.inputSlots = items.slice(1);
+        processorComp.inputSlots = itemsBySlot.slice(1);
         processorComp.charges--;
     }
 
-    if (item.getItemType() === enumItemType.color) {
-        const colorItem = /** @type {ColorItem} */ (items[0].item);
+    if (item.getItemType() === "color") {
+        const colorItem = /** @type {ColorItem} */ (items[0]);
         const newColor = enumInvertedColors[colorItem.color];
         outItems.push({
             item: new ColorItem(newColor),
             requiredSlot: 0,
         });
-    } else if (item.getItemType() === enumItemType.shape) {
-        const shapeItem = /** @type {ShapeItem} */ (items[0].item);
-        const newItem = self.root.shapeDefinitionMgr.shapeActionInvertColors(
+    } else if (item.getItemType() === "shape") {
+        const shapeItem = /** @type {ShapeItem} */ (items[0]);
+        const newItem = system.root.shapeDefinitionMgr.shapeActionInvertColors(
             shapeItem.definition
         );
 
@@ -152,8 +153,11 @@ export function Process({ items, trackProduction, entity, outItems, self }) {
             "Bad item type: " + item.getItemType() + " for advanced processor."
         );
     }
+    return trackProduction;
 }
 
+// TODO: keyCode, toolbarIndex
+/** @type {ModData} */
 export const data = {
     id,
     building: MetaInverterBuilding,

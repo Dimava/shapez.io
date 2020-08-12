@@ -1,3 +1,6 @@
+/** @typedef {import('../gameData').ModLevel} ModLevel */
+
+/** @type {ModLevel[]} */
 let levels = [];
 
 let lvl = 100;
