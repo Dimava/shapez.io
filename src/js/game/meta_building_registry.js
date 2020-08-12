@@ -13,6 +13,7 @@ import { enumSplitterVariants, MetaSplitterBuilding } from "./buildings/splitter
 import { MetaStackerBuilding } from "./buildings/stacker";
 import { enumTrashVariants, MetaTrashBuilding } from "./buildings/trash";
 import { enumUndergroundBeltVariants, MetaUndergroundBeltBuilding } from "./buildings/underground_belt";
+import { MetaWireBuilding } from "./buildings/wire";
 import { gBuildingVariants, registerBuildingVariant } from "./building_codes";
 import { defaultBuildingVariant } from "./meta_building";
 import { allCustomBuildingData } from "./custom/modBuildings";
@@ -32,6 +33,7 @@ export function initMetaBuildingRegistry() {
     gMetaBuildingRegistry.register(MetaBeltBuilding);
     gMetaBuildingRegistry.register(MetaUndergroundBeltBuilding);
     gMetaBuildingRegistry.register(MetaHubBuilding);
+    gMetaBuildingRegistry.register(MetaWireBuilding);
 
     for (let custom of allCustomBuildingData) {
         if (custom.meta && !custom.meta._registered) {
@@ -88,20 +90,10 @@ export function initMetaBuildingRegistry() {
     // Hub
     registerBuildingVariant(26, MetaHubBuilding);
 
-    // Energy generator
-    // registerBuildingVariant(27, MetaEnergyGenerator);
-
-    // // Wire
-    // registerBuildingVariant(28, MetaWireBaseBuilding, defaultBuildingVariant, 0);
-    // registerBuildingVariant(29, MetaWireBaseBuilding, defaultBuildingVariant, 1);
-    // registerBuildingVariant(30, MetaWireBaseBuilding, defaultBuildingVariant, 2);
-
-    // // Advanced processor
-    // registerBuildingVariant(31, MetaAdvancedProcessorBuilding);
-
-    // // Wire crossing
-    // registerBuildingVariant(32, MetaWireCrossingsBuilding);
-    // registerBuildingVariant(33, MetaWireCrossingsBuilding, enumWireCrossingVariants.merger);
+    // Wire
+    registerBuildingVariant(27, MetaWireBuilding, defaultBuildingVariant, 0);
+    registerBuildingVariant(28, MetaWireBuilding, defaultBuildingVariant, 1);
+    registerBuildingVariant(29, MetaWireBuilding, defaultBuildingVariant, 2);
 
     for (let custom of allCustomBuildingData) {
         if (custom.meta && custom.variantId) {
