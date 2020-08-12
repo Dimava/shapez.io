@@ -159,9 +159,9 @@ export function CombinerProcess({ items, trackProduction, entity, outItems, self
         }
         if (quads1[i] == "-" || quads2[i] == "-") {
             r.push(quads1[i] == "-" ? quads2[i] : quads1[i]);
+        } else {
+            r.push(recipes[quads1[i]][quads2[i]]);
         }
-        assertAlways(recipes[quads1[i]][quads2[i]]);
-        r.push(recipes[quads1[i]][quads2[i]]);
     }
     a = r.map((e, i) => `${i && !(i % 4) ? ":" : ""}${e}${e == "-" ? "-" : "u"}`).join("");
 
