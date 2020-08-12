@@ -32,7 +32,7 @@ export class AutomaticSave {
     }
 
     doSave() {
-        if (G_IS_DEV && globalConfig.debug.disableSavegameWrite) {
+        if (globalConfig.debug.disableSavegameWrite) {
             return;
         }
 

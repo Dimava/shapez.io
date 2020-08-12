@@ -25,7 +25,7 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
             // First of all, process the current recipe
             if (processorComp.secondsUntilEject > 0) {
                 processorComp.secondsUntilEject -= this.root.dynamicTickrate.deltaSeconds;
-                if (G_IS_DEV && globalConfig.debug.instantProcessors) {
+                if (globalConfig.debug.instantProcessors) {
                     processorComp.secondsUntilEject = 0;
                 }
             } else if (processorComp.itemsToEject.length == 0) {

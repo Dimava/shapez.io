@@ -106,7 +106,7 @@ export class HUDBaseToolbar extends BaseHUDPart {
             for (const buildingId in this.buildingHandles) {
                 const handle = this.buildingHandles[buildingId];
                 let newStatus = handle.metaBuilding.getIsUnlocked(this.root);
-                if (G_IS_DEV && globalConfig.debug.allBuildingsUnlocked) {
+                if (globalConfig.debug.allBuildingsUnlocked) {
                     newStatus = true;
                 }
                 if (handle.unlocked !== newStatus) {

@@ -277,7 +277,7 @@ export class GameCore {
 
         root.dynamicTickrate.beginTick();
 
-        if (G_IS_DEV && globalConfig.debug.disableLogicTicks) {
+        if (globalConfig.debug.disableLogicTicks) {
             root.dynamicTickrate.endTick();
             return true;
         }
@@ -381,7 +381,7 @@ export class GameCore {
             root: root,
         });
 
-        if (G_IS_DEV && (globalConfig.debug.testCulling || globalConfig.debug.hideFog)) {
+        if ((globalConfig.debug.testCulling || globalConfig.debug.hideFog)) {
             context.clearRect(0, 0, root.gameWidth, root.gameHeight);
         }
 
@@ -443,7 +443,7 @@ export class GameCore {
             root.map.drawStaticEntityDebugOverlays(params);
         }
 
-        if (G_IS_DEV && globalConfig.debug.renderBeltPaths) {
+        if (globalConfig.debug.renderBeltPaths) {
             systems.belt.drawBeltPathDebug(params);
         }
 
@@ -463,7 +463,7 @@ export class GameCore {
 
         assert(context.globalAlpha === 1.0, "context.globalAlpha not 1 on frame end");
 
-        if (G_IS_DEV && globalConfig.debug.simulateSlowRendering) {
+        if (globalConfig.debug.simulateSlowRendering) {
             let sum = 0;
             for (let i = 0; i < 1e8; ++i) {
                 sum += i;

@@ -209,7 +209,7 @@ export class SavegameManager extends ReadWriteProxy {
         // First read, then directly write to ensure we have the latest data
         // @ts-ignore
         return this.readAsync().then(() => {
-            if (G_IS_DEV && globalConfig.debug.disableSavegameWrite) {
+            if (globalConfig.debug.disableSavegameWrite) {
                 return Promise.resolve();
             }
             return this.sortSavegames().then(() => this.writeAsync());

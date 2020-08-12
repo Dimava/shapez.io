@@ -221,7 +221,7 @@ module.exports = ({
                                     pattern: /globalConfig\.beltSpeedItemsPerSecond/g,
                                     replacement: () => "2.0",
                                 },
-                                { pattern: /globalConfig\.debug/g, replacement: () => "''" },
+                                // { pattern: /globalConfig\.debug/g, replacement: () => "''" },
                             ],
                         }),
                     ],

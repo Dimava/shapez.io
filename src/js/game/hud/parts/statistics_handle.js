@@ -93,7 +93,7 @@ export class HUDShapeStatisticsHandle {
                     formatBigNumber(rate)
                 );
 
-                if (G_IS_DEV && globalConfig.debug.detailedStatistics) {
+                if (globalConfig.debug.detailedStatistics) {
                     this.counter.innerText = "" + round2Digits(rate / 60) + " /s";
                 }
 

@@ -23,7 +23,7 @@ export class DrawParameters {
         /** @type {GameRoot} */
         this.root = root;
 
-        if (G_IS_DEV && globalConfig.debug.testClipping) {
+        if (globalConfig.debug.testClipping) {
             this.visibleRect = this.visibleRect.expandedInAllDirections(-100);
         }
     }

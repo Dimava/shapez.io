@@ -104,7 +104,7 @@ export class GameHUD {
             this.parts.keybindingOverlay = new HUDKeybindingOverlay(this.root);
         }
 
-        if (G_IS_DEV && globalConfig.debug.enableEntityInspector) {
+        if (globalConfig.debug.enableEntityInspector) {
             this.parts.entityDebugger = new HUDEntityDebugger(this.root);
         }
 
@@ -112,7 +112,7 @@ export class GameHUD {
             this.parts.watermark = new HUDWatermark(this.root);
         }
 
-        if (G_IS_DEV && globalConfig.debug.renderChanges) {
+        if (globalConfig.debug.renderChanges) {
             this.parts.changesDebugger = new HUDChangesDebugger(this.root);
         }
 
@@ -147,7 +147,7 @@ export class GameHUD {
         this.root.keyMapper.getBinding(KEYMAPPINGS.ingame.toggleHud).add(this.toggleUi, this);
 
         /* dev:start */
-        if (G_IS_DEV && globalConfig.debug.renderForTrailer) {
+        if (globalConfig.debug.renderForTrailer) {
             this.trailerMaker = new TrailerMaker(this.root);
         }
         /* dev:end*/

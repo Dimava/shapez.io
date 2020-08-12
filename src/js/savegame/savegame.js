@@ -271,7 +271,7 @@ export class Savegame extends ReadWriteProxy {
      * @returns {Promise<any>}
      */
     writeAsync() {
-        if (G_IS_DEV && globalConfig.debug.disableSavegameWrite) {
+        if (globalConfig.debug.disableSavegameWrite) {
             return Promise.resolve();
         }
         return super.writeAsync();

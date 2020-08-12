@@ -52,7 +52,7 @@ export class Dialog {
         this.buttonSignals = {};
 
         for (let i = 0; i < buttons.length; ++i) {
-            if (G_IS_DEV && globalConfig.debug.disableTimedButtons) {
+            if (globalConfig.debug.disableTimedButtons) {
                 this.buttonIds[i] = this.buttonIds[i].replace(":timeout", "");
             }
 

@@ -279,7 +279,7 @@ export class InGameState extends GameState {
      */
     stage7Warmup() {
         if (this.switchStage(stages.s7_warmup)) {
-            if (G_IS_DEV && globalConfig.debug.noArtificialDelays) {
+            if (globalConfig.debug.noArtificialDelays) {
                 this.warmupTimeSeconds = 0.05;
             } else {
                 if (this.creationPayload.fastEnter) {

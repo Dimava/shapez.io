@@ -9,7 +9,7 @@ const baseTranslations = require("./built-temp/base-en.json");
 
 export let T = baseTranslations;
 
-if (G_IS_DEV && globalConfig.debug.testTranslations) {
+if (globalConfig.debug.testTranslations) {
     // Replaces all translations by fake translations to see whats translated and what not
     const mapTranslations = obj => {
         for (const key in obj) {

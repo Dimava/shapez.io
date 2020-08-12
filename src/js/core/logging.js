@@ -228,7 +228,7 @@ function logInternal(handle, consoleMethod, args) {
     const context = extractHandleContext(handle).padEnd(20, " ");
     const labelColor = handle && handle.LOG_LABEL_COLOR ? handle.LOG_LABEL_COLOR : "#aaa";
 
-    if (G_IS_DEV && globalConfig.debug.logTimestamps) {
+    if (globalConfig.debug.logTimestamps) {
         const timestamp = "⏱ %c" + (Math.floor(performance.now()) + "").padEnd(6, " ") + "";
         consoleMethod.call(
             console,
@@ -238,7 +238,7 @@ function logInternal(handle, consoleMethod, args) {
             ...args
         );
     } else {
-        // if (G_IS_DEV && !globalConfig.debug.disableLoggingLogSources) {
+        // if (!globalConfig.debug.disableLoggingLogSources) {
         consoleMethod.call(console, "%c" + context, "color: " + labelColor, ...args);
         // } else {
         // consoleMethod.call(console, ...args);
