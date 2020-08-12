@@ -110,11 +110,13 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
         if (customBuildingData[processorComp.type]) {
             let custom = customBuildingData[processorComp.type];
             trackProduction = custom.process({
-                items: itemsBySlot,
+                items: itemsBySlot.map(e => e.item),
+                itemsBySlot,
+                itemsRaw: items,
                 trackProduction,
                 entity,
                 outItems,
-                self: this,
+                system: this,
             });
         } else
             switch (processorComp.type) {

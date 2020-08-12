@@ -7,23 +7,19 @@ import {
     globalConfig,
     ItemAcceptorComponent,
     ItemEjectorComponent,
-    enumItemProcessorTypes,
     Entity,
     MetaBuilding,
     GameRoot,
-    enumHubGoalRewards,
     T,
     formatItemsPerSecond,
     GameSystemWithFilter,
     DrawParameters,
-    formatBigNumber,
-    Loader,
     ShapeItem,
-    ShapeDefinition,
     ColorItem,
-    enumDirection,
     ItemProcessorComponent,
 } from "../gameData";
+/** @typedef {import('../gameData').ModData} ModData */
+/** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
 const id = "repeater";
 const color = "#ff6000";
@@ -84,7 +80,7 @@ export class MetaRepeaterBuilding extends MetaBuilding {
      * @returns {Array<[string, string]>}
      */
     getAdditionalStatistics(root, variant) {
-        const speed = root.hubGoals.getProcessorBaseSpeed(enumItemProcessorTypes[id]);
+        const speed = root.hubGoals.getProcessorBaseSpeed(id);
         return [[T.ingame.buildingPlacement.infoTexts.speed, formatItemsPerSecond(speed)]];
     }
 
@@ -96,7 +92,7 @@ export class MetaRepeaterBuilding extends MetaBuilding {
         entity.addComponent(
             new ItemProcessorComponent({
                 inputsPerCharge: 1,
-                processorType: enumItemProcessorTypes[id],
+                processorType: id,
             })
         );
         entity.addComponent(new RepeaterComponent({}));
@@ -105,7 +101,7 @@ export class MetaRepeaterBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 0),
-                        direction: enumDirection.top,
+                        direction: "top",
                     },
                 ],
             })
@@ -115,7 +111,7 @@ export class MetaRepeaterBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 0),
-                        directions: [enumDirection.bottom],
+                        directions: ["bottom"],
                     },
                 ],
             })
@@ -205,11 +201,11 @@ export class RepeaterSystem extends GameSystemWithFilter {
     }
 }
 
-// returns trackProduction
-export function repeaterProcess({ items, trackProduction, entity, outItems, self }) {
+/** @param {ModProcessData} */
+export function repeaterProcess({ items, trackProduction, entity, outItems }) {
     // console.log("repeater PROCESSES");
 
-    const inputItem = /** @type {ShapeItem} */ (items[0].item);
+    const inputItem = /** @type {ShapeItem} */ (items[0]);
     trackProduction = false;
 
     const comp = entity.components[id];
@@ -293,15 +289,14 @@ export const tscSpriteBp = [
     },
 ];
 
+/** @type {ModData} */
 export const repeater = {
     id,
     component: RepeaterComponent,
     building: MetaRepeaterBuilding,
     toolbar: 2,
     system: RepeaterSystem,
-    sysOrder: 4.5,
     process: repeaterProcess,
-    draw: true,
     sprite: tscSprite,
     spriteBp: tscSpriteBp,
 

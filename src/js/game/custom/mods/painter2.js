@@ -1,18 +1,8 @@
 import {
-    MetaBuilding,
-    enumDirection,
-    enumItemProcessorTypes,
-    T,
-    ItemProcessorComponent,
-    ItemEjectorComponent,
-    ItemAcceptorComponent,
-    Vector,
-    formatItemsPerSecond,
     ShapeItem,
-    ShapeDefinition,
-    ColorItem,
-    enumItemType,
 } from "../gameData";
+/** @typedef {import('../gameData').ModData} ModData */
+/** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
 const id = "painterDouble";
 
@@ -35,23 +25,23 @@ function colorShape(shape, color) {
         }
     }
     let result = layers.map(e => e.join("")).join(":");
-    return (cache[recipeId] = ShapeDefinition.fromShortKey(result));
+    return cache[recipeId] = result;
 }
 
-// returns trackProduction
-export function Painter2Process({ items, trackProduction, entity, outItems, self }) {
-    const shape1 = items[0].item.getHash();
-    const shape2 = items[1].item.getHash();
-    const color = items[2].item.getHash();
+/** @param {ModProcessData} */
+export function Painter2Process({ items, trackProduction, outItems }) {
+    const shape1 = items[0].getHash();
+    const shape2 = items[1].getHash();
+    const color = items[2].getHash();
 
     outItems.push({
-        item: new ShapeItem(colorShape(shape1, color)),
+        item: ShapeItem.createFromHash(colorShape(shape1, color)),
     });
     outItems.push({
-        item: new ShapeItem(colorShape(shape2, color)),
+        item: ShapeItem.createFromHash(colorShape(shape2, color)),
     });
 
-    return true;
+    return trackProduction;
 }
 
 export const BuildingData = {

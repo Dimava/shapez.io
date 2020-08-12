@@ -55,6 +55,11 @@ export function createSimpleShape(layers) {
  * @type {Map<string, boolean>}
  */
 const SHORT_KEY_CACHE = new Map();
+/**
+ * Cache of definitions
+ * @type {Map<string, ShapeDefinition>}
+ */
+const ShapeDefinitionCache = new Map();
 
 export class ShapeDefinition extends BasicSerializableObject {
     static getId() {
@@ -109,6 +114,9 @@ export class ShapeDefinition extends BasicSerializableObject {
      * @returns {ShapeDefinition}
      */
     static fromShortKey(key) {
+        let v = ShapeDefinitionCache.get(key);
+        if (v) return v;
+
         const sourceLayers = key.split(":");
         let layers = [];
         for (let i = 0; i < sourceLayers.length; ++i) {
@@ -137,6 +145,7 @@ export class ShapeDefinition extends BasicSerializableObject {
         const definition = new ShapeDefinition({ layers });
         // We know the hash so save some work
         definition.cachedHash = key;
+        ShapeDefinitionCache.set(key, definition);
         return definition;
     }
 

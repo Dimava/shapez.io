@@ -1,3 +1,7 @@
+/** @typedef {import('../gameData').ModLevel} ModLevel */
+
+
+/** @type {ModLevel} */
 const painter = {
     id: "painter42",
     goal: {
@@ -8,6 +12,7 @@ const painter = {
         desc: "You have unlocked the <strong>Quaduo painter</strong> - It can paints a whole belt.",
     },
 };
+/** @type {ModLevel} */
 const inverter = {
     id: "inverter",
     goal: {
@@ -19,6 +24,7 @@ const inverter = {
             "The new <strong>Inverter</strong> allows you to obtain a new <strong>black</strong> color as well as the good old <strong>grey</strong>.",
     },
 };
+/** @type {ModLevel} */
 const counter = {
     id: "counter",
     goal: {
@@ -30,6 +36,7 @@ const counter = {
             "The <strong>Counter</strong> will allow you to see the speed not onli as a blinking of insanely fast shapes.",
     },
 };
+/** @type {ModLevel} */
 const combiner = {
     id: "combiner",
     goal: {
@@ -38,6 +45,7 @@ const combiner = {
         reward: "combiner",
     },
 };
+/** @type {ModLevel} */
 const unstacker = {
     id: "unstacker",
     goal: {
@@ -48,6 +56,7 @@ const unstacker = {
         desc: "<strong>unstacker</strong> is unlocked, no comments.",
     },
 };
+/** @type {ModLevel} */
 const repeater = {
     id: "repeater",
     goal: {
@@ -57,6 +66,8 @@ const repeater = {
     },
 };
 
+
+/** @type {ModLevel[]} */
 const levels = [inverter, counter, combiner, unstacker, painter, repeater];
 
 let baseCount = 1000;

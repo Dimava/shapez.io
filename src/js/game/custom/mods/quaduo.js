@@ -11,6 +11,8 @@ import {
     ShapeItem,
     ShapeDefinition,
     enumItemType,
+    GameRoot,
+    Entity,
 } from "../gameData";
 
 const id = "quaduo";
@@ -126,16 +128,16 @@ function colorShape(shape, c1, c2, c3, c4) {
 }
 
 // returns trackProduction
-export function QuaduoPainterProcess({ items, trackProduction, entity, outItems, self }) {
+export function QuaduoPainterProcess({ items, itemsBySlot, trackProduction, entity, outItems, self }) {
     // console.log("QuaduoPainter PROCESSES");
 
-    let input = items.map(e => e.item.getHash());
+    let input = items.map(e => e.getHash());
 
     const processorComp = entity.components.ItemProcessor;
     if (!processorComp.slot1a) {
-        processorComp.slot1a = items[0].item.getHash();
-        processorComp.slot2a = items[1].item.getHash();
-        processorComp.inputSlots = items.slice(2);
+        processorComp.slot1a = items[0].getHash();
+        processorComp.slot2a = items[1].getHash();
+        processorComp.inputSlots = itemsBySlot.slice(2);
         return;
     }
 
