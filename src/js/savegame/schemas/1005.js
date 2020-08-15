@@ -1,6 +1,9 @@
 import { createLogger } from "../../core/logging.js";
 import { SavegameInterface_V1004 } from "./1004.js";
 
+import { gMetaBuildingRegistry } from "../../core/global_registries";
+import { gBuildingVariants, registerBuildingVariant } from "../../game/building_codes";
+
 const schema = require("./1005.json");
 const logger = createLogger("savegame_interface/1005");
 
@@ -43,12 +46,20 @@ export class SavegameInterface_V1005 extends SavegameInterface_V1004 {
         }
     }
 
-    static migrate1005(data) {
-        data.dump.entities.filter(e=>e.components.Unremovable)
-            .map(e => delete e.components.Unremovable)
+    static migrate1005BeforeGameEnter(data) {
+        if (!data.dump.entities.find(e => e.components.Unremovable)) {
+            return;
+        }
+        // data.dump.entities.filter(e=>e.components.Unremovable)
+        //     .map(e => delete e.components.Unremovable)
 
-        data.dump.entities.filter(e=>e.components.ReplaceableMapEntity)
-            .map(e => delete e.components.ReplaceableMapEntity)
+        // data.dump.entities.filter(e=>e.components.ReplaceableMapEntity)
+        //     .map(e => delete e.components.ReplaceableMapEntity)
+
+        globalThis.dump = data.dump;
+        data.dump._entities = data.dump.entities;
+        data.dump.entities = [];
+        data.dump.beltPaths = [];
 
         // data.dump.entities.filter(e=>e.components.EnergyConsumer)
         //     .map(e => delete e.components.EnergyConsumer)
@@ -59,4 +70,25 @@ export class SavegameInterface_V1005 extends SavegameInterface_V1004 {
          
         // debugger;
     }
+
+    static migrate1005AfterGameEnter(data, root) {
+        let es = [];
+        for (let e of data.dump._entities) {
+            if (e.components.StaticMapEntity.code) {
+                let vrt = gBuildingVariants[e.components.StaticMapEntity.code]
+                const entity = root.logic.tryPlaceBuilding({
+                    origin: e.components.StaticMapEntity.origin,
+                    rotation: e.components.StaticMapEntity.rotation,
+                    rotationVariant: vrt.rotationVariant,
+                    originalRotation: e.components.StaticMapEntity.originalRotation,
+                    building: vrt.metaInstance,
+                    variant: vrt.variant,
+                });
+                es.push({e, entity});
+            }
+        }
+    }
+
+
+
 }

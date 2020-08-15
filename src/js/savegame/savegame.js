@@ -121,6 +121,14 @@ export class Savegame extends ReadWriteProxy {
         return ExplainedResult.good();
     }
 
+    migrateBeforeGameEnter(data) {
+        
+    }
+
+    migrateAfterGameEnter(data, root) {
+        
+    }
+
     /**
      * Verifies the savegames data
      * @param {SavegameData} data

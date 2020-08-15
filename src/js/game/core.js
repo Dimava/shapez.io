@@ -153,7 +153,7 @@ export class GameCore {
         const serializer = new SavegameSerializer();
 
         try {
-            this.root.savegame.migrate(this.root.savegame.currentData);
+            this.root.savegame.migrateBeforeGameEnter(this.root.savegame.currentData);
             const status = serializer.deserialize(this.root.savegame.getCurrentDump(), this.root);
             if (!status.isGood()) {
                 logger.error("savegame-deserialize-failed:" + status.reason);
@@ -314,6 +314,8 @@ export class GameCore {
     postLoadHook() {
         logger.log("Dispatching post load hook");
         this.root.signals.postLoadHook.dispatch();
+
+        this.root.savegame.migrateAfterGameEnter(this.root.savegame.currentData, this.root);
 
         if (!this.root.gameIsFresh) {
             // Also dispatch game restored hook on restored savegames

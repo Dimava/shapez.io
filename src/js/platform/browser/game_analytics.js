@@ -86,7 +86,7 @@ export class ShapezGameAnalytics extends GameAnalyticsInterface {
      */
     sendToApi(endpoint, data) {
         if (globalConfig.debug.noApiCalls) {
-            return Promise.reject("Api calls are disabled!");
+            return Promise.resolve("Api calls are disabled!");
         }
         return Promise.race([
             new Promise((resolve, reject) => {
