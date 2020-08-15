@@ -1,6 +1,6 @@
 export default {
     // You can set any debug options here!
-    /* dev:start */
+    /* ---dev:start */
     // -----------------------------------------------------------------------------------
     _fastGameEnter: "Quickly enters the game and skips the main menu - good for fast iterating",
     fastGameEnter: false,
@@ -98,5 +98,5 @@ export default {
     _detailedStatistics: "Whether to items / s instead of items / m in stats",
     detailedStatistics: false,
     // -----------------------------------------------------------------------------------
-    /* dev:end */
+    /* ---dev:end */
 };

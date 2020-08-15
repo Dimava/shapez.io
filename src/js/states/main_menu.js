@@ -37,6 +37,8 @@ function generateFileDownload(filename, text) {
     document.body.removeChild(element);
 }
 
+let noFastGameEnter = false;
+
 export class MainMenuState extends GameState {
     constructor() {
         super("MainMenuState");
@@ -212,7 +214,8 @@ export class MainMenuState extends GameState {
 
         const qs = this.htmlElement.querySelector.bind(this.htmlElement);
 
-        if (globalConfig.debug.fastGameEnter) {
+        if (globalConfig.debug.fastGameEnter && !noFastGameEnter) {
+            noFastGameEnter = true;
             const games = this.app.savegameMgr.getSavegamesMetaData();
             if (games.length > 0 && globalConfig.debug.resumeGameOnFastEnter) {
                 this.resumeGame(games[0]);
