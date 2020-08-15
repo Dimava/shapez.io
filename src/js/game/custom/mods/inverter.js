@@ -166,7 +166,7 @@ export const data = {
     speed: 1 / 3,
     speedClass: "processors",
     meta: MetaInverterBuilding,
-    variantId: 31,
+    variantId: 310,
 
     Tname: "Inverter",
     Tdesc: "Inverts colors of shapes and paints using flat Circles. Inverts 1 item per circle quad.",

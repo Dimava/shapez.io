@@ -114,11 +114,15 @@ export class Savegame extends ReadWriteProxy {
             data.version = 1005;
         }
 
-        if (data.version === 1005) {
-            SavegameInterface_V1005.migrate1005(data);
-        }
-
         return ExplainedResult.good();
+    }
+
+    migrateBeforeGameEnter(data) {
+        SavegameInterface_V1005.migrate1005BeforeGameEnter(data);
+    }
+
+    migrateAfterGameEnter(data, root) {
+        SavegameInterface_V1005.migrate1005AfterGameEnter(data, root);
     }
 
     /**

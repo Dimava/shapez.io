@@ -14,11 +14,11 @@ const painter = {
 };
 /** @type {ModLevel} */
 const inverter = {
-    id: "inverter",
+    id: "advanced_processor",
     goal: {
         shape: "CwCrCgCb:CuCcCmCy:CwCrCgCb:CuCcCmCy",
         required: 30e3,
-        reward: "inverter",
+        reward: "advanced_processor",
         title: "Inversion",
         desc:
             "The new <strong>Inverter</strong> allows you to obtain a new <strong>black</strong> color as well as the good old <strong>grey</strong>.",
