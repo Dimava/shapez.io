@@ -8,8 +8,10 @@ import { MetaSplitterBuilding } from "../../buildings/splitter";
 import { MetaStackerBuilding } from "../../buildings/stacker";
 import { MetaTrashBuilding } from "../../buildings/trash";
 import { MetaUndergroundBeltBuilding } from "../../buildings/underground_belt";
-import { enumLayer } from "../../root";
 import { HUDBaseToolbar } from "./base_toolbar";
+import { MetaLeverBuilding } from "../../buildings/lever";
+import { MetaFilterBuilding } from "../../buildings/filter";
+import { MetaDisplayBuilding } from "../../buildings/display";
 import { MetaToolbarSwapperBuilding } from "../../buildings/toolbar_swapper";
 
 export const supportedBuildings = [
@@ -25,6 +27,9 @@ export const supportedBuildings = [
     MetaMixerBuilding,
     MetaPainterBuilding,
     MetaTrashBuilding,
+    MetaLeverBuilding,
+    MetaFilterBuilding,
+    MetaDisplayBuilding,
 ];
 
 export class HUDBuildingsToolbar extends HUDBaseToolbar {
@@ -32,9 +37,7 @@ export class HUDBuildingsToolbar extends HUDBaseToolbar {
         super(root, {
             supportedBuildings,
             visibilityCondition: () =>
-                !this.root.camera.getIsMapOverlayActive() &&
-                this.root.currentLayer === enumLayer.regular &&
-                this.root.currentToolbar === 0,
+                !this.root.camera.getIsMapOverlayActive() && this.root.currentLayer === "regular" &&  this.root.currentToolbar === 0,
             htmlElementId: "ingame_HUD_buildings_toolbar",
         });
     }

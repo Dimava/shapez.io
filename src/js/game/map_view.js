@@ -140,23 +140,23 @@ export class MapView extends BaseMap {
      * @param {function} method
      */
     drawVisibleChunks(parameters, method) {
-        const cullRange = parameters.visibleRect.toTileCullRectangle();
+        const cullRange = parameters.visibleRect.allScaled(1 / globalConfig.tileSize);
         const top = cullRange.top();
         const right = cullRange.right();
         const bottom = cullRange.bottom();
         const left = cullRange.left();
 
-        const border = 1;
+        const border = 0;
         const minY = top - border;
         const maxY = bottom + border;
         const minX = left - border;
-        const maxX = right + border - 1;
+        const maxX = right + border;
 
         const chunkStartX = Math.floor(minX / globalConfig.mapChunkSize);
         const chunkStartY = Math.floor(minY / globalConfig.mapChunkSize);
 
-        const chunkEndX = Math.ceil(maxX / globalConfig.mapChunkSize);
-        const chunkEndY = Math.ceil(maxY / globalConfig.mapChunkSize);
+        const chunkEndX = Math.floor(maxX / globalConfig.mapChunkSize);
+        const chunkEndY = Math.floor(maxY / globalConfig.mapChunkSize);
 
         // Render y from top down for proper blending
         for (let chunkX = chunkStartX; chunkX <= chunkEndX; ++chunkX) {
@@ -195,17 +195,19 @@ export class MapView extends BaseMap {
             );
         }
 
-        const dpi = this.backgroundCacheDPI;
-        parameters.context.scale(1 / dpi, 1 / dpi);
+        if (!this.root.app.settings.getAllSettings().disableTileGrid) {
+            const dpi = this.backgroundCacheDPI;
+            parameters.context.scale(1 / dpi, 1 / dpi);
 
-        parameters.context.fillStyle = this.cachedBackgroundPattern;
-        parameters.context.fillRect(
-            parameters.visibleRect.x * dpi,
-            parameters.visibleRect.y * dpi,
-            parameters.visibleRect.w * dpi,
-            parameters.visibleRect.h * dpi
-        );
-        parameters.context.scale(dpi, dpi);
+            parameters.context.fillStyle = this.cachedBackgroundPattern;
+            parameters.context.fillRect(
+                parameters.visibleRect.x * dpi,
+                parameters.visibleRect.y * dpi,
+                parameters.visibleRect.w * dpi,
+                parameters.visibleRect.h * dpi
+            );
+            parameters.context.scale(dpi, dpi);
+        }
 
         this.drawVisibleChunks(parameters, MapChunkView.prototype.drawBackgroundLayer);
 
@@ -228,21 +230,20 @@ export class MapView extends BaseMap {
             const chunkEndX = Math.ceil(maxX / globalConfig.mapChunkSize);
             const chunkEndY = Math.ceil(maxY / globalConfig.mapChunkSize);
 
-            // Render y from top down for proper blending
             for (let chunkX = chunkStartX; chunkX <= chunkEndX; ++chunkX) {
                 for (let chunkY = chunkStartY; chunkY <= chunkEndY; ++chunkY) {
                     parameters.context.fillStyle = "#ffaaaa";
                     parameters.context.fillRect(
-                        chunkX * globalConfig.mapChunkSize * globalConfig.tileSize,
-                        chunkY * globalConfig.mapChunkSize * globalConfig.tileSize,
-                        globalConfig.mapChunkSize * globalConfig.tileSize,
+                        chunkX * globalConfig.mapChunkWorldSize,
+                        chunkY * globalConfig.mapChunkWorldSize,
+                        globalConfig.mapChunkWorldSize,
                         3
                     );
                     parameters.context.fillRect(
-                        chunkX * globalConfig.mapChunkSize * globalConfig.tileSize,
-                        chunkY * globalConfig.mapChunkSize * globalConfig.tileSize,
+                        chunkX * globalConfig.mapChunkWorldSize,
+                        chunkY * globalConfig.mapChunkWorldSize,
                         3,
-                        globalConfig.mapChunkSize * globalConfig.tileSize
+                        globalConfig.mapChunkWorldSize
                     );
                 }
             }

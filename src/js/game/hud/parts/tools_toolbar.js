@@ -1,5 +1,4 @@
 import { MetaCutterBuilding } from "../../buildings/cutter";
-import { enumLayer } from "../../root";
 import { HUDBaseToolbar } from "./base_toolbar";
 import { MetaBeltBaseBuilding } from "../../buildings/belt_base";
 import { MetaSplitterBuilding } from "../../buildings/splitter";
@@ -21,7 +20,7 @@ export class HUDToolsToolbar extends HUDBaseToolbar {
             supportedBuildings,
             visibilityCondition: () =>
                 !this.root.camera.getIsMapOverlayActive() &&
-                this.root.currentLayer === enumLayer.regular &&
+                this.root.currentLayer === "regular" &&
                 this.root.currentToolbar === 1,
             htmlElementId: "ingame_HUD_buildings_toolbar",
         });

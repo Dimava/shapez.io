@@ -17,6 +17,10 @@ import { WiredPinsSystem } from "./systems/wired_pins";
 import { allCustomBuildingData } from "./custom/modBuildings";
 import { BeltUnderlaysSystem } from "./systems/belt_underlays";
 import { WireSystem } from "./systems/wire";
+import { ConstantSignalSystem } from "./systems/constant_signal";
+import { LogicGateSystem } from "./systems/logic_gate";
+import { LeverSystem } from "./systems/lever";
+import { DisplaySystem } from "./systems/display";
 
 const logger = createLogger("game_system_manager");
 
@@ -69,6 +73,18 @@ export class GameSystemManager {
             /** @type {WireSystem} */
             wire: null,
 
+            /** @type {ConstantSignalSystem} */
+            constantSignal: null,
+
+            /** @type {LogicGateSystem} */
+            logicGate: null,
+
+            /** @type {LeverSystem} */
+            lever: null,
+
+            /** @type {DisplaySystem} */
+            display: null,
+
             /* typehints:end */
         };
         for (let custom of allCustomBuildingData) {
@@ -114,6 +130,9 @@ export class GameSystemManager {
 
         add("beltUnderlays", BeltUnderlaysSystem);
 
+        add("constantSignal", ConstantSignalSystem);
+
+        
         for (let custom of allCustomBuildingData) {
             if (custom.system) {
                 add(custom.id, custom.system);
@@ -125,7 +144,17 @@ export class GameSystemManager {
         // then would be invalid
         add("itemAcceptor", ItemAcceptorSystem);
 
+        // WIRES section
+        add("lever", LeverSystem);
+
+        // IMPORTANT: We have 2 phases: In phase 1 we compute the output values of all gates,
+        // processors etc. In phase 2 we propagate it through the wires network
+        add("logicGate", LogicGateSystem);
+
+        // Wires must be after all gate, signal etc logic!
         add("wire", WireSystem);
+
+        add("display", DisplaySystem);
 
         logger.log("📦 There are", this.systemUpdateOrder.length, "game systems");
     }

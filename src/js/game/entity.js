@@ -3,7 +3,7 @@ import { DrawParameters } from "../core/draw_parameters";
 import { Component } from "./component";
 /* typehints:end */
 
-import { GameRoot, enumLayer } from "./root";
+import { GameRoot } from "./root";
 import { globalConfig } from "../core/config";
 import { enumDirectionToVector, enumDirectionToAngle } from "../core/vector";
 import { BasicSerializableObject, types } from "../savegame/serialization";
@@ -36,8 +36,9 @@ export class Entity extends BasicSerializableObject {
 
         /**
          * On which layer this entity is
+         * @type {Layer}
          */
-        this.layer = enumLayer.regular;
+        this.layer = "regular";
 
         /**
          * Internal entity unique id, set by the @see EntityManager
@@ -161,6 +162,7 @@ export class Entity extends BasicSerializableObject {
                 context.stroke();
             }
         }
+
         if (staticComp && globalConfig.debug.showAcceptorEjectors) {
             const ejectorComp = this.components.ItemEjector;
 
@@ -187,7 +189,7 @@ export class Entity extends BasicSerializableObject {
             const acceptorComp = this.components.ItemAcceptor;
 
             if (acceptorComp) {
-                const acceptorSprite = Loader.getSprite("sprites/debug/acceptor_slot.png");
+                const acceptorSprite = Loader.getSprite("sprites/misc/acceptor_slot.png");
                 for (let i = 0; i < acceptorComp.slots.length; ++i) {
                     const slot = acceptorComp.slots[i];
                     const slotTile = staticComp.localTileToWorld(slot.pos);

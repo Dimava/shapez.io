@@ -11,6 +11,11 @@ import { StorageComponent } from "./components/storage";
 import { UndergroundBeltComponent } from "./components/underground_belt";
 import { WiredPinsComponent } from "./components/wired_pins";
 import { WireComponent } from "./components/wire";
+import { ConstantSignalComponent } from "./components/constant_signal";
+import { LogicGateComponent } from "./components/logic_gate";
+import { LeverComponent } from "./components/lever";
+import { WireTunnelComponent } from "./components/wire_tunnel";
+import { DisplayComponent } from "./components/display";
 /* typehints:end */
 
 /**
@@ -56,6 +61,21 @@ export class EntityComponentStorage {
 
         /** @type {WireComponent} */
         this.Wire;
+
+        /** @type {ConstantSignalComponent} */
+        this.ConstantSignal;
+
+        /** @type {LogicGateComponent} */
+        this.LogicGate;
+
+        /** @type {LeverComponent} */
+        this.Lever;
+
+        /** @type {WireTunnelComponent} */
+        this.WireTunnel;
+
+        /** @type {DisplayComponent} */
+        this.Display;
 
         /* typehints:end */
     }

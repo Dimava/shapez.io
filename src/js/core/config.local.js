@@ -95,8 +95,14 @@ export default {
     _checkBeltPaths: "Whether to check belt paths",
     checkBeltPaths: false,
     // -----------------------------------------------------------------------------------
-    _detailedStatistics: "Whether to items / s instead of items / m in stats",
-    detailedStatistics: false,
+    _showAtlasInfo: "Shows detailed information about which atlas is used",
+    showAtlasInfo: false,
+    // -----------------------------------------------------------------------------------
+    _renderWireRotations: "Renders the rotation of all wires",
+    renderWireRotations: false,
+    // -----------------------------------------------------------------------------------
+    _renderWireNetworkInfos: "Renders information about wire networks",
+    renderWireNetworkInfos: false,
     // -----------------------------------------------------------------------------------
     /* ---dev:end */
 };

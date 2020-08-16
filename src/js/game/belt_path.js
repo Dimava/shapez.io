@@ -1,14 +1,14 @@
 import { globalConfig } from "../core/config";
 import { DrawParameters } from "../core/draw_parameters";
-import { gItemRegistry } from "../core/global_registries";
 import { createLogger } from "../core/logging";
 import { Rectangle } from "../core/rectangle";
 import { epsilonCompare, round4Digits } from "../core/utils";
-import { enumDirection, enumDirectionToVector, Vector, enumInvertedDirections } from "../core/vector";
+import { enumDirection, enumDirectionToVector, enumInvertedDirections, Vector } from "../core/vector";
 import { BasicSerializableObject, types } from "../savegame/serialization";
 import { BaseItem } from "./base_item";
 import { Entity } from "./entity";
-import { GameRoot, enumLayer } from "./root";
+import { typeItemSingleton } from "./item_resolver";
+import { GameRoot } from "./root";
 
 const logger = createLogger("belt_path");
 
@@ -29,7 +29,7 @@ export class BeltPath extends BasicSerializableObject {
     static getSchema() {
         return {
             entityPath: types.array(types.entity),
-            items: types.array(types.pair(types.ufloat, types.obj(gItemRegistry))),
+            items: types.array(types.pair(types.ufloat, typeItemSingleton)),
             spacingToFirstItem: types.ufloat,
         };
     }
@@ -203,7 +203,7 @@ export class BeltPath extends BasicSerializableObject {
         const targetEntity = this.root.map.getLayerContentXY(
             ejectSlotTargetWsTile.x,
             ejectSlotTargetWsTile.y,
-            enumLayer.regular
+            "regular"
         );
 
         if (targetEntity) {
@@ -1182,7 +1182,7 @@ export class BeltPath extends BasicSerializableObject {
             const beltLength = beltComp.getEffectiveLengthTiles();
 
             // Check if the current items are on the belt
-            while (trackPos + beltLength >= currentItemPos - 1e-51) {
+            while (trackPos + beltLength >= currentItemPos - 1e-5) {
                 // Its on the belt, render it now
                 const staticComp = entity.components.StaticMapEntity;
                 assert(
@@ -1194,9 +1194,13 @@ export class BeltPath extends BasicSerializableObject {
                 const worldPos = staticComp.localTileToWorld(localPos).toWorldSpaceCenterOfTile();
 
                 const distanceAndItem = this.items[currentItemIndex];
-                if (parameters.visibleRect.containsCircle(worldPos.x, worldPos.y, 10)) {
-                    distanceAndItem[_item].draw(worldPos.x, worldPos.y, parameters);
-                }
+
+                distanceAndItem[_item].drawItemCenteredClipped(
+                    worldPos.x,
+                    worldPos.y,
+                    parameters,
+                    globalConfig.defaultItemDiameter
+                );
 
                 // Check for the next item
                 currentItemPos += distanceAndItem[_nextDistance];

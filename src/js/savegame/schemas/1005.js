@@ -72,6 +72,8 @@ export class SavegameInterface_V1005 extends SavegameInterface_V1004 {
     }
 
     static migrate1005AfterGameEnter(data, root) {
+        
+        if (!data.dump._entities) return;
         // Energy generator
         // registerBuildingVariant(27, MetaEnergyGenerator);
 

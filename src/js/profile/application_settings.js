@@ -20,6 +20,7 @@ const logger = createLogger("application_settings");
 export const enumCategories = {
     general: "general",
     userInterface: "userInterface",
+    performance: "performance",
     advanced: "advanced",
     debug: "debug",
     keybindings: "keybindings",
@@ -151,20 +152,6 @@ export const allApplicationSettings = [
     }),
 
     new BoolSetting(
-        "fullscreen",
-        enumCategories.general,
-        /**
-         * @param {Application} app
-         */
-        (app, value) => {
-            if (app.platformWrapper.getSupportsFullscreen()) {
-                app.platformWrapper.setFullscreen(value);
-            }
-        },
-        !IS_DEMO
-    ),
-
-    new BoolSetting(
         "soundsMuted",
         enumCategories.general,
         /**
@@ -182,6 +169,20 @@ export const allApplicationSettings = [
     ),
 
     new BoolSetting(
+        "fullscreen",
+        enumCategories.general,
+        /**
+         * @param {Application} app
+         */
+        (app, value) => {
+            if (app.platformWrapper.getSupportsFullscreen()) {
+                app.platformWrapper.setFullscreen(value);
+            }
+        },
+        !IS_DEMO
+    ),
+
+    new BoolSetting(
         "enableColorBlindHelper",
         enumCategories.general,
         /**
@@ -190,7 +191,6 @@ export const allApplicationSettings = [
         (app, value) => null
     ),
 
-    // GAME
     new BoolSetting("offerHints", enumCategories.userInterface, (app, value) => {}),
 
     new EnumSetting("theme", {
@@ -223,16 +223,6 @@ export const allApplicationSettings = [
             (app, id) => null,
     }),
 
-    new EnumSetting("refreshRate", {
-        options: ["60", "75", "100", "120", "144", "165", "250", G_IS_DEV ? "10" : "500"],
-        valueGetter: rate => rate,
-        textGetter: rate => rate + " Hz",
-        category: enumCategories.advanced,
-        restartRequired: false,
-        changeCb: (app, id) => {},
-        enabled: !IS_DEMO,
-    }),
-
     new EnumSetting("scrollWheelSensitivity", {
         options: scrollWheelSensitivities.sort((a, b) => a.scale - b.scale),
         valueGetter: scale => scale.id,
@@ -261,6 +251,20 @@ export const allApplicationSettings = [
     new BoolSetting("compactBuildingInfo", enumCategories.userInterface, (app, value) => {}),
     new BoolSetting("disableCutDeleteWarnings", enumCategories.advanced, (app, value) => {}),
     new BoolSetting("rotationByBuilding", enumCategories.advanced, (app, value) => {}),
+
+    new EnumSetting("refreshRate", {
+        options: ["60", "75", "100", "120", "144", "165", "250", "500"],
+        valueGetter: rate => rate,
+        textGetter: rate => rate + " Hz",
+        category: enumCategories.performance,
+        restartRequired: false,
+        changeCb: (app, id) => {},
+        enabled: !IS_DEMO,
+    }),
+
+    new BoolSetting("lowQualityMapResources", enumCategories.performance, (app, value) => {}),
+    new BoolSetting("disableTileGrid", enumCategories.performance, (app, value) => {}),
+    new BoolSetting("lowQualityTextures", enumCategories.performance, (app, value) => {}),
 ];
 
 if (IS_DEBUG) {
@@ -305,6 +309,10 @@ class SettingsStorage {
         this.rotationByBuilding = true;
 
         this.enableColorBlindHelper = false;
+
+        this.lowQualityMapResources = false;
+        this.disableTileGrid = false;
+        this.lowQualityTextures = false;
 
         /**
          * @type {Object.<string, number>}
@@ -507,7 +515,7 @@ export class ApplicationSettings extends ReadWriteProxy {
     }
 
     getCurrentVersion() {
-        return 18;
+        return 21;
     }
 
     /** @param {{settings: SettingsStorage, version: number}} data */
@@ -583,6 +591,21 @@ export class ApplicationSettings extends ReadWriteProxy {
         if (data.version < 18) {
             data.settings.rotationByBuilding = true;
             data.version = 18;
+        }
+
+        if (data.version < 19) {
+            data.settings.lowQualityMapResources = false;
+            data.version = 19;
+        }
+
+        if (data.version < 20) {
+            data.settings.disableTileGrid = false;
+            data.version = 20;
+        }
+
+        if (data.version < 21) {
+            data.settings.lowQualityTextures = false;
+            data.version = 21;
         }
 
         return ExplainedResult.good();

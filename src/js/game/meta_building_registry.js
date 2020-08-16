@@ -17,6 +17,12 @@ import { MetaWireBuilding } from "./buildings/wire";
 import { gBuildingVariants, registerBuildingVariant } from "./building_codes";
 import { defaultBuildingVariant } from "./meta_building";
 import { allCustomBuildingData } from "./custom/modBuildings";
+import { MetaConstantSignalBuilding } from "./buildings/constant_signal";
+import { MetaLogicGateBuilding, enumLogicGateVariants } from "./buildings/logic_gate";
+import { MetaLeverBuilding } from "./buildings/lever";
+import { MetaFilterBuilding } from "./buildings/filter";
+import { MetaWireTunnelBuilding, enumWireTunnelVariants } from "./buildings/wire_tunnel";
+import { MetaDisplayBuilding } from "./buildings/display";
 
 const logger = createLogger("building_registry");
 
@@ -34,6 +40,12 @@ export function initMetaBuildingRegistry() {
     gMetaBuildingRegistry.register(MetaUndergroundBeltBuilding);
     gMetaBuildingRegistry.register(MetaHubBuilding);
     gMetaBuildingRegistry.register(MetaWireBuilding);
+    gMetaBuildingRegistry.register(MetaConstantSignalBuilding);
+    gMetaBuildingRegistry.register(MetaLogicGateBuilding);
+    gMetaBuildingRegistry.register(MetaLeverBuilding);
+    gMetaBuildingRegistry.register(MetaFilterBuilding);
+    gMetaBuildingRegistry.register(MetaWireTunnelBuilding);
+    gMetaBuildingRegistry.register(MetaDisplayBuilding);
 
     for (let custom of allCustomBuildingData) {
         if (custom.meta && !custom.meta._registered) {
@@ -94,6 +106,30 @@ export function initMetaBuildingRegistry() {
     registerBuildingVariant(27, MetaWireBuilding, defaultBuildingVariant, 0);
     registerBuildingVariant(28, MetaWireBuilding, defaultBuildingVariant, 1);
     registerBuildingVariant(29, MetaWireBuilding, defaultBuildingVariant, 2);
+    registerBuildingVariant(30, MetaWireBuilding, defaultBuildingVariant, 3);
+
+    // Constant signal
+    registerBuildingVariant(31, MetaConstantSignalBuilding);
+
+    // Logic gate
+    registerBuildingVariant(32, MetaLogicGateBuilding);
+    registerBuildingVariant(34, MetaLogicGateBuilding, enumLogicGateVariants.not);
+    registerBuildingVariant(35, MetaLogicGateBuilding, enumLogicGateVariants.xor);
+    registerBuildingVariant(36, MetaLogicGateBuilding, enumLogicGateVariants.or);
+    registerBuildingVariant(38, MetaLogicGateBuilding, enumLogicGateVariants.transistor);
+
+    // Lever
+    registerBuildingVariant(33, MetaLeverBuilding);
+
+    // Filter
+    registerBuildingVariant(37, MetaFilterBuilding);
+
+    // Wire tunnel
+    registerBuildingVariant(39, MetaWireTunnelBuilding);
+    registerBuildingVariant(41, MetaWireTunnelBuilding, enumWireTunnelVariants.coating);
+
+    // Display
+    registerBuildingVariant(40, MetaDisplayBuilding);
 
     for (let custom of allCustomBuildingData) {
         if (custom.meta && custom.variantId) {

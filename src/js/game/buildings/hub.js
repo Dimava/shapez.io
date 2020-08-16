@@ -1,5 +1,4 @@
 import { enumDirection, Vector } from "../../core/vector";
-import { enumItemType } from "../base_item";
 import { HubComponent } from "../components/hub";
 import { ItemAcceptorComponent } from "../components/item_acceptor";
 import { enumItemProcessorTypes, ItemProcessorComponent } from "../components/item_processor";
@@ -20,7 +19,7 @@ export class MetaHubBuilding extends MetaBuilding {
         return "#eb5555";
     }
 
-    isRotateable() {
+    getIsRotateable() {
         return false;
     }
 
@@ -54,9 +53,9 @@ export class MetaHubBuilding extends MetaBuilding {
             new WiredPinsComponent({
                 slots: [
                     {
-                        pos: new Vector(3, 0),
+                        pos: new Vector(0, 2),
                         type: enumPinSlotType.logicalEjector,
-                        direction: enumDirection.top,
+                        direction: enumDirection.left,
                     },
                 ],
             })

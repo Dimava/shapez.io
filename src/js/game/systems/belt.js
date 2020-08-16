@@ -13,8 +13,9 @@ import { Entity } from "../entity";
 import { GameSystemWithFilter } from "../game_system_with_filter";
 import { MapChunkView } from "../map_chunk_view";
 import { defaultBuildingVariant } from "../meta_building";
+import { getCodeFromBuildingData } from "../building_codes";
 
-export const BELT_ANIM_COUNT = 28;
+export const BELT_ANIM_COUNT = 14;
 
 const logger = createLogger("belt");
 
@@ -28,9 +29,9 @@ export class BeltSystem extends GameSystemWithFilter {
          * @type {Object.<enumDirection, Array<AtlasSprite>>}
          */
         this.beltSprites = {
-            [enumDirection.top]: Loader.getSprite("sprites/belt/forward_0.png"),
-            [enumDirection.left]: Loader.getSprite("sprites/belt/left_0.png"),
-            [enumDirection.right]: Loader.getSprite("sprites/belt/right_0.png"),
+            [enumDirection.top]: Loader.getSprite("sprites/belt/built/forward_0.png"),
+            [enumDirection.left]: Loader.getSprite("sprites/belt/built/left_0.png"),
+            [enumDirection.right]: Loader.getSprite("sprites/belt/built/right_0.png"),
         };
 
         /**
@@ -44,11 +45,13 @@ export class BeltSystem extends GameSystemWithFilter {
 
         for (let i = 0; i < BELT_ANIM_COUNT; ++i) {
             this.beltAnimations[enumDirection.top].push(
-                Loader.getSprite("sprites/belt/forward_" + i + ".png")
+                Loader.getSprite("sprites/belt/built/forward_" + i + ".png")
             );
-            this.beltAnimations[enumDirection.left].push(Loader.getSprite("sprites/belt/left_" + i + ".png"));
+            this.beltAnimations[enumDirection.left].push(
+                Loader.getSprite("sprites/belt/built/left_" + i + ".png")
+            );
             this.beltAnimations[enumDirection.right].push(
-                Loader.getSprite("sprites/belt/right_" + i + ".png")
+                Loader.getSprite("sprites/belt/built/right_" + i + ".png")
             );
         }
 
@@ -168,6 +171,13 @@ export class BeltSystem extends GameSystemWithFilter {
                         // Change stuff
                         targetStaticComp.rotation = rotation;
                         metaBelt.updateVariants(targetEntity, rotationVariant, defaultBuildingVariant);
+
+                        // Update code as well
+                        targetStaticComp.code = getCodeFromBuildingData(
+                            metaBelt,
+                            defaultBuildingVariant,
+                            rotationVariant
+                        );
 
                         // Now add it again
                         this.addEntityToPaths(targetEntity);
@@ -485,17 +495,15 @@ export class BeltSystem extends GameSystemWithFilter {
             ((this.root.time.realtimeNow() * speedMultiplier * BELT_ANIM_COUNT * 126) / 42) *
                 globalConfig.itemSpacingOnBelts
         );
-        const contents = chunk.contents;
-        for (let y = 0; y < globalConfig.mapChunkSize; ++y) {
-            for (let x = 0; x < globalConfig.mapChunkSize; ++x) {
-                const entity = contents[x][y];
+        const contents = chunk.containedEntitiesByLayer.regular;
+        for (let i = 0; i < contents.length; ++i) {
+            const entity = contents[i];
+            if (entity.components.Belt) {
+                const direction = entity.components.Belt.direction;
+                const sprite = this.beltAnimations[direction][animationIndex % BELT_ANIM_COUNT];
 
-                if (entity && entity.components.Belt) {
-                    const direction = entity.components.Belt.direction;
-                    const sprite = this.beltAnimations[direction][animationIndex % BELT_ANIM_COUNT];
-
-                    entity.components.StaticMapEntity.drawSpriteOnFullEntityBounds(parameters, sprite, 0);
-                }
+                // Culling happens within the static map entity component
+                entity.components.StaticMapEntity.drawSpriteOnBoundsClipped(parameters, sprite, 0);
             }
         }
     }

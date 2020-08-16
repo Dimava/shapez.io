@@ -6,6 +6,7 @@ import { BaseItem, enumItemType } from "../base_item";
 import { enumColors, enumColorToShortcode, enumShortcodeToColor, enumColorsToHexCode } from "../colors";
 import { THEME } from "../theme";
 import { makeOffscreenBuffer } from "../../core/buffer_utils";
+import { drawSpriteClipped } from "../../core/draw_utils";
 
 export class ColorItem extends BaseItem {
     static getId() {
@@ -33,8 +34,16 @@ export class ColorItem extends BaseItem {
         return new ColorItem(enumShortcodeToColor[hash]);
     }
 
+    /** @returns {"color"} **/
     getItemType() {
-        return enumItemType.color;
+        return "color";
+    }
+
+    /**
+     * @param {BaseItem} other
+     */
+    equalsImpl(other) {
+        return this.color === /** @type {ColorItem} */ (other).color;
     }
 
     /**
@@ -53,26 +62,36 @@ export class ColorItem extends BaseItem {
     /**
      * @param {number} x
      * @param {number} y
-     * @param {number} size
+     * @param {number} diameter
      * @param {DrawParameters} parameters
      */
-    draw(x, y, parameters, size = 12) {
+    drawItemCenteredImpl(x, y, parameters, diameter = globalConfig.defaultItemDiameter) {
         if (!this.bufferGenerator) {
             this.bufferGenerator = this.internalGenerateColorBuffer.bind(this);
         }
 
+        const realDiameter = diameter * 0.6;
         const dpi = smoothenDpi(globalConfig.shapesSharpness * parameters.zoomLevel);
-
-        const key = size + "/" + dpi;
+        const key = realDiameter + "/" + dpi + "/" + this.color;
         const canvas = parameters.root.buffers.getForKey({
-            key,
-            subKey: this.color,
-            w: size,
-            h: size,
+            key: "coloritem",
+            subKey: key,
+            w: realDiameter,
+            h: realDiameter,
             dpi,
             redrawMethod: this.bufferGenerator,
         });
-        parameters.context.drawImage(canvas, x - size / 2, y - size / 2, size, size);
+
+        drawSpriteClipped({
+            parameters,
+            sprite: canvas,
+            x: x - realDiameter / 2,
+            y: y - realDiameter / 2,
+            w: realDiameter,
+            h: realDiameter,
+            originalW: realDiameter * dpi,
+            originalH: realDiameter * dpi,
+        });
     }
     /**
      *
@@ -115,6 +134,16 @@ export class ColorItem extends BaseItem {
         this.internalGenerateColorBuffer(canvas, context, size, size, 1);
         return canvas;
     }
+}
+
+/**
+ * Singleton instances
+ * @type {Object<enumColors, ColorItem>}
+ */
+export const COLOR_ITEM_SINGLETONS = {};
+
+for (const color in enumColors) {
+    COLOR_ITEM_SINGLETONS[color] = new ColorItem(color);
 }
 
 BaseItem.ColorItem = ColorItem;

@@ -8,7 +8,6 @@ import { TrailerMaker } from "./trailer_maker";
 
 import { Signal } from "../../core/signal";
 import { DrawParameters } from "../../core/draw_parameters";
-import { HUDProcessingOverlay } from "./parts/processing_overlay";
 import { HUDBuildingsToolbar } from "./parts/buildings_toolbar";
 import { HUDBuildingPlacer } from "./parts/building_placer";
 import { HUDBlueprintPlacer } from "./parts/blueprint_placer";
@@ -42,6 +41,9 @@ import { queryParamOptions } from "../../core/query_parameters";
 import { HUDSandboxController } from "./parts/sandbox_controller";
 import { HUDWiresToolbar } from "./parts/wires_toolbar";
 import { HUDToolsToolbar } from "./parts/tools_toolbar";
+import { HUDWireInfo } from "./parts/wire_info";
+import { HUDLeverToggle } from "./parts/lever_toggle";
+import { HUDLayerPreview } from "./parts/layer_preview";
 
 export class GameHUD {
     /**
@@ -56,7 +58,6 @@ export class GameHUD {
      */
     initialize() {
         this.parts = {
-            processingOverlay: new HUDProcessingOverlay(this.root),
             buildingsToolbar: new HUDBuildingsToolbar(this.root),
             wiresToolbar: new HUDWiresToolbar(this.root),
             toolsToolbar: new HUDToolsToolbar(this.root),
@@ -69,6 +70,8 @@ export class GameHUD {
             shop: new HUDShop(this.root),
             statistics: new HUDStatistics(this.root),
             waypoints: new HUDWaypoints(this.root),
+            wireInfo: new HUDWireInfo(this.root),
+            leverToggle: new HUDLeverToggle(this.root),
 
             // Must always exist
             pinnedShapes: new HUDPinnedShapes(this.root),
@@ -81,6 +84,7 @@ export class GameHUD {
             shapeViewer: new HUDShapeViewer(this.root),
 
             wiresOverlay: new HUDWiresOverlay(this.root),
+            layerPreview: new HUDLayerPreview(this.root),
 
             // Typing hints
             /* typehints:start */
@@ -233,7 +237,6 @@ export class GameHUD {
      */
     draw(parameters) {
         const partsOrder = [
-            "waypoints",
             "massSelector",
             "buildingPlacer",
             "blueprintPlacer",
@@ -253,7 +256,7 @@ export class GameHUD {
      * @param {DrawParameters} parameters
      */
     drawOverlays(parameters) {
-        const partsOrder = ["watermark"];
+        const partsOrder = ["waypoints", "watermark", "wireInfo"];
 
         for (let i = 0; i < partsOrder.length; ++i) {
             if (this.parts[partsOrder[i]]) {

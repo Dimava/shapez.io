@@ -721,3 +721,12 @@ export function rotateDirectionalObject(obj, rotation) {
         left: queue[3],
     };
 }
+
+/**
+ * Modulo which works for negative numbers
+ * @param {number} n
+ * @param {number} m
+ */
+export function safeModulo(n, m) {
+    return ((n % m) + m) % m;
+}
