@@ -46,6 +46,38 @@ export class SavegameInterface_V1005 extends SavegameInterface_V1004 {
         }
     }
 
+    static migrate1005(data) {
+        let es = data.dump.entities;
+
+        data.dump.beltPaths = [];
+        let shapes = [];
+        let dig = function dig(o) {
+            if (typeof o == "object" && o) {
+                if (o.$) {
+                    shapes.push(o);
+                }
+                for (let k in o) {
+                    dig(o[k]);
+                }
+            }
+        };
+
+        dig(data.dump.entities);
+
+        shapes;
+
+        for (let o of shapes) {
+            if (o.$ == "shape") {
+                o.data = o.data.replace(/p/g, "m");
+            }
+            if (o.$ == "color") {
+                if (o.data == "purple") {
+                    o.data = "magenta";
+                }
+            }
+        }
+    }
+
     static migrate1005BeforeGameEnter(data) {
         if (!data.dump.entities.find(e => e.components.Unremovable)) {
             return;
@@ -67,12 +99,10 @@ export class SavegameInterface_V1005 extends SavegameInterface_V1004 {
         // data.dump.entities.filter(e=>e.components.EnergyGenerator)
         //     .map(e => delete e.components.EnergyGenerator)
 
-         
         // debugger;
     }
 
     static migrate1005AfterGameEnter(data, root) {
-        
         if (!data.dump._entities) return;
         // Energy generator
         // registerBuildingVariant(27, MetaEnergyGenerator);
@@ -97,7 +127,7 @@ export class SavegameInterface_V1005 extends SavegameInterface_V1004 {
         for (let e of data.dump._entities) {
             let code = e.components.StaticMapEntity.code;
             if (!code) {
-                console.warn('no code', e);
+                console.warn("no code", e);
             }
             if (removedCodes.includes(code)) {
                 continue;
@@ -107,7 +137,7 @@ export class SavegameInterface_V1005 extends SavegameInterface_V1004 {
             }
             let vrt = gBuildingVariants[code];
             if (!vrt) {
-                throw 'not found';
+                throw "not found";
             }
             const entity = root.logic.tryPlaceBuilding({
                 origin: e.components.StaticMapEntity.origin,
@@ -119,18 +149,13 @@ export class SavegameInterface_V1005 extends SavegameInterface_V1004 {
             });
             es.push({ e, entity });
 
-
             for (let c of serialized) {
                 if (e.components[c]) {
                     entity.components[c].deserialize(e.components[c]);
                 }
             }
-
         }
 
         globalThis.es = es;
     }
-
-
-
 }
