@@ -1,6 +1,7 @@
 import {
     Component,
-    types,GameSystemWithFilter,
+    types,
+    ModSystem,
     DrawParameters,
     MetaBuilding,
     T,
@@ -52,39 +53,18 @@ export class ItemCounterComponent extends Component {
     getCurrentTime() {}
 }
 
-export class CounterSystem extends GameSystemWithFilter {
-    constructor(root) {
-        super(root, [ItemCounterComponent]);
-    }
-
-    update() {
-        // for (let i = 0; i < this.allEntities.length; ++i) {
-        //     const entity = this.allEntities[i];
-        //     const counterComp = entity.components[id];
-        // }
-    }
-
-    // Only render the items/s overlay if the entity is on screen
-    draw(parameters) {
-        this.forEachMatchingEntityOnScreen(parameters, this.drawEntity.bind(this));
-    }
+export class CounterSystem extends ModSystem(id, ItemCounterComponent) {
 
     /**
-     * @param {DrawParameters} parameters
+     * @param {CanvasRenderingContext2D} context
      * @param {Entity} entity
+     * @param {ItemCounterComponent} [counterComp]
+     * @param {DrawParameters} [parameters]
      */
-    drawEntity(parameters, entity) {
-        const context = parameters.context;
+    drawEntity(context, entity, counterComp, parameters) {
         const staticComp = entity.components.StaticMapEntity;
 
-        if (!staticComp.shouldBeDrawn(parameters)) {
-            return;
-        }
-
-        /** @type {ItemCounterComponent} */
-        const counterComp = entity.components[id];
-
-        // cal avg: //
+        // calc avg: //
 
         const analyzedTime = 5;
         let now = this.root.time.timeSeconds;
@@ -103,12 +83,12 @@ export class CounterSystem extends GameSystemWithFilter {
         context.translate(center.x, center.y + 0.15);
         context.scale(0.8, 1);
 
-        const size = counterComp.averageItemsPerSecond >= 10 ? 7 : 9;
+        const size = counterComp.averageItemsPerSecond >= 9.95 ? 7 : 9;
         context.font = `bold ${size}px GameFont`; // GameFont does not work
         context.textAlign = "center";
         context.textBaseline = "middle";
         context.fillStyle = "#64666e";
-        context.fillStyle = "red";
+        context.fillStyle = "blue";
         context.fillText(counterComp.averageItemsPerSecond.toFixed(1), 0, 0);
 
         context.restore();

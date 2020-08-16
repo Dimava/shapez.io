@@ -12,7 +12,7 @@ import {
     GameRoot,
     T,
     formatItemsPerSecond,
-    GameSystemWithFilter,
+    ModSystem,
     DrawParameters,
     ShapeItem,
     ColorItem,
@@ -119,12 +119,7 @@ export class MetaRepeaterBuilding extends MetaBuilding {
     }
 }
 
-export class RepeaterSystem extends GameSystemWithFilter {
-    constructor(root) {
-        super(root, [RepeaterComponent]);
-
-        // this.storageOverlaySprite = Loader.getSprite("sprites/misc/storage_overlay.png");
-    }
+export class RepeaterSystem extends ModSystem(id, RepeaterComponent) {
 
     update() {
         const storedShapes = this.root.hubGoals.storedShapes;
@@ -170,31 +165,20 @@ export class RepeaterSystem extends GameSystemWithFilter {
         }
     }
 
-    draw(parameters) {
-        this.forEachMatchingEntityOnScreen(parameters, this.drawEntity.bind(this));
-    }
 
     /**
-     * @param {DrawParameters} parameters
+     * @param {CanvasRenderingContext2D} context
      * @param {Entity} entity
+     * @param {RepeaterComponent} [comp]
+     * @param {DrawParameters} [parameters]
      */
-    drawEntity(parameters, entity) {
-        const context = parameters.context;
+    drawEntity(context, entity, comp, parameters) {
         const staticComp = entity.components.StaticMapEntity;
 
-        if (!staticComp.shouldBeDrawn(parameters)) {
-            return;
-        }
-
-        const comp = entity.components[id];
         const storedItem = comp.storedItem;
         const center = staticComp.getTileSpaceBounds().getCenter().toWorldSpace();
         if (storedItem !== null) {
-            context.save();
-            context.translate(center.x, center.y);
-            context.scale(0.8, 0.8);
-            storedItem.draw(0, 0, parameters, 30);
-            context.restore();
+            storedItem.drawItemCenteredClipped(center.x, center.y, parameters, 24);
         }
         // leave here for case it will show count
         // this.storageOverlaySprite.drawCached(parameters, center.x - 15, center.y + 15, 30, 15);

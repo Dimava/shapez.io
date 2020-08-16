@@ -1,6 +1,5 @@
 import {
     MetaBuilding,
-    enumDirection,
     enumItemProcessorTypes,
     T,
     ItemProcessorComponent,
@@ -10,7 +9,6 @@ import {
     formatItemsPerSecond,
     ShapeItem,
     ShapeDefinition,
-    enumItemType,
     GameRoot,
     Entity,
 } from "../gameData";
@@ -63,7 +61,7 @@ export class MetaQuaduoPainterBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(3, 1),
-                        direction: enumDirection.right,
+                        direction: "right",
                     },
                 ],
             })
@@ -73,33 +71,33 @@ export class MetaQuaduoPainterBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 1),
-                        directions: [enumDirection.left],
-                        filter: enumItemType.shape,
+                        directions: ["left"],
+                        filter: "shape",
                     },
                     {
                         pos: new Vector(0, 0),
-                        directions: [enumDirection.left],
-                        filter: enumItemType.shape,
+                        directions: ["left"],
+                        filter: "shape",
                     },
                     {
                         pos: new Vector(0, 1),
-                        directions: [enumDirection.bottom],
-                        filter: enumItemType.color,
+                        directions: ["bottom"],
+                        filter: "color",
                     },
                     {
                         pos: new Vector(1, 1),
-                        directions: [enumDirection.bottom],
-                        filter: enumItemType.color,
+                        directions: ["bottom"],
+                        filter: "color",
                     },
                     {
                         pos: new Vector(2, 1),
-                        directions: [enumDirection.bottom],
-                        filter: enumItemType.color,
+                        directions: ["bottom"],
+                        filter: "color",
                     },
                     {
                         pos: new Vector(3, 1),
-                        directions: [enumDirection.bottom],
-                        filter: enumItemType.color,
+                        directions: ["bottom"],
+                        filter: "color",
                     },
                 ],
             })

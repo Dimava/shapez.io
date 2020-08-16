@@ -2,7 +2,7 @@ export { Component } from "../component";
 export { types } from "../../savegame/serialization";
 export { gItemRegistry } from "../../core/global_registries";
 export { BaseItem } from "../base_item";
-export { Vector, enumDirection } from "../../core/vector";
+export { Vector } from "../../core/vector";
 export { globalConfig } from "../../core/config";
 
 export { ItemAcceptorComponent } from "../components/item_acceptor";
@@ -26,7 +26,7 @@ export { ShapeItem } from "../items/shape_item";
 export { ColorItem } from "../items/color_item";
 export { ShapeDefinition } from "../shape_definition";
 
-export { enumItemType } from "../base_item";
+// export { enumItemType } from "../base_item";
 export { enumInvertedColors } from "../colors";
 
 
@@ -92,3 +92,83 @@ import { GameSystemWithFilter } from "../game_system_with_filter";
 
 // /** @typedef {import('../gameData').ModData} ModData */
 // /** @typedef {import('../gameData').ModProcessData} ModProcessData */
+
+
+
+
+
+import { StorageComponent } from "../components/storage";
+import { DrawParameters } from "../../core/draw_parameters";
+import { formatBigNumber, lerp } from "../../core/utils";
+import { Loader } from "../../core/loader";
+import { BOOL_TRUE_SINGLETON, BOOL_FALSE_SINGLETON } from "../items/boolean_item";
+import { MapChunkView } from "../map_chunk_view";
+
+export function ModSystem(id, component) {
+
+	return class ModSystem extends GameSystemWithFilter {
+		constructor(root) {
+			super(root, [component]);
+
+			this.drawnUids = new Set();
+
+			this.root.signals.gameFrameStarted.add(this.clearDrawnUids, this);
+		}
+
+		clearDrawnUids() {
+			this.drawnUids.clear();
+		}
+
+		update() {
+			for (let i = 0; i < this.allEntities.length; ++i) {
+				const entity = this.allEntities[i];
+				let comp = entity.components[id];
+
+				this.updateEntity(entity, comp);
+			}
+		}
+
+		/**
+		 * @param {Entity} entity
+		 * @param {Component} comp
+		 * @returns {any}
+		 */
+		updateEntity(entity, comp) {
+			return "abstact";
+		}
+
+		/**
+		 * @param {DrawParameters} parameters
+		 * @param {MapChunkView} chunk
+		 */
+		drawChunk(parameters, chunk) {
+			const contents = chunk.containedEntitiesByLayer.regular;
+			for (let i = 0; i < contents.length; ++i) {
+				const entity = contents[i];
+				const comp = entity.components[id];
+				if (!comp) {
+					continue;
+				}
+
+				if (this.drawnUids.has(entity.uid)) {
+					continue;
+				}
+				this.drawnUids.add(entity.uid);
+
+				this.drawEntity(parameters.context, entity, comp, parameters);
+			}
+		}
+		
+		/**
+		 * @param {CanvasRenderingContext2D} context
+		 * @param {Entity} entity
+		 * @param {Component} [comp]
+		 * @param {DrawParameters} [parameters]
+		 * @returns {any}
+		 */
+		drawEntity(context, entity, comp, parameters) {
+			return "abstact";
+		}
+	}
+}
+

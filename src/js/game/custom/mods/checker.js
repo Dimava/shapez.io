@@ -11,7 +11,7 @@ import {
     GameRoot,
     T,
     formatItemsPerSecond,
-    GameSystemWithFilter,
+    ModSystem,
     DrawParameters,
     Loader,
     ShapeItem,
@@ -131,9 +131,9 @@ export class MetaTargetShapeCheckerBuilding extends MetaBuilding {
     }
 }
 
-export class TargetShapeCheckerSystem extends GameSystemWithFilter {
+export class TargetShapeCheckerSystem extends ModSystem(id, TargetShapeCheckerComponent) {
     constructor(root) {
-        super(root, [TargetShapeCheckerComponent]);
+        super(root);
 
         this.storageOverlaySprite = Loader.getSprite("sprites/misc/storage_overlay.png");
         this.goal = "";
@@ -153,27 +153,19 @@ export class TargetShapeCheckerSystem extends GameSystemWithFilter {
         }
     }
 
-    draw(parameters) {
-        this.forEachMatchingEntityOnScreen(parameters, this.drawEntity.bind(this));
-    }
-
     /**
-     * @param {DrawParameters} parameters
+     * @param {CanvasRenderingContext2D} context
      * @param {Entity} entity
+     * @param {TargetShapeCheckerComponent} [tscComp]
+     * @param {DrawParameters} [parameters]
      */
-    drawEntity(parameters, entity) {
-        const context = parameters.context;
+    drawEntity(context, entity, tscComp, parameters) {
         const staticComp = entity.components.StaticMapEntity;
 
-        if (!staticComp.shouldBeDrawn(parameters)) {
-            return;
-        }
-
-        const tscComp = entity.components[id];
         const storedItem = tscComp.storedItem;
         const center = staticComp.getTileSpaceBounds().getCenter().toWorldSpace();
         if (storedItem !== null) {
-            storedItem.draw(center.x, center.y, parameters, 30);
+            storedItem.drawItemCenteredClipped(center.x, center.y, parameters, 30);
         }
         this.storageOverlaySprite.drawCached(parameters, center.x - 15, center.y + 15, 30, 15);
 
