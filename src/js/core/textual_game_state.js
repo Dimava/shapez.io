@@ -78,11 +78,15 @@ export class TextualGameState extends GameState {
      * @param {string} stateId
      */
     switchToState(stateId) {
-//         debugger;
-        this.moveToState(stateId, {
-            backToStateId: this.backToStateId,
-            backToStatePayload: this.backToStatePayload,
-        }, true);
+        //         debugger;
+        this.moveToState(
+            stateId,
+            {
+                backToStateId: this.backToStateId,
+                backToStatePayload: this.backToStatePayload,
+            },
+            true
+        );
     }
 
     /**

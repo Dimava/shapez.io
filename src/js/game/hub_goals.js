@@ -201,10 +201,7 @@ export class HubGoals extends BasicSerializableObject {
 
         // Check if we have enough for the next level
         const targetHash = this.currentGoal.definition.getHash();
-        if (
-            this.storedShapes[targetHash] >= this.currentGoal.required ||
-            (globalConfig.debug.rewardsInstant)
-        ) {
+        if (this.storedShapes[targetHash] >= this.currentGoal.required || globalConfig.debug.rewardsInstant) {
             this.onGoalCompleted();
         }
     }
@@ -221,10 +218,7 @@ export class HubGoals extends BasicSerializableObject {
 
         // Check if we have enough for the next level
         const targetHash = this.currentGoal.definition.getHash();
-        if (
-            this.storedShapes[targetHash] >= this.currentGoal.required ||
-            (globalConfig.debug.rewardsInstant)
-        ) {
+        if (this.storedShapes[targetHash] >= this.currentGoal.required || globalConfig.debug.rewardsInstant) {
             this.onGoalCompleted();
         }
     }

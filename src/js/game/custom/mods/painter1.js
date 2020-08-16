@@ -1,6 +1,4 @@
-import {
-    ShapeItem,
-} from "../gameData";
+import { ShapeItem } from "../gameData";
 /** @typedef {import('../gameData').ModData} ModData */
 /** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
@@ -25,7 +23,7 @@ function colorShape(shape, color) {
         }
     }
     let result = layers.map(e => e.join("")).join(":");
-    return cache[recipeId] = result;
+    return (cache[recipeId] = result);
 }
 
 /** @param {ModProcessData} */

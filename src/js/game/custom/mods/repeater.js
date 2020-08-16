@@ -120,7 +120,6 @@ export class MetaRepeaterBuilding extends MetaBuilding {
 }
 
 export class RepeaterSystem extends ModSystem(id, RepeaterComponent) {
-
     update() {
         const storedShapes = this.root.hubGoals.storedShapes;
 
@@ -164,7 +163,6 @@ export class RepeaterSystem extends ModSystem(id, RepeaterComponent) {
             }
         }
     }
-
 
     /**
      * @param {CanvasRenderingContext2D} context

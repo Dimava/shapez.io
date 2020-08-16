@@ -8,9 +8,9 @@ import { SettingsState } from "./settings";
 
 export class KeybindingsState extends SettingsState {
     // constructor() {
-        // super();
-        // super("KeybindingsState");
-        // this.settingsState = settingsState;
+    // super();
+    // super("KeybindingsState");
+    // this.settingsState = settingsState;
     // }
 
     // getStateHeaderTitle() {

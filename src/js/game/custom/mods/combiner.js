@@ -150,7 +150,6 @@ function doCombine(it1, it2) {
     return r.map((e, i) => `${i && !(i % 4) ? ":" : ""}${e}${e == "-" ? "-" : "u"}`).join("");
 }
 
-
 /** @param {ModProcessData} */
 export function CombinerProcess({ items, trackProduction, outItems }) {
     // console.log("Combiner PROCESSES");

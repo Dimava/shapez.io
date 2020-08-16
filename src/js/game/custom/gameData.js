@@ -29,14 +29,12 @@ export { ShapeDefinition } from "../shape_definition";
 // export { enumItemType } from "../base_item";
 export { enumInvertedColors } from "../colors";
 
-
 import { BaseItem } from "../base_item";
-import { ItemProcessorSystem } from "../systems/item_processor"
+import { ItemProcessorSystem } from "../systems/item_processor";
 import { Entity } from "../entity";
 import { Component } from "../component";
 import { MetaBuilding } from "../meta_building";
 import { GameSystemWithFilter } from "../game_system_with_filter";
-
 
 /**
  * @typedef {Object} ModProcessData
@@ -49,13 +47,11 @@ import { GameSystemWithFilter } from "../game_system_with_filter";
  * @property {Array.<{ item: BaseItem, sourceSlot: number }>} itemsRaw
  */
 
-
 /**
  * @callback ModProcess
  * @param {ModProcessData} data
  * @returns {boolean} trackProduction
  */
-
 
 /**
  * @typedef {Object} ModData
@@ -79,7 +75,6 @@ import { GameSystemWithFilter } from "../game_system_with_filter";
  * @property {Object} [goal.tutorial]
  */
 
-
 /**
  * @typedef {Object} ModLevel
  * @property {string} id
@@ -89,13 +84,8 @@ import { GameSystemWithFilter } from "../game_system_with_filter";
 /** @param {ModProcessData} */
 /** @type {ModData} */
 
-
 // /** @typedef {import('../gameData').ModData} ModData */
 // /** @typedef {import('../gameData').ModProcessData} ModProcessData */
-
-
-
-
 
 import { StorageComponent } from "../components/storage";
 import { DrawParameters } from "../../core/draw_parameters";
@@ -105,70 +95,68 @@ import { BOOL_TRUE_SINGLETON, BOOL_FALSE_SINGLETON } from "../items/boolean_item
 import { MapChunkView } from "../map_chunk_view";
 
 export function ModSystem(id, component) {
+    return class ModSystem extends GameSystemWithFilter {
+        constructor(root) {
+            super(root, [component]);
 
-	return class ModSystem extends GameSystemWithFilter {
-		constructor(root) {
-			super(root, [component]);
+            this.drawnUids = new Set();
 
-			this.drawnUids = new Set();
+            this.root.signals.gameFrameStarted.add(this.clearDrawnUids, this);
+        }
 
-			this.root.signals.gameFrameStarted.add(this.clearDrawnUids, this);
-		}
+        clearDrawnUids() {
+            this.drawnUids.clear();
+        }
 
-		clearDrawnUids() {
-			this.drawnUids.clear();
-		}
+        update() {
+            for (let i = 0; i < this.allEntities.length; ++i) {
+                const entity = this.allEntities[i];
+                let comp = entity.components[id];
 
-		update() {
-			for (let i = 0; i < this.allEntities.length; ++i) {
-				const entity = this.allEntities[i];
-				let comp = entity.components[id];
+                this.updateEntity(entity, comp);
+            }
+        }
 
-				this.updateEntity(entity, comp);
-			}
-		}
+        /**
+         * @param {Entity} entity
+         * @param {Component} comp
+         * @returns {any}
+         */
+        updateEntity(entity, comp) {
+            return "abstact";
+        }
 
-		/**
-		 * @param {Entity} entity
-		 * @param {Component} comp
-		 * @returns {any}
-		 */
-		updateEntity(entity, comp) {
-			return "abstact";
-		}
+        /**
+         * @param {DrawParameters} parameters
+         * @param {MapChunkView} chunk
+         */
+        drawChunk(parameters, chunk) {
+            const contents = chunk.containedEntitiesByLayer.regular;
+            for (let i = 0; i < contents.length; ++i) {
+                const entity = contents[i];
+                const comp = entity.components[id];
+                if (!comp) {
+                    continue;
+                }
 
-		/**
-		 * @param {DrawParameters} parameters
-		 * @param {MapChunkView} chunk
-		 */
-		drawChunk(parameters, chunk) {
-			const contents = chunk.containedEntitiesByLayer.regular;
-			for (let i = 0; i < contents.length; ++i) {
-				const entity = contents[i];
-				const comp = entity.components[id];
-				if (!comp) {
-					continue;
-				}
+                if (this.drawnUids.has(entity.uid)) {
+                    continue;
+                }
+                this.drawnUids.add(entity.uid);
 
-				if (this.drawnUids.has(entity.uid)) {
-					continue;
-				}
-				this.drawnUids.add(entity.uid);
+                this.drawEntity(parameters.context, entity, comp, parameters);
+            }
+        }
 
-				this.drawEntity(parameters.context, entity, comp, parameters);
-			}
-		}
-		
-		/**
-		 * @param {CanvasRenderingContext2D} context
-		 * @param {Entity} entity
-		 * @param {Component} [comp]
-		 * @param {DrawParameters} [parameters]
-		 * @returns {any}
-		 */
-		drawEntity(context, entity, comp, parameters) {
-			return "abstact";
-		}
-	}
+        /**
+         * @param {CanvasRenderingContext2D} context
+         * @param {Entity} entity
+         * @param {Component} [comp]
+         * @param {DrawParameters} [parameters]
+         * @returns {any}
+         */
+        drawEntity(context, entity, comp, parameters) {
+            return "abstact";
+        }
+    };
 }
-

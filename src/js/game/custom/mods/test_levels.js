@@ -7,7 +7,6 @@ let lvl = 100;
 
 let colors = "rgbcmywku";
 
-
 for (let c of colors) {
     let shape = `C${c}C${c}C${c}C${c}:`.repeat(4).slice(0, -1);
     levels.push({
@@ -22,10 +21,9 @@ for (let c of colors) {
             countPerLevel: 0,
             shape,
             reward: "no_reward_test_freeplay_" + c,
-        }
-    })
+        },
+    });
 }
-
 
 let shapes = "RCSWBDOFUMPLTZY";
 
@@ -43,8 +41,8 @@ for (let c of shapes) {
             countPerLevel: 0,
             shape,
             reward: "no_reward_test_freeplay_" + c,
-        }
-    })
+        },
+    });
 }
 
 export default levels;

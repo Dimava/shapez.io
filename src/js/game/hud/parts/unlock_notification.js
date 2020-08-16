@@ -18,7 +18,7 @@ export class HUDUnlockNotification extends BaseHUDPart {
             timeToKeepSeconds: 0,
         });
 
-        if (!(globalConfig.debug.disableUnlockDialog)) {
+        if (!globalConfig.debug.disableUnlockDialog) {
             this.root.signals.storyGoalCompleted.add(this.showForLevel, this);
         }
 

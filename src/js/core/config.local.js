@@ -8,7 +8,8 @@ export default {
     _noArtificialDelays: "Skips any delays like transitions between states and such",
     noArtificialDelays: false,
     // -----------------------------------------------------------------------------------
-    _disableSavegameWrite: "Disables writing of savegames, useful for testing the same savegame over and over",
+    _disableSavegameWrite:
+        "Disables writing of savegames, useful for testing the same savegame over and over",
     disableSavegameWrite: false,
     // -----------------------------------------------------------------------------------
     _showEntityBounds: "Shows bounds of all entities",
@@ -68,7 +69,8 @@ export default {
     _disableMapOverview: "Disables the automatic switch to an overview when zooming out",
     disableMapOverview: false,
     // -----------------------------------------------------------------------------------
-    _disableUpgradeNotification: "Disables the notification when there are new entries in the changelog since last played",
+    _disableUpgradeNotification:
+        "Disables the notification when there are new entries in the changelog since last played",
     disableUpgradeNotification: false,
     // -----------------------------------------------------------------------------------
     _instantBelts: "Makes belts almost infinitely fast",
@@ -80,7 +82,8 @@ export default {
     _instantMiners: "Makes miners almost infinitely fast",
     instantMiners: false,
     // -----------------------------------------------------------------------------------
-    _resumeGameOnFastEnter: "When using fastGameEnter, controls whether a new game is started or the last one is resumed",
+    _resumeGameOnFastEnter:
+        "When using fastGameEnter, controls whether a new game is started or the last one is resumed",
     resumeGameOnFastEnter: false,
     // -----------------------------------------------------------------------------------
     _renderForTrailer: "Special option used to render the trailer",

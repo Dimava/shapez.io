@@ -346,37 +346,51 @@ const tutorial = [
         /** @param {GameRoot} root */
         condition(root) {
             let entities = root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent);
-            return !entities.find(e => e.components[id].filter == 'C' && e.components[id].filterIndex == 0) ||
-                !entities.find(e => e.components[id].filter == 'R' && e.components[id].filterIndex == 0);
+            return (
+                !entities.find(e => e.components[id].filter == "C" && e.components[id].filterIndex == 0) ||
+                !entities.find(e => e.components[id].filter == "R" && e.components[id].filterIndex == 0)
+            );
         },
-        Tdesc: "Put in a single quad of a shape to make a SHAPE filter. Make circle and square filters to proceed.",
+        Tdesc:
+            "Put in a single quad of a shape to make a SHAPE filter. Make circle and square filters to proceed.",
     },
     {
         id: `checker_colors`,
         /** @param {GameRoot} root */
         condition(root) {
             let entities = root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent);
-            return !entities.find(e => e.components[id].filter == 'r' && e.components[id].filterIndex == 1) ||
-                !entities.find(e => e.components[id].filter == 'g' && e.components[id].filterIndex == 1);
+            return (
+                !entities.find(e => e.components[id].filter == "r" && e.components[id].filterIndex == 1) ||
+                !entities.find(e => e.components[id].filter == "g" && e.components[id].filterIndex == 1)
+            );
         },
-        Tdesc: "Put in a single quad of a colored shape to make a COLOR filter. Make red and greed filters to proceed.",
+        Tdesc:
+            "Put in a single quad of a colored shape to make a COLOR filter. Make red and greed filters to proceed.",
     },
     {
         id: `checker_lines`,
         /** @param {GameRoot} root */
         condition(root) {
             let entities = root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent);
-            return !entities.find(e => e.components[id].filter == 'w');
+            return !entities.find(e => e.components[id].filter == "w");
         },
-        Tdesc: "Checkers choose their output based on current goal. Any input is accepted. Make a white filter to proceed.",
+        Tdesc:
+            "Checkers choose their output based on current goal. Any input is accepted. Make a white filter to proceed.",
     },
     {
         id: `checker_advanced`,
         /** @param {GameRoot} root */
-        condition(root) { // AaAaAaAa:BbBbBbBb:CcCcCcCc:DdDdDdDd
+        condition(root) {
+            // AaAaAaAa:BbBbBbBb:CcCcCcCc:DdDdDdDd
             let entities = root.entityMgr.getAllWithComponent(TargetShapeCheckerComponent);
-            return !entities.find(e => e.components[id].filter == '-' && e.components[id].filterIndex > 17 && e.components[id].filterIndex < 27) ||
-            !entities.find(e => e.components[id].filter == 'u' && e.components[id].filterIndex > 27);
+            return (
+                !entities.find(
+                    e =>
+                        e.components[id].filter == "-" &&
+                        e.components[id].filterIndex > 17 &&
+                        e.components[id].filterIndex < 27
+                ) || !entities.find(e => e.components[id].filter == "u" && e.components[id].filterIndex > 27)
+            );
         },
         Tdesc: ". Make filters for a hole on 3rd layer and for uncolored quad on 4th to finish tutorial.",
     },

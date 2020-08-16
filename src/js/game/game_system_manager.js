@@ -132,7 +132,6 @@ export class GameSystemManager {
 
         add("constantSignal", ConstantSignalSystem);
 
-        
         for (let custom of allCustomBuildingData) {
             if (custom.system) {
                 add(custom.id, custom.system);

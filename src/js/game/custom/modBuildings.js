@@ -159,7 +159,7 @@ function addCustom(custom) {
 
 function sortToolbar(toolbar) {
     let copy = tooolbar.slice().sort((a, b) => (a.toolbarIndex || 0) - (b.toolbarIndex || 0));
-    while(toolbar.length) toolbar.pop();
+    while (toolbar.length) toolbar.pop();
     for (let meta of copy) {
         if (!meta.toolbarIndex) {
             toolbar.push(meta);
@@ -167,7 +167,6 @@ function sortToolbar(toolbar) {
             toolbar.splice(meta.toolbarIndex, 0, meta);
         }
     }
-
 }
 
 export function getCustomBuildingSystemsNulled() {

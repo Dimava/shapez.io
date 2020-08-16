@@ -239,7 +239,11 @@ export class MapChunk {
         let colors = quads.map(q => allShapeData[q].spawnColor);
 
         const definition = this.root.shapeDefinitionMgr.getDefinitionFromSimpleShapesAndColors(quads, colors);
-        this.internalGeneratePatch(rng, shapePatchSize, this.root.shapeDefinitionMgr.getShapeItemFromDefinition(definition));
+        this.internalGeneratePatch(
+            rng,
+            shapePatchSize,
+            this.root.shapeDefinitionMgr.getShapeItemFromDefinition(definition)
+        );
     }
 
     /**

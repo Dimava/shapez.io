@@ -116,15 +116,14 @@ export class MetaInverterBuilding extends MetaBuilding {
     }
 }
 
-
 /** @param {ModProcessData} */
 export function Process({ items, itemsBySlot, trackProduction, entity, outItems, system }) {
     const item = items[0];
 
     const processorComp = entity.components.ItemProcessor;
     if (!processorComp.charges) {
-    	let hash = items[1].getHash().slice(0, 8);
-    	processorComp.charges = hash.split('').filter(e => e == 'C').length - 1;
+        let hash = items[1].getHash().slice(0, 8);
+        processorComp.charges = hash.split("").filter(e => e == "C").length - 1;
     } else {
         processorComp.inputSlots = itemsBySlot.slice(1);
         processorComp.charges--;
@@ -139,19 +138,14 @@ export function Process({ items, itemsBySlot, trackProduction, entity, outItems,
         });
     } else if (item.getItemType() === "shape") {
         const shapeItem = /** @type {ShapeItem} */ (items[0]);
-        const newItem = system.root.shapeDefinitionMgr.shapeActionInvertColors(
-            shapeItem.definition
-        );
+        const newItem = system.root.shapeDefinitionMgr.shapeActionInvertColors(shapeItem.definition);
 
         outItems.push({
             item: new ShapeItem(newItem),
             requiredSlot: 0,
         });
     } else {
-        assertAlways(
-            false,
-            "Bad item type: " + item.getItemType() + " for advanced processor."
-        );
+        assertAlways(false, "Bad item type: " + item.getItemType() + " for advanced processor.");
     }
     return trackProduction;
 }

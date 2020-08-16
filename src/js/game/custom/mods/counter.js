@@ -54,7 +54,6 @@ export class ItemCounterComponent extends Component {
 }
 
 export class CounterSystem extends ModSystem(id, ItemCounterComponent) {
-
     /**
      * @param {CanvasRenderingContext2D} context
      * @param {Entity} entity

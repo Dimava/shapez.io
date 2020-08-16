@@ -1,6 +1,5 @@
 /** @typedef {import('../gameData').ModLevel} ModLevel */
 
-
 /** @type {ModLevel} */
 const painter = {
     id: "painter42",
@@ -65,7 +64,6 @@ const repeater = {
         reward: "repeater",
     },
 };
-
 
 /** @type {ModLevel[]} */
 const levels = [inverter, counter, combiner, unstacker, painter, repeater];
