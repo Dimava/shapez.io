@@ -11,6 +11,7 @@ export const enumVirtualProcessorVariants = {
     rotater: "rotater",
     unstacker: "unstacker",
     shapecompare: "shapecompare",
+    adder: "adder",
 };
 
 /** @enum {string} */
@@ -20,6 +21,7 @@ export const enumVariantToGate = {
     [enumVirtualProcessorVariants.rotater]: enumLogicGateType.rotater,
     [enumVirtualProcessorVariants.unstacker]: enumLogicGateType.unstacker,
     [enumVirtualProcessorVariants.shapecompare]: enumLogicGateType.shapecompare,
+    [enumVirtualProcessorVariants.adder]: enumLogicGateType.adder,
 };
 
 export class MetaVirtualProcessorBuilding extends MetaBuilding {
@@ -55,6 +57,7 @@ export class MetaVirtualProcessorBuilding extends MetaBuilding {
             enumVirtualProcessorVariants.unstacker,
             enumVirtualProcessorVariants.analyzer,
             enumVirtualProcessorVariants.shapecompare,
+            enumVirtualProcessorVariants.adder,
         ];
     }
 
@@ -110,6 +113,7 @@ export class MetaVirtualProcessorBuilding extends MetaBuilding {
                 ]);
                 break;
             }
+            case enumLogicGateType.adder:
             case enumLogicGateType.shapecompare: {
                 pinComp.setSlots([
                     {

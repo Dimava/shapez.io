@@ -139,6 +139,7 @@ export function initMetaBuildingRegistry() {
     registerBuildingVariant(44, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.rotater);
     registerBuildingVariant(45, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.unstacker);
     registerBuildingVariant(46, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.shapecompare);
+    registerBuildingVariant(16, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.adder);
     
 
     for (let custom of allCustomBuildingData) {

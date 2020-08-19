@@ -24,6 +24,7 @@ export class LogicGateSystem extends GameSystemWithFilter {
             [enumLogicGateType.cutter]: this.compute_CUT.bind(this),
             [enumLogicGateType.unstacker]: this.compute_UNSTACK.bind(this),
             [enumLogicGateType.shapecompare]: this.compute_SHAPECOMPARE.bind(this),
+            [enumLogicGateType.shapecompare]: this.compute_ADD.bind(this),
         };
     }
 
@@ -313,6 +314,42 @@ export class LogicGateSystem extends GameSystemWithFilter {
     compute_SHAPECOMPARE(parameters) {
         const itemA = parameters[0];
         const itemB = parameters[1];
+
+        return itemA &&
+            itemB &&
+            itemA.getItemType() === "shape" &&
+            itemB.getItemType() === "shape" &&
+            /** @type {ShapeItem} */ (itemA).definition.getHash() ===
+                /** @type {ShapeItem} */ (itemB).definition.getHash()
+            ? BOOL_TRUE_SINGLETON
+            : BOOL_FALSE_SINGLETON;
+    }
+
+    /**
+     * @param {Array<BaseItem|null>} parameters
+     * @returns {BaseItem}
+     */
+    compute_ADD(parameters) {
+        const itemA = parameters[0];
+        const itemB = parameters[1];
+
+        if (itemA && itemB &&
+            itemA.getItemType() == "shape" &&
+            itemB.getItemType() == "shape") {
+            let defA = /** @type {ShapeItem} */ (itemA).definition;
+            let defB = /** @type {ShapeItem} */ (itemA).definition;
+            let defR = defA.cloneAndStackWith(defB);
+            return this.root.shapeDefinitionMgr.getShapeItemFromDefinition(defR)
+        } 
+
+        if (itemA && itemB &&
+            itemA.getItemType() == "shape" &&
+            itemB.getItemType() == "color") {
+            let defA = /** @type {ShapeItem} */ (itemA).definition;
+            defA.cloneAndPaintWith(ite)
+        }
+
+            return 
 
         return itemA &&
             itemB &&
