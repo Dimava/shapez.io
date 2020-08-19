@@ -23,6 +23,7 @@ import { MetaLeverBuilding } from "./buildings/lever";
 import { MetaFilterBuilding } from "./buildings/filter";
 import { MetaWireTunnelBuilding, enumWireTunnelVariants } from "./buildings/wire_tunnel";
 import { MetaDisplayBuilding } from "./buildings/display";
+import { MetaVirtualProcessorBuilding, enumVirtualProcessorVariants } from "./buildings/virtual_processor";
 
 const logger = createLogger("building_registry");
 
@@ -46,6 +47,8 @@ export function initMetaBuildingRegistry() {
     gMetaBuildingRegistry.register(MetaFilterBuilding);
     gMetaBuildingRegistry.register(MetaWireTunnelBuilding);
     gMetaBuildingRegistry.register(MetaDisplayBuilding);
+    gMetaBuildingRegistry.register(MetaVirtualProcessorBuilding);
+
 
     for (let custom of allCustomBuildingData) {
         if (custom.meta && !custom.meta._registered) {
@@ -53,7 +56,6 @@ export function initMetaBuildingRegistry() {
             custom.meta._registered = true;
         }
     }
-
     // Belt
     registerBuildingVariant(1, MetaBeltBaseBuilding, defaultBuildingVariant, 0);
     registerBuildingVariant(2, MetaBeltBaseBuilding, defaultBuildingVariant, 1);
@@ -131,6 +133,14 @@ export function initMetaBuildingRegistry() {
     // Display
     registerBuildingVariant(40, MetaDisplayBuilding);
 
+    // Virtual Processor
+    registerBuildingVariant(42, MetaVirtualProcessorBuilding);
+    registerBuildingVariant(43, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.analyzer);
+    registerBuildingVariant(44, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.rotater);
+    registerBuildingVariant(45, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.unstacker);
+    registerBuildingVariant(46, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.shapecompare);
+    
+
     for (let custom of allCustomBuildingData) {
         if (custom.meta && custom.variantId) {
             registerBuildingVariant(
@@ -141,7 +151,6 @@ export function initMetaBuildingRegistry() {
             );
         }
     }
-
     // Propagate instances
     for (const key in gBuildingVariants) {
         gBuildingVariants[key].metaInstance = gMetaBuildingRegistry.findByClass(
