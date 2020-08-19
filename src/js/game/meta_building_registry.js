@@ -49,7 +49,6 @@ export function initMetaBuildingRegistry() {
     gMetaBuildingRegistry.register(MetaDisplayBuilding);
     gMetaBuildingRegistry.register(MetaVirtualProcessorBuilding);
 
-
     for (let custom of allCustomBuildingData) {
         if (custom.meta && !custom.meta._registered) {
             gMetaBuildingRegistry.register(custom.meta);
@@ -139,7 +138,7 @@ export function initMetaBuildingRegistry() {
     registerBuildingVariant(44, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.rotater);
     registerBuildingVariant(45, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.unstacker);
     registerBuildingVariant(46, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.shapecompare);
-    
+    registerBuildingVariant(147, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.adder);
 
     for (let custom of allCustomBuildingData) {
         if (custom.meta && custom.variantId) {
