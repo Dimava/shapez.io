@@ -18,4 +18,4 @@ start "" "cmd" /c set qedit_val=%qedit_val% ^& call "%~dpnx0"&exit
 
 
 cls
-cd ..\gulp && yarn gulp
+cd ..\gulp && yarn gulp main.devFast

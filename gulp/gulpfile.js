@@ -352,4 +352,4 @@ gulp.task(
     )
 );
 
-gulp.task("default", gulp.series("main.devFast"));
+gulp.task("default", gulp.series("main.serveDev"));
