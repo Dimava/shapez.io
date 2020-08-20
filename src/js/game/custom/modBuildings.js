@@ -145,15 +145,21 @@ function addCustom(custom) {
     }
 
     if (custom.sprite) {
-        (custom.sprite[0] || custom.sprite).sprite = `sprites/buildings/${custom.id}${
-            custom.variant == "default" ? "" : "-" + custom.variant
-        }.png`;
+        if (!(custom.sprite[0] || custom.sprite).sprite) {
+            (custom.sprite[0] || custom.sprite).sprite = `sprites/buildings/${custom.id}${
+                custom.variant == "default" ? "" : "-" + custom.variant
+                }.png`;
+        }
         addSprite(custom.sprite);
-        (custom.spriteBp[0] || custom.spriteBp).sprite = `sprites/blueprints/${custom.id}${
-            custom.variant == "default" ? "" : "-" + custom.variant
-        }.png`;
-        custom.spriteBp.transparent = true;
-        addSprite(custom.spriteBp);
+        if (custom.spriteBp) {
+            if (!(custom.spriteBp[0] || custom.spriteBp).sprite) {
+                (custom.spriteBp[0] || custom.spriteBp).sprite = `sprites/blueprints/${custom.id}${
+                    custom.variant == "default" ? "" : "-" + custom.variant
+                    }.png`;
+            }
+            (custom.spriteBp[0] || custom.spriteBp).blueprint = true;
+            addSprite(custom.spriteBp);
+        }
     }
 }
 

@@ -129,5 +129,5 @@ function drawSpriteFromImage(sprite, url, { w, h }) {
         };
         img.src = url;
     }
-    Loader.drawSprite(sprite, draw, { w, h });
+    Loader.drawSprite(sprite, draw, { w, h }, url);
 }

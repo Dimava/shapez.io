@@ -284,7 +284,6 @@ export function targetShapeCheckerProcess({ items, trackProduction, entity, outI
 export const tscSprite = [
     {
         // data:
-        sprite: "sprites/buildings/targetShapeChecker.png",
         w: 192,
         h: 192,
     },
@@ -306,7 +305,6 @@ export const tscSprite = [
 export const tscSpriteBp = [
     {
         // data:
-        sprite: "sprites/blueprints/targetShapeChecker.png",
         w: 192,
         h: 192,
         transparent: true,

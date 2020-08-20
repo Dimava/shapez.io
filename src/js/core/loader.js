@@ -229,7 +229,7 @@ class LoaderImpl {
     /**
      * Draw sprite with function
      */
-    drawSprite(name, callback, { w = 128, h = 128, smooth = false, mipmap = false }) {
+    drawSprite(name, callback, { w = 128, h = 128, smooth = false, mipmap = false }, url) {
         // TODO: mipmap
         const [canvas, context] = makeOffscreenBuffer(w, h, {
             smooth,
@@ -269,6 +269,7 @@ class LoaderImpl {
 
         context.restore();
         this.sprites.set(name, sprite);
+        canvas.src = url
     }
 }
 

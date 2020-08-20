@@ -15,7 +15,7 @@ import {
 /** @typedef {import('../gameData').ModData} ModData */
 /** @typedef {import('../gameData').ModProcessData} ModProcessData */
 
-const id = "advanced_processor";
+const id = "inverter";
 
 export class MetaInverterBuilding extends MetaBuilding {
     constructor() {
@@ -98,6 +98,7 @@ export class MetaInverterBuilding extends MetaBuilding {
                     {
                         pos: new Vector(0, 1),
                         directions: ["left"],
+                        filter: "color",
                     },
                     // {
                     //     pos: new Vector(0, 0),
@@ -150,6 +151,17 @@ export function Process({ items, itemsBySlot, trackProduction, entity, outItems,
     return trackProduction;
 }
 
+export const Sprite = {
+    url: "./res/inverter.png",
+    w: 384,
+    h: 384,
+};
+export const SpriteBp = {
+    url: "./res/inverter-bp.png",
+    w: 384,
+    h: 384,
+};
+
 // TODO: keyCode, toolbarIndex
 /** @type {ModData} */
 export const data = {
@@ -161,6 +173,9 @@ export const data = {
     speedClass: "processors",
     meta: MetaInverterBuilding,
     variantId: 310,
+
+    sprite: Sprite,
+    spriteBp: SpriteBp,
 
     Tname: "Inverter",
     Tdesc: "Inverts colors of shapes and paints using flat Circles. Inverts 1 item per circle quad.",
