@@ -44,6 +44,7 @@ import { HUDToolsToolbar } from "./parts/tools_toolbar";
 import { HUDWireInfo } from "./parts/wire_info";
 import { HUDLeverToggle } from "./parts/lever_toggle";
 import { HUDLayerPreview } from "./parts/layer_preview";
+import { IS_DEBUG } from "../../core/config";
 
 export class GameHUD {
     /**
@@ -133,7 +134,7 @@ export class GameHUD {
             this.parts.colorBlindHelper = new HUDColorBlindHelper(this.root);
         }
 
-        if (queryParamOptions.sandboxMode || G_IS_DEV) {
+        if (queryParamOptions.sandboxMode || IS_DEBUG) {
             this.parts.sandboxController = new HUDSandboxController(this.root);
         }
 
