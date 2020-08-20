@@ -9,14 +9,14 @@ T.buildings.virtual_processor.adder = {
 export const Sprite = {
     sprite: "sprites/buildings/virtual_processor-adder.png",
     url: "./res/adder.png",
-    w: 142,
-    h: 142,
+    w: 192,
+    h: 192,
 };
 export const SpriteBp = {
     sprite: "sprites/blueprints/virtual_processor-adder.png",
     url: "./res/adder.png",
-    w: 142,
-    h: 142,
+    w: 192,
+    h: 192,
 };
 
 // TODO: keyCode, toolbarIndex
@@ -29,26 +29,22 @@ export const data = {
 
 const color_magenta = {
 	id: "magenta",
-	sprite: [{
-		w: 49,
-		h: 49,
+	sprite: {
+		w: 65,
+		h: 65,
 		sprite: "sprites/wires/display/magenta.png",
-	}, {
-		path: "M 1 1 L 1 48 48 48 48 1 Z",
-		fill: "magenta",
-	}],
+		url: "./res/display_magenta.png"
+	},
 }
 
 const color_black = {
 	id: "black",
-	sprite: [{
-		w: 49,
-		h: 49,
+	sprite: {
+		w: 65,
+		h: 65,
 		sprite: "sprites/wires/display/black.png",
-	}, {
-		path: "M 1 1 L 1 48 48 48 48 1 Z",
-		fill: "black",
-	}],
+		url: "./res/display_black.png"
+	},
 }
 
 export default [data, color_magenta, color_black];
