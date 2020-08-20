@@ -249,9 +249,7 @@ class LoaderImpl {
         callback({ canvas, context, canvas2, context2, w, h, smooth, mipmap, resolution });
 
         const resolutions = ["0.1", "0.25", "0.5", "0.75", "1"];
-        const sprite = new AtlasSprite({
-            spriteName: name,
-        });
+        const sprite = new AtlasSprite(name);
         // TODO: remake for mipmapping
         for (let i = 0; i < resolutions.length; ++i) {
             const res = resolutions[i];

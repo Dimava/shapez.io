@@ -107,7 +107,7 @@ function drawSpriteFromJson(sprite, layers, info) {
             } else if (layer.stroke) {
                 throw "not implemented";
             } else {
-                drawBaseLayer(context, layer.path);
+                drawBaseLayer(context, layer.path, false);
             }
         }
     }
@@ -115,10 +115,17 @@ function drawSpriteFromJson(sprite, layers, info) {
 }
 
 function drawSpriteFromImage(sprite, url, { w, h }) {
+    /** @param {{context:CanvasRenderingContext2D}} data */
     function draw({ context }) {
         let img = new Image();
         img.onload = function () {
             context.drawImage(img, 0, 0);
+        };
+        img.onerror = function () {
+            context.fillStyle = "red";
+            context.fillRect(0, 0, w, h);
+            context.fillStyle = "black";
+            context.fillText(sprite.split("/").pop(), 0, 0, w);
         };
         img.src = url;
     }
