@@ -343,10 +343,26 @@ gulp.task(
         "step.postbuild",
     )
 );
+
+// Builds everything (standalone -dev)
+gulp.task(
+    "build.win",
+    gulp.series(
+        "utils.cleanup",
+        "imgres.atlas",
+        "sounds.fullbuildHQ",
+        "imgres.copyImageResources",
+        "imgres.copyNonImageResources",
+        "translations.fullBuild",
+        "js.standalone-dev",
+        "css.dev",
+        "html.standalone-dev"
+    )
+);
 gulp.task(
     "main.win",
     gulp.series(
-        "build.standalone-prod",
+        "build.win",
         "standalone.prepare",
         "standalone.package.prod.win64",
     )
