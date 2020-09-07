@@ -39,6 +39,8 @@ function generateFileDownload(filename, text) {
     document.body.removeChild(element);
 }
 
+let noFastGameEnter = false;
+
 export class MainMenuState extends GameState {
     constructor() {
         super("MainMenuState");
@@ -75,7 +77,7 @@ export class MainMenuState extends GameState {
 
             <div class="logo">
                 <img src="${cachebust("res/logo.png")}" alt="shapez.io Logo">
-                <span class="updateLabel">Wires update!</span>
+                <span class="updateLabel bigger">MODZ</span>
             </div>
 
 
@@ -119,7 +121,7 @@ export class MainMenuState extends GameState {
 
                 <div class="author">${T.mainMenu.madeBy.replace(
                     "<author-link>",
-                    '<a class="producerLink" target="_blank">Tobias Springer</a>'
+                    '<a class="producerLink" target="_blank">Tobspr & modded by Dimava</a>'
                 )}</div>
 
             </div>
@@ -214,7 +216,8 @@ export class MainMenuState extends GameState {
 
         const qs = this.htmlElement.querySelector.bind(this.htmlElement);
 
-        if (G_IS_DEV && globalConfig.debug.fastGameEnter) {
+        if (globalConfig.debug.fastGameEnter && !noFastGameEnter) {
+            noFastGameEnter = true;
             const games = this.app.savegameMgr.getSavegamesMetaData();
             if (games.length > 0 && globalConfig.debug.resumeGameOnFastEnter) {
                 this.resumeGame(games[0]);

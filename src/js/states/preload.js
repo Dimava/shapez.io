@@ -156,7 +156,7 @@ export class PreloadState extends GameState {
 
             .then(() => this.setStatus("Checking changelog"))
             .then(() => {
-                if (G_IS_DEV && globalConfig.debug.disableUpgradeNotification) {
+                if (globalConfig.debug.disableUpgradeNotification) {
                     return;
                 }
 

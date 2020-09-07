@@ -114,7 +114,20 @@ export class Savegame extends ReadWriteProxy {
             data.version = 1005;
         }
 
+        if (data.version === 1005) {
+            SavegameInterface_V1005.migrate1005(data);
+            data.version = 1005;
+        }
+
         return ExplainedResult.good();
+    }
+
+    migrateBeforeGameEnter(data) {
+        SavegameInterface_V1005.migrate1005BeforeGameEnter(data);
+    }
+
+    migrateAfterGameEnter(data, root) {
+        SavegameInterface_V1005.migrate1005AfterGameEnter(data, root);
     }
 
     /**
@@ -223,6 +236,7 @@ export class Savegame extends ReadWriteProxy {
         shadowData.dump = dump;
         shadowData.lastUpdate = new Date().getTime();
         shadowData.version = this.getCurrentVersion();
+        shadowData.lastVersion = G_BUILD_VERSION;
 
         const reader = this.getDumpReaderForExternalData(shadowData);
 
@@ -251,6 +265,7 @@ export class Savegame extends ReadWriteProxy {
     saveMetadata() {
         this.metaDataRef.lastUpdate = new Date().getTime();
         this.metaDataRef.version = this.getCurrentVersion();
+        this.metaDataRef.lastVersion = G_BUILD_VERSION;
         if (!this.hasGameDump()) {
             this.metaDataRef.level = 0;
         } else {
@@ -265,7 +280,7 @@ export class Savegame extends ReadWriteProxy {
      * @returns {Promise<any>}
      */
     writeAsync() {
-        if (G_IS_DEV && globalConfig.debug.disableSavegameWrite) {
+        if (globalConfig.debug.disableSavegameWrite) {
             return Promise.resolve();
         }
         return super.writeAsync();

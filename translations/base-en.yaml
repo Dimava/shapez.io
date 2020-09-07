@@ -309,7 +309,7 @@ ingame:
         green: Green
         blue: Blue
         yellow: Yellow
-        purple: Magenta
+        purple: Purple
         cyan: Cyan
         white: White
         black: Black
@@ -721,6 +721,8 @@ settings:
         userInterface: User Interface
         advanced: Advanced
         performance: Performance
+        debug: Debug
+        keybindings: Keybindings
 
     versionBadges:
         dev: Development
@@ -922,6 +924,8 @@ keybindings:
         toggleHud: Toggle HUD
         toggleFPSInfo: Toggle FPS and Debug Info
         switchLayers: Switch layers
+        switchToolbar: Switch toolbar
+
         exportScreenshot: Export whole Base as Image
 
         # --- Do not translate the values in this section
