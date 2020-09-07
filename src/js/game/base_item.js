@@ -51,6 +51,12 @@ export class BaseItem extends BasicSerializableObject {
         return false;
     }
 
+    /** @returns {string} */
+    getHash() {
+        abstract;
+        return "";
+    }
+
     /**
      * Draws the item at the given position
      * @param {number} x
@@ -78,5 +84,17 @@ export class BaseItem extends BasicSerializableObject {
     getBackgroundColorAsResource() {
         abstract;
         return "";
+    }
+
+    static generateAsCanvas(hash, size) {
+        if (hash.length % 9 == 8) {
+            // @ts-ignore
+            return BaseItem.ShapeDefinition.createFromHash(hash).generateAsCanvas(size);
+        }
+        if (hash.length == 1) {
+            // @ts-ignore
+            return BaseItem.ColorItem.createFromHash(hash).generateAsCanvas(size);
+        }
+        assertAlways(false, "undrawable item");
     }
 }

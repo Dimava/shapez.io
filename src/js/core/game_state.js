@@ -352,10 +352,10 @@ export class GameState {
      * @returns {number} time to fade in / out in ms
      */
     internalGetFadeInOutTime() {
-        if (G_IS_DEV && globalConfig.debug.fastGameEnter) {
+        if (globalConfig.debug.fastGameEnter) {
             return 1;
         }
-        if (G_IS_DEV && globalConfig.debug.noArtificialDelays) {
+        if (globalConfig.debug.noArtificialDelays) {
             return 1;
         }
         return this.getInOutFadeTime();

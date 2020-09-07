@@ -96,7 +96,7 @@ export function drawSpriteClipped({ parameters, sprite, x, y, w, h, originalW, o
                 "warnings)"
             );
         }
-        if (G_IS_DEV && globalConfig.debug.testClipping) {
+        if (globalConfig.debug.testClipping) {
             parameters.context.fillStyle = "yellow";
             parameters.context.fillRect(x, y, w, h);
         }
