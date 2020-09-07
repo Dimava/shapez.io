@@ -632,6 +632,7 @@ canvas {
     @include S(height, 12px);
     overflow: hidden;
     border: #{D(0px)} solid $accentColorDark;
+
     .keybinding_space {
         @include S(font-size, 17px);
         @include S(line-height, 11px);

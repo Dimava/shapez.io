@@ -322,4 +322,50 @@ gulp.task(
     gulp.series("build.standalone.dev", () => serve({ standalone: true }))
 );
 
+
+gulp.task("main.dev", gulp.series("build.dev", "js.dev"))
+
+gulp.task(
+    "main.devFast",
+    gulp.series(
+        "translations.fullBuild",
+        "css.dev",
+        "html.dev",
+        () => serve({ standalone: false }),
+    )
+);
+gulp.task(
+    "main.fast.staging",
+    gulp.series(
+        "js.staging",
+        "css.prod",
+        "html.staging",
+        "step.postbuild",
+    )
+);
+
+// Builds everything (standalone -dev)
+gulp.task(
+    "build.win",
+    gulp.series(
+        "utils.cleanup",
+        "imgres.atlas",
+        "sounds.fullbuildHQ",
+        "imgres.copyImageResources",
+        "imgres.copyNonImageResources",
+        "translations.fullBuild",
+        "js.standalone-dev",
+        "css.dev",
+        "html.standalone-dev"
+    )
+);
+gulp.task(
+    "main.win",
+    gulp.series(
+        "build.win",
+        "standalone.prepare",
+        "standalone.package.prod.win64",
+    )
+);
+
 gulp.task("default", gulp.series("main.serveDev"));

@@ -64,7 +64,7 @@
         script.charset = "utf-8";
         script.defer = true;
         if (integrity) {
-            script.setAttribute("integrity", integrity);
+            // script.setAttribute("integrity", integrity);
         }
         return script;
     }

@@ -140,7 +140,7 @@ module.exports = ({
                             braces: false,
                             ecma: es6 ? 6 : 5,
                             preamble:
-                                "/* shapez.io Codebase - Copyright 2020 Tobias Springer - " +
+                                "/* shapez.io Codebase - Modded 2020 @Dimava - " +
                                 getVersion() +
                                 " @ " +
                                 getRevision() +
@@ -221,7 +221,7 @@ module.exports = ({
                                     pattern: /globalConfig\.beltSpeedItemsPerSecond/g,
                                     replacement: () => "2.0",
                                 },
-                                { pattern: /globalConfig\.debug/g, replacement: () => "''" },
+                                // { pattern: /globalConfig\.debug/g, replacement: () => "''" },
                             ],
                         }),
                     ],
