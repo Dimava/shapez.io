@@ -130,6 +130,8 @@ export class GameRoot {
         /** @type {Layer} */
         this.currentLayer = "regular";
 
+        this.currentToolbar = 0;
+
         this.signals = {
             // Entities
             entityManuallyPlaced: /** @type {TypedSignal<[Entity]>} */ (new Signal()),
@@ -157,7 +159,7 @@ export class GameRoot {
             // Called right after game is initialized
             postLoadHook: /** @type {TypedSignal<[]>} */ (new Signal()),
 
-            shapeDelivered: /** @type {TypedSignal<[ShapeDefinition]>} */ (new Signal()),
+            shapeDelivered: /** @type {TypedSignal<[string]>} */ (new Signal()),
             itemProduced: /** @type {TypedSignal<[BaseItem]>} */ (new Signal()),
 
             bulkOperationFinished: /** @type {TypedSignal<[]>} */ (new Signal()),

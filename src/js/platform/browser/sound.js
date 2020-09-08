@@ -23,7 +23,7 @@ class SoundSpritesContainer {
         }
         return (this.loadingPromise = Promise.race([
             new Promise((resolve, reject) => {
-                setTimeout(reject, G_IS_DEV ? 500 : 5000);
+                setTimeout(reject, 5000);
             }),
             new Promise(resolve => {
                 this.howl = new Howl({
@@ -100,7 +100,7 @@ class MusicInstance extends MusicInstanceInterface {
     load() {
         return Promise.race([
             new Promise((resolve, reject) => {
-                setTimeout(reject, G_IS_DEV ? 500 : 5000);
+                setTimeout(reject, 5000);
             }),
             new Promise((resolve, reject) => {
                 this.howl = new Howl({
@@ -201,7 +201,7 @@ export class SoundImplBrowser extends SoundInterface {
         this.musicMuted = this.app.settings.getAllSettings().musicMuted;
         this.soundsMuted = this.app.settings.getAllSettings().soundsMuted;
 
-        if (G_IS_DEV && globalConfig.debug.disableMusic) {
+        if (globalConfig.debug.disableMusic) {
             this.musicMuted = true;
         }
 

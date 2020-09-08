@@ -13,8 +13,11 @@ import { MetaLeverBuilding } from "../../buildings/lever";
 import { MetaFilterBuilding } from "../../buildings/filter";
 import { MetaDisplayBuilding } from "../../buildings/display";
 import { MetaReaderBuilding } from "../../buildings/reader";
+import { MetaToolbarSwapperBuilding } from "../../buildings/toolbar_swapper";
 
-const supportedBuildings = [
+export const supportedBuildings = [
+    MetaToolbarSwapperBuilding,
+
     MetaBeltBaseBuilding,
     MetaSplitterBuilding,
     MetaUndergroundBeltBuilding,
@@ -36,7 +39,9 @@ export class HUDBuildingsToolbar extends HUDBaseToolbar {
         super(root, {
             supportedBuildings,
             visibilityCondition: () =>
-                !this.root.camera.getIsMapOverlayActive() && this.root.currentLayer === "regular",
+                !this.root.camera.getIsMapOverlayActive() &&
+                this.root.currentLayer === "regular" &&
+                this.root.currentToolbar === 0,
             htmlElementId: "ingame_HUD_buildings_toolbar",
         });
     }

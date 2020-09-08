@@ -6,8 +6,10 @@ import { types, BasicSerializableObject } from "../../savegame/serialization";
 import { RegularGameSpeed } from "./regular_game_speed";
 import { BaseGameSpeed } from "./base_game_speed";
 import { PausedGameSpeed } from "./paused_game_speed";
+import { FastForwardGameSpeed } from "./fast_forward_game_speed";
 import { gGameSpeedRegistry } from "../../core/global_registries";
 import { globalConfig } from "../../core/config";
+import { checkTimerExpired, quantizeFloat } from "../../core/utils";
 import { createLogger } from "../../core/logging";
 
 const logger = createLogger("game_time");
@@ -96,7 +98,7 @@ export class GameTime extends BasicSerializableObject {
             3,
             (this.speed.getMaxLogicStepsInQueue() * this.root.dynamicTickrate.currentTickRate) / 60
         );
-        if (G_IS_DEV && globalConfig.debug.framePausesBetweenTicks) {
+        if (globalConfig.debug.framePausesBetweenTicks) {
             maxLogicSteps *= 1 + globalConfig.debug.framePausesBetweenTicks;
         }
 
@@ -116,7 +118,7 @@ export class GameTime extends BasicSerializableObject {
         const speedAtStart = this.root.time.getSpeed();
 
         let effectiveDelta = this.root.dynamicTickrate.deltaMs;
-        if (G_IS_DEV && globalConfig.debug.framePausesBetweenTicks) {
+        if (globalConfig.debug.framePausesBetweenTicks) {
             effectiveDelta += globalConfig.debug.framePausesBetweenTicks * this.root.dynamicTickrate.deltaMs;
         }
 

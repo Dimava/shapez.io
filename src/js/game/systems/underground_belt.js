@@ -227,7 +227,7 @@ export class UndergroundBeltSystem extends GameSystemWithFilter {
     recomputeArea() {
         const area = this.areaToRecompute;
         logger.log("Recomputing area:", area.x, area.y, "/", area.w, area.h);
-        if (G_IS_DEV && globalConfig.debug.renderChanges) {
+        if (globalConfig.debug.renderChanges) {
             this.root.hud.parts.changesDebugger.renderChange("tunnels", this.areaToRecompute, "#fc03be");
         }
 
@@ -264,7 +264,7 @@ export class UndergroundBeltSystem extends GameSystemWithFilter {
             for (let k = 0; k < pendingItems.length; ++k) {
                 const item = pendingItems[k];
                 item[1] = Math.max(0, item[1] - delta);
-                if (G_IS_DEV && globalConfig.debug.instantBelts) {
+                if (globalConfig.debug.instantBelts) {
                     item[1] = 0;
                 }
             }

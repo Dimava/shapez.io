@@ -187,7 +187,7 @@ export class PlatformWrapperImplBrowser extends PlatformWrapperInterface {
     }
 
     initializeAdProvider() {
-        if (G_IS_DEV && !globalConfig.debug.testAds) {
+        if (!globalConfig.debug.testAds) {
             logger.log("Ads disabled in local environment");
             return Promise.resolve();
         }

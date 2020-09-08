@@ -6,6 +6,7 @@ import { MapChunk } from "./map_chunk";
 import { GameRoot } from "./root";
 import { THEME } from "./theme";
 import { drawSpriteClipped } from "../core/draw_utils";
+import { allCustomBuildingData } from "./custom/modBuildings";
 
 export const CHUNK_OVERLAY_RES = 3;
 
@@ -70,6 +71,12 @@ export class MapChunkView extends MapChunk {
         systems.display.drawChunk(parameters, this);
         systems.storage.drawChunk(parameters, this);
         systems.itemProcessorOverlays.drawChunk(parameters, this);
+
+        for (let custom of allCustomBuildingData) {
+            if (custom.system) {
+                systems[custom.id].drawChunk(parameters, this);
+            }
+        }
     }
 
     /**

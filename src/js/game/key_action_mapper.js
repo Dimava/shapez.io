@@ -11,6 +11,16 @@ function key(str) {
     return str.toUpperCase().charCodeAt(0);
 }
 
+export function keyCodeOf(key) {
+    if (typeof key == "number") {
+        return key;
+    }
+    if (key.match(/F\d+/)) {
+        return 111 + +key.slice(1);
+    }
+    return key.toUpperCase().charCodeAt(0);
+}
+
 export const KEYMAPPINGS = {
     general: {
         confirm: { keyCode: 13 }, // enter
@@ -27,6 +37,7 @@ export const KEYMAPPINGS = {
         toggleFPSInfo: { keyCode: 115 }, // F4
 
         switchLayers: { keyCode: key("Y") },
+        switchToolbar: { keyCode: key("Z") },
     },
 
     navigation: {

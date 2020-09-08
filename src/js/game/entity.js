@@ -146,7 +146,7 @@ export class Entity extends BasicSerializableObject {
         const context = parameters.context;
         const staticComp = this.components.StaticMapEntity;
 
-        if (G_IS_DEV && staticComp && globalConfig.debug.showEntityBounds) {
+        if (staticComp && globalConfig.debug.showEntityBounds) {
             if (staticComp) {
                 const transformed = staticComp.getTileSpaceBounds();
                 context.strokeStyle = "rgba(255, 0, 0, 0.5)";
@@ -163,7 +163,7 @@ export class Entity extends BasicSerializableObject {
             }
         }
 
-        if (G_IS_DEV && staticComp && globalConfig.debug.showAcceptorEjectors) {
+        if (staticComp && globalConfig.debug.showAcceptorEjectors) {
             const ejectorComp = this.components.ItemEjector;
 
             if (ejectorComp) {

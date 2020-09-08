@@ -85,6 +85,9 @@ export class ShapezGameAnalytics extends GameAnalyticsInterface {
      * @returns {Promise<any>}
      */
     sendToApi(endpoint, data) {
+        if (globalConfig.debug.noApiCalls) {
+            return Promise.resolve("Api calls are disabled!");
+        }
         return new Promise((resolve, reject) => {
             const timeout = setTimeout(() => reject("Request to " + endpoint + " timed out"), 20000);
 

@@ -5,6 +5,7 @@ import { T } from "../../../translations";
 import { enumAnalyticsDataSource } from "../../production_analytics";
 import { GameRoot } from "../../root";
 import { ShapeDefinition } from "../../shape_definition";
+import { BaseItem } from "../../base_item";
 
 /** @enum {string} */
 export const enumDisplayMode = {
@@ -18,11 +19,11 @@ export const enumDisplayMode = {
 export class HUDShapeStatisticsHandle {
     /**
      * @param {GameRoot} root
-     * @param {ShapeDefinition} definition
+     * @param {string} shapeHash
      * @param {IntersectionObserver} intersectionObserver
      */
-    constructor(root, definition, intersectionObserver) {
-        this.definition = definition;
+    constructor(root, shapeHash, intersectionObserver) {
+        this.shapeHash = shapeHash;
         this.root = root;
         this.intersectionObserver = intersectionObserver;
 
@@ -31,7 +32,7 @@ export class HUDShapeStatisticsHandle {
 
     initElement() {
         this.element = document.createElement("div");
-        this.element.setAttribute("data-shape-key", this.definition.getHash());
+        this.element.setAttribute("data-shape-key", this.shapeHash);
 
         this.counter = document.createElement("span");
         this.counter.classList.add("counter");
@@ -50,7 +51,7 @@ export class HUDShapeStatisticsHandle {
         if (visibility) {
             if (!this.shapeCanvas) {
                 // Create elements
-                this.shapeCanvas = this.definition.generateAsCanvas(100);
+                this.shapeCanvas = BaseItem.generateAsCanvas(this.shapeHash, 100);
                 this.shapeCanvas.classList.add("icon");
                 this.element.appendChild(this.shapeCanvas);
             }
@@ -74,28 +75,28 @@ export class HUDShapeStatisticsHandle {
             return;
         }
 
-        this.element.classList.toggle(
-            "pinned",
-            this.root.hud.parts.pinnedShapes.isShapePinned(this.definition.getHash())
-        );
-
         switch (dataSource) {
             case enumAnalyticsDataSource.stored: {
                 this.counter.innerText = formatBigNumber(
-                    this.root.hubGoals.storedShapes[this.definition.getHash()] || 0
+                    this.root.hubGoals.storedShapes[this.shapeHash] || 0
                 );
                 break;
             }
             case enumAnalyticsDataSource.delivered:
             case enumAnalyticsDataSource.produced: {
                 let rate =
-                    (this.root.productionAnalytics.getCurrentShapeRate(dataSource, this.definition) /
+                    (this.root.productionAnalytics.getCurrentShapeRate(dataSource, this.shapeHash) /
                         globalConfig.analyticsSliceDurationSeconds) *
                     60;
-                this.counter.innerText = T.ingame.statistics.shapesPerSecond.replace(
+                this.counter.innerText = T.ingame.statistics.shapesPerMinute.replace(
                     "<shapes>",
-                    formatBigNumber(rate / 60)
+                    formatBigNumber(rate)
                 );
+
+                if (globalConfig.debug.detailedStatistics) {
+                    this.counter.innerText = "" + round2Digits(rate / 60) + " /s";
+                }
+
                 break;
             }
         }
@@ -110,7 +111,7 @@ export class HUDShapeStatisticsHandle {
                 const [canvas, context] = makeOffscreenBuffer(w * graphDpi, h * graphDpi, {
                     smooth: true,
                     reusable: false,
-                    label: "statgraph-" + this.definition.getHash(),
+                    label: "statgraph-" + this.shapeHash,
                 });
                 context.scale(graphDpi, graphDpi);
                 canvas.classList.add("graph");
@@ -133,7 +134,7 @@ export class HUDShapeStatisticsHandle {
             for (let i = 0; i < globalConfig.statisticsGraphSlices - 2; ++i) {
                 const value = this.root.productionAnalytics.getPastShapeRate(
                     dataSource,
-                    this.definition,
+                    this.shapeHash,
                     globalConfig.statisticsGraphSlices - i - 2
                 );
                 if (value > maxValue) {

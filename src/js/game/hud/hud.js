@@ -40,9 +40,11 @@ import { HUDChangesDebugger } from "./parts/debug_changes";
 import { queryParamOptions } from "../../core/query_parameters";
 import { HUDSandboxController } from "./parts/sandbox_controller";
 import { HUDWiresToolbar } from "./parts/wires_toolbar";
+import { HUDToolsToolbar } from "./parts/tools_toolbar";
 import { HUDWireInfo } from "./parts/wire_info";
 import { HUDLeverToggle } from "./parts/lever_toggle";
 import { HUDLayerPreview } from "./parts/layer_preview";
+import { IS_DEBUG } from "../../core/config";
 
 export class GameHUD {
     /**
@@ -59,6 +61,8 @@ export class GameHUD {
         this.parts = {
             buildingsToolbar: new HUDBuildingsToolbar(this.root),
             wiresToolbar: new HUDWiresToolbar(this.root),
+            toolsToolbar: new HUDToolsToolbar(this.root),
+
             blueprintPlacer: new HUDBlueprintPlacer(this.root),
             buildingPlacer: new HUDBuildingPlacer(this.root),
             unlockNotification: new HUDUnlockNotification(this.root),
@@ -105,7 +109,7 @@ export class GameHUD {
             this.parts.keybindingOverlay = new HUDKeybindingOverlay(this.root);
         }
 
-        if (G_IS_DEV && globalConfig.debug.enableEntityInspector) {
+        if (globalConfig.debug.enableEntityInspector) {
             this.parts.entityDebugger = new HUDEntityDebugger(this.root);
         }
 
@@ -113,7 +117,7 @@ export class GameHUD {
             this.parts.watermark = new HUDWatermark(this.root);
         }
 
-        if (G_IS_DEV && globalConfig.debug.renderChanges) {
+        if (globalConfig.debug.renderChanges) {
             this.parts.changesDebugger = new HUDChangesDebugger(this.root);
         }
 
@@ -130,7 +134,7 @@ export class GameHUD {
             this.parts.colorBlindHelper = new HUDColorBlindHelper(this.root);
         }
 
-        if (queryParamOptions.sandboxMode || G_IS_DEV) {
+        if (queryParamOptions.sandboxMode || IS_DEBUG) {
             this.parts.sandboxController = new HUDSandboxController(this.root);
         }
 
@@ -148,7 +152,7 @@ export class GameHUD {
         this.root.keyMapper.getBinding(KEYMAPPINGS.ingame.toggleHud).add(this.toggleUi, this);
 
         /* dev:start */
-        if (G_IS_DEV && globalConfig.debug.renderForTrailer) {
+        if (globalConfig.debug.renderForTrailer) {
             this.trailerMaker = new TrailerMaker(this.root);
         }
         /* dev:end*/

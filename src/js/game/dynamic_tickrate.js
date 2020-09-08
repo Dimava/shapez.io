@@ -25,7 +25,7 @@ export class DynamicTickrate {
 
         this.setTickRate(this.root.app.settings.getDesiredFps());
 
-        if (G_IS_DEV && globalConfig.debug.renderForTrailer) {
+        if (globalConfig.debug.renderForTrailer) {
             this.setTickRate(300);
         }
     }
@@ -58,7 +58,7 @@ export class DynamicTickrate {
      * Increases the tick rate marginally
      */
     increaseTickRate() {
-        if (G_IS_DEV && globalConfig.debug.renderForTrailer) {
+        if (globalConfig.debug.renderForTrailer) {
             return;
         }
 
@@ -70,7 +70,7 @@ export class DynamicTickrate {
      * Decreases the tick rate marginally
      */
     decreaseTickRate() {
-        if (G_IS_DEV && globalConfig.debug.renderForTrailer) {
+        if (globalConfig.debug.renderForTrailer) {
             return;
         }
 

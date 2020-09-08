@@ -14,6 +14,7 @@ import { StaticMapEntitySystem } from "./systems/static_map_entity";
 import { ItemAcceptorSystem } from "./systems/item_acceptor";
 import { StorageSystem } from "./systems/storage";
 import { WiredPinsSystem } from "./systems/wired_pins";
+import { allCustomBuildingData } from "./custom/modBuildings";
 import { BeltUnderlaysSystem } from "./systems/belt_underlays";
 import { WireSystem } from "./systems/wire";
 import { ConstantSignalSystem } from "./systems/constant_signal";
@@ -94,6 +95,11 @@ export class GameSystemManager {
 
             /* typehints:end */
         };
+        for (let custom of allCustomBuildingData) {
+            if (custom.system) {
+                this.systems[custom.id] = null;
+            }
+        }
         this.systemUpdateOrder = [];
 
         this.internalInitSystems();
@@ -138,6 +144,11 @@ export class GameSystemManager {
 
         add("constantSignal", ConstantSignalSystem);
 
+        for (let custom of allCustomBuildingData) {
+            if (custom.system) {
+                add(custom.id, custom.system);
+            }
+        }
         // WIRES section
         add("lever", LeverSystem);
 

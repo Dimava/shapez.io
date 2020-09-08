@@ -635,7 +635,7 @@ export class WireSystem extends GameSystemWithFilter {
                     staticComp.drawSpriteOnBoundsClipped(parameters, sprite, 0);
                     parameters.context.globalAlpha = 1;
 
-                    if (G_IS_DEV && globalConfig.debug.renderWireRotations) {
+                    if (globalConfig.debug.renderWireRotations) {
                         parameters.context.fillStyle = "red";
                         parameters.context.font = "5px Tahoma";
                         parameters.context.fillText(
@@ -664,7 +664,7 @@ export class WireSystem extends GameSystemWithFilter {
                 }
 
                 // DEBUG Rendering
-                if (G_IS_DEV && globalConfig.debug.renderWireNetworkInfos) {
+                if (globalConfig.debug.renderWireNetworkInfos) {
                     if (entity) {
                         const staticComp = entity.components.StaticMapEntity;
                         const wireComp = entity.components.Wire;
