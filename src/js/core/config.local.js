@@ -4,67 +4,67 @@ export default {
     // -----------------------------------------------------------------------------------
     _fastGameEnter:
         "Quickly enters the game and skips the main menu - good for fast iterating",
-    fastGameEnter: true,
+    fastGameEnter: false,
     // -----------------------------------------------------------------------------------
     _noArtificialDelays:
         "Skips any delays like transitions between states and such",
-    noArtificialDelays: true,
+    noArtificialDelays: false,
     // -----------------------------------------------------------------------------------
     _disableSavegameWrite:
         "Disables writing of savegames, useful for testing the same savegame over and over",
-    disableSavegameWrite: true,
+    disableSavegameWrite: false,
     // -----------------------------------------------------------------------------------
     _showEntityBounds:
         "Shows bounds of all entities",
-    showEntityBounds: true,
+    showEntityBounds: false,
     // -----------------------------------------------------------------------------------
     _showAcceptorEjectors:
         "Shows arrows for every ejector / acceptor",
-    showAcceptorEjectors: true,
+    showAcceptorEjectors: false,
     // -----------------------------------------------------------------------------------
     _disableMusic:
         "Disables the music (Overrides any setting, can cause weird behaviour)",
-    disableMusic: true,
+    disableMusic: false,
     // -----------------------------------------------------------------------------------
     _doNotRenderStatics:
         "Do not render static map entities (=most buildings)",
-    doNotRenderStatics: true,
+    doNotRenderStatics: false,
     // -----------------------------------------------------------------------------------
     _disableZoomLimits:
         "Allow to zoom freely without limits",
-    disableZoomLimits: true,
+    disableZoomLimits: false,
     // -----------------------------------------------------------------------------------
     _showChunkBorders:
         "Shows a border arround every chunk",
-    showChunkBorders: true,
+    showChunkBorders: false,
     // -----------------------------------------------------------------------------------
     _rewardsInstant:
         "All rewards can be unlocked by passing just 1 of any shape",
-    rewardsInstant: true,
+    rewardsInstant: false,
     // -----------------------------------------------------------------------------------
     _allBuildingsUnlocked:
         "Unlocks all buildings",
-    allBuildingsUnlocked: true,
+    allBuildingsUnlocked: false,
     // -----------------------------------------------------------------------------------
     _blueprintsNoCost:
         "Disables cost of blueprints",
-    blueprintsNoCost: true,
+    blueprintsNoCost: false,
     // -----------------------------------------------------------------------------------
     _upgradesNoCost:
         "Disables cost of upgrades",
-    upgradesNoCost: true,
+    upgradesNoCost: false,
     // -----------------------------------------------------------------------------------
     _disableUnlockDialog:
         "Disables the dialog when completing a level",
-    disableUnlockDialog: true,
+    disableUnlockDialog: false,
     // -----------------------------------------------------------------------------------
     _disableLogicTicks:
         "Disables the simulation - This effectively pauses the game.",
-    disableLogicTicks: true,
+    disableLogicTicks: false,
     // -----------------------------------------------------------------------------------
     _testClipping:
         "Test the rendering if everything is clipped out properly",
-    testClipping: true,
+    testClipping: false,
     // -----------------------------------------------------------------------------------
     // _framePausesBetweenTicks:
     //     "Allows to render slower, useful for recording at half speed to avoid stuttering",
@@ -72,79 +72,83 @@ export default {
     // -----------------------------------------------------------------------------------
     _testTranslations:
         "Replace all translations with emojis to see which texts are translateable",
-    testTranslations: true,
+    testTranslations: false,
     // -----------------------------------------------------------------------------------
     _enableEntityInspector:
         "Enables an inspector which shows information about the entity below the curosr",
-    enableEntityInspector: true,
+    enableEntityInspector: false,
     // -----------------------------------------------------------------------------------
     _testAds:
         "Enables ads in the local build (normally they are deactivated there)",
-    testAds: true,
+    testAds: false,
     // -----------------------------------------------------------------------------------
     _disableMapOverview:
         "Disables the automatic switch to an overview when zooming out",
-    disableMapOverview: true,
+    disableMapOverview: false,
     // -----------------------------------------------------------------------------------
     _disableUpgradeNotification:
         "Disables the notification when there are new entries in the changelog since last played",
-    disableUpgradeNotification: true,
+    disableUpgradeNotification: false,
     // -----------------------------------------------------------------------------------
     _instantBelts:
         "Makes belts almost infinitely fast",
-    instantBelts: true,
+    instantBelts: false,
     // -----------------------------------------------------------------------------------
     _instantProcessors:
         "Makes item processors almost infinitely fast",
-    instantProcessors: true,
+    instantProcessors: false,
     // -----------------------------------------------------------------------------------
     _instantMiners:
         "Makes miners almost infinitely fast",
-    instantMiners: true,
+    instantMiners: false,
     // -----------------------------------------------------------------------------------
     _resumeGameOnFastEnter:
         "When using fastGameEnter, controls whether a new game is started or the last one is resumed",
-    resumeGameOnFastEnter: true,
+    resumeGameOnFastEnter: false,
     // -----------------------------------------------------------------------------------
     _renderForTrailer:
         "Special option used to render the trailer",
-    renderForTrailer: true,
+    renderForTrailer: false,
     // -----------------------------------------------------------------------------------
     _renderChanges:
         "Whether to render changes",
-    renderChanges: true,
+    renderChanges: false,
     // -----------------------------------------------------------------------------------
     _renderBeltPaths:
         "Whether to render belt paths",
-    renderBeltPaths: true,
+    renderBeltPaths: false,
     // -----------------------------------------------------------------------------------
     _checkBeltPaths:
         "Whether to check belt paths",
-    checkBeltPaths: true,
+    checkBeltPaths: false,
     // -----------------------------------------------------------------------------------
     _detailedStatistics:
         "Whether to items / s instead of items / m in stats",
-    detailedStatistics: true,
+    detailedStatistics: false,
     // -----------------------------------------------------------------------------------
     _showAtlasInfo:
         "Shows detailed information about which atlas is used",
-    showAtlasInfo: true,
+    showAtlasInfo: false,
     // -----------------------------------------------------------------------------------
     _renderWireRotations:
         "Renders the rotation of all wires",
-    renderWireRotations: true,
+    renderWireRotations: false,
     // -----------------------------------------------------------------------------------
     _renderWireNetworkInfos:
         "Renders information about wire networks",
-    renderWireNetworkInfos: true,
+    renderWireNetworkInfos: false,
     // -----------------------------------------------------------------------------------
     _disableEjectorProcessing:
         "Disables ejector animations and processing",
-    disableEjectorProcessing: true,
+    disableEjectorProcessing: false,
     // -----------------------------------------------------------------------------------
     _manualTickOnly:
         "Allows manual ticking",
-    manualTickOnly: true,
+    manualTickOnly: false,
+    // -----------------------------------------------------------------------------------
+    _noApiCalls:
+    	"noApiCalls",
+    noApiCalls:true,
     // -----------------------------------------------------------------------------------
     /* dev:end */
 };

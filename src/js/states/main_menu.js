@@ -268,11 +268,11 @@ export class MainMenuState extends GameState {
         );
 
         const producerLink = this.htmlElement.querySelector(".producerLink");
-        this.trackClicks(
-            producerLink,
-            () => this.app.platformWrapper.openExternalLink("https://tobspr.com"),
-            { preventClick: true }
-        );
+//         this.trackClicks(
+//             producerLink,
+//             () => this.app.platformWrapper.openExternalLink("https://tobspr.com"),
+//             { preventClick: true }
+//         );
     }
 
     renderMainMenu() {

@@ -7,7 +7,6 @@ import { BOOL_FALSE_SINGLETON, BOOL_TRUE_SINGLETON, isTruthyItem, BooleanItem } 
 import { COLOR_ITEM_SINGLETONS, ColorItem } from "../items/color_item";
 import { ShapeDefinition } from "../shape_definition";
 import { ShapeItem } from "../items/shape_item";
-import { ColorItem } from "../items/color_item";
 import { enumColorMixingResults } from "../colors";
 
 export class LogicGateSystem extends GameSystemWithFilter {
@@ -304,4 +303,45 @@ export class LogicGateSystem extends GameSystemWithFilter {
             }
         }
     }
+
+
+    /**
+     * @param {Array<BaseItem|null>} parameters
+     * @returns {BaseItem}
+     */
+    compute_ADD(parameters) {
+        const itemA = parameters[0];
+        const itemB = parameters[1];
+
+        if (itemA && itemB && itemA.getItemType() == "shape" && itemB.getItemType() == "shape") {
+            let defA = /** @type {ShapeItem} */ (itemA).definition;
+            let defB = /** @type {ShapeItem} */ (itemB).definition;
+            let defR = defA.cloneAndStackWith(defB);
+            return ShapeItem.createFromHash(defR.getHash());
+        }
+
+        if (itemA && itemB && itemA.getItemType() == "shape" && itemB.getItemType() == "color") {
+            let defA = /** @type {ShapeItem} */ (itemA).definition;
+            let colorB = /** @type {ColorItem} */ (itemB).color;
+            let defR = defA.cloneAndPaintWith(colorB);
+            return ShapeItem.createFromHash(defR.getHash());
+        }
+
+        if (itemA && itemB && itemA.getItemType() == "color" && itemB.getItemType() == "shape") {
+            let defA = /** @type {ShapeItem} */ (itemB).definition;
+            let colorB = /** @type {ColorItem} */ (itemA).color;
+            let defR = defA.cloneAndPaintWith(colorB);
+            return ShapeItem.createFromHash(defR.getHash());
+        }
+
+        if (itemA && itemB && itemA.getItemType() == "color" && itemB.getItemType() == "color") {
+            let colorA = /** @type {ColorItem} */ (itemA).color;
+            let colorB = /** @type {ColorItem} */ (itemB).color;
+            let colorR = enumColorMixingResults[colorA][colorB];
+            return COLOR_ITEM_SINGLETONS[colorR];
+        }
+
+        return null;
+    }
+    
 }

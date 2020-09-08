@@ -29,28 +29,6 @@ const arrayQuadrantIndexToOffset = [
     new Vector(-1, -1), // tl
 ];
 
-/** @enum {string} */
-export const enumSubShape = {
-    rect: "rect",
-    circle: "circle",
-    star: "star",
-    windmill: "windmill",
-};
-
-/** @enum {string} */
-export const enumSubShapeToShortcode = {
-    [enumSubShape.rect]: "R",
-    [enumSubShape.circle]: "C",
-    [enumSubShape.star]: "S",
-    [enumSubShape.windmill]: "W",
-};
-
-/** @enum {enumSubShape} */
-export const enumShortcodeToSubShape = {};
-for (const key in enumSubShapeToShortcode) {
-    enumShortcodeToSubShape[enumSubShapeToShortcode[key]] = key;
-}
-
 /**
  * Converts the given parameters to a valid shape definition
  * @param {*} layers
