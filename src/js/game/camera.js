@@ -694,7 +694,7 @@ export class Camera extends BasicSerializableObject {
         }
 
         let delta = this.lastMovingPosition.sub(pos).divideScalar(this.zoomLevel);
-        if (G_IS_DEV && globalConfig.debug.testCulling) {
+        if (globalConfig.debug.testCulling) {
             // When testing culling, we see everything from the same distance
             delta = delta.multiplyScalar(this.zoomLevel * -2);
         }
@@ -736,7 +736,7 @@ export class Camera extends BasicSerializableObject {
      * Clamps the camera zoom level within the allowed range
      */
     clampZoomLevel() {
-        if (G_IS_DEV && globalConfig.debug.disableZoomLimits) {
+        if (globalConfig.debug.disableZoomLimits) {
             return;
         }
         const wrapper = this.root.app.platformWrapper;
@@ -782,7 +782,7 @@ export class Camera extends BasicSerializableObject {
      * @param {CanvasRenderingContext2D} context
      */
     transform(context) {
-        if (G_IS_DEV && globalConfig.debug.testCulling) {
+        if (globalConfig.debug.testCulling) {
             context.transform(1, 0, 0, 1, 100, 100);
             return;
         }

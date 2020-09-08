@@ -1,7 +1,7 @@
 #state_MainMenuState {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     flex-direction: column;
 
     // background: #aaacb4 center center / cover !important;
@@ -144,7 +144,7 @@
 
     .logo {
         display: flex;
-        flex-grow: 1;
+        flex-grow: 0;
         align-items: center;
         justify-content: center;
 
@@ -181,6 +181,17 @@
 
             @include DarkThemeOverride {
                 color: $colorBlueBright;
+            }
+
+            &.bigger {
+                transform: translateX(50%) translateY(100%) rotate(-5deg) scale(3);
+
+                @include InlineAnimation(1.3s ease-in-out infinite) {
+                    50% {
+                        transform: translateX(50%) translateY(100%) rotate(-7deg) scale(3.3);
+                    }
+                }
+
             }
         }
     }
@@ -270,7 +281,7 @@
         }
 
         .savegames {
-            @include S(max-height, 105px);
+            @include S(max-height, 250px);
             overflow-y: auto;
             @include S(width, 250px);
             pointer-events: all;
@@ -285,13 +296,13 @@
                 @include S(border-radius, $globalBorderRadius);
                 @include S(padding, 5px);
                 display: grid;
-                grid-template-columns: 1fr 1fr auto auto;
+                grid-template-columns: 1fr auto auto;
                 grid-template-rows: auto auto;
                 @include S(grid-column-gap, 4px);
                 @include S(grid-row-gap, 1px);
 
                 .playtime {
-                    grid-column: 2 / 3;
+                    grid-column: 1 / 2;
                     grid-row: 2 / 3;
                     @include SuperSmallText;
                     opacity: 0.5;
@@ -320,8 +331,7 @@
 
                 button.resumeGame,
                 button.downloadGame,
-                button.deleteGame,
-                button.renameGame {
+                button.deleteGame {
                     padding: 0;
                     align-self: center;
                     justify-self: center;
@@ -330,7 +340,7 @@
                 }
 
                 button.downloadGame {
-                    grid-column: 3 / 4;
+                    grid-column: 2 / 3;
                     grid-row: 1 / 2;
                     background-color: $colorBlueBright;
                     background-image: uiResource("icons/download.png");
@@ -342,7 +352,7 @@
                 }
 
                 button.deleteGame {
-                    grid-column: 3 / 4;
+                    grid-column: 2 / 3;
                     grid-row: 2 / 3;
                     background-color: $colorRedBright;
                     @include IncreasedClickArea(0px);
@@ -374,7 +384,7 @@
                 }
 
                 button.resumeGame {
-                    grid-column: 4 / 5;
+                    grid-column: 3 / 4;
                     grid-row: 1 / 3;
                     margin: 0;
                     @include S(width, 32px);
@@ -385,6 +395,8 @@
     }
 
     .footer {
+        position: fixed;
+        bottom: 0;
         display: grid;
         flex-grow: 1;
         justify-content: center;
