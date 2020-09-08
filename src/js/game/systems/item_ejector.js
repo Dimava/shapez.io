@@ -7,6 +7,7 @@ import { BaseItem } from "../base_item";
 import { ItemEjectorComponent } from "../components/item_ejector";
 import { Entity } from "../entity";
 import { GameSystemWithFilter } from "../game_system_with_filter";
+import { enumItemProcessorTypes } from "../components/item_processor";
 import { MapChunkView } from "../map_chunk_view";
 
 const logger = createLogger("systems/ejector");
@@ -56,7 +57,7 @@ export class ItemEjectorSystem extends GameSystemWithFilter {
     recomputeCache() {
         if (this.areaToRecompute) {
             logger.log("Recomputing cache using rectangle");
-            if (G_IS_DEV && globalConfig.debug.renderChanges) {
+            if (globalConfig.debug.renderChanges) {
                 this.root.hud.parts.changesDebugger.renderChange(
                     "ejector-area",
                     this.areaToRecompute,
@@ -67,7 +68,7 @@ export class ItemEjectorSystem extends GameSystemWithFilter {
             this.areaToRecompute = null;
         } else {
             logger.log("Full cache recompute");
-            if (G_IS_DEV && globalConfig.debug.renderChanges) {
+            if (globalConfig.debug.renderChanges) {
                 this.root.hud.parts.changesDebugger.renderChange(
                     "ejector-full",
                     new Rectangle(-1000, -1000, 2000, 2000),
@@ -190,7 +191,7 @@ export class ItemEjectorSystem extends GameSystemWithFilter {
         // Precompute effective belt speed
         let progressGrowth = 2 * this.root.dynamicTickrate.deltaSeconds;
 
-        if (G_IS_DEV && globalConfig.debug.instantBelts) {
+        if (globalConfig.debug.instantBelts) {
             progressGrowth = 1;
         }
 

@@ -2,9 +2,10 @@ import { globalConfig } from "../../core/config";
 import { smoothenDpi } from "../../core/dpi_manager";
 import { DrawParameters } from "../../core/draw_parameters";
 import { types } from "../../savegame/serialization";
-import { BaseItem } from "../base_item";
-import { enumColors, enumColorsToHexCode } from "../colors";
+import { BaseItem, enumItemType } from "../base_item";
+import { enumColors, enumColorToShortcode, enumShortcodeToColor, enumColorsToHexCode } from "../colors";
 import { THEME } from "../theme";
+import { makeOffscreenBuffer } from "../../core/buffer_utils";
 import { drawSpriteClipped } from "../../core/draw_utils";
 
 export class ColorItem extends BaseItem {
@@ -22,6 +23,15 @@ export class ColorItem extends BaseItem {
 
     deserialize(data) {
         this.color = data;
+    }
+
+    getHash() {
+        return enumColorToShortcode[this.color];
+    }
+
+    /** @returns {ColorItem} */
+    static createFromHash(hash) {
+        return new ColorItem(enumShortcodeToColor[hash]);
     }
 
     /** @returns {"color"} **/
@@ -46,7 +56,7 @@ export class ColorItem extends BaseItem {
     }
 
     getBackgroundColorAsResource() {
-        return THEME.map.resources[this.color];
+        return THEME.map.resources[this.color] || THEME.map.resources.shape;
     }
 
     /**
@@ -109,6 +119,21 @@ export class ColorItem extends BaseItem {
         context.stroke();
         context.fill();
     }
+
+    /**
+     * Generates this shape as a canvas
+     * @param {number} size
+     */
+    generateAsCanvas(size = 120) {
+        const [canvas, context] = makeOffscreenBuffer(size, size, {
+            smooth: true,
+            label: "definition-canvas-cache-" + this.getHash(),
+            reusable: false,
+        });
+
+        this.internalGenerateColorBuffer(canvas, context, size, size, 1);
+        return canvas;
+    }
 }
 
 /**
@@ -120,3 +145,5 @@ export const COLOR_ITEM_SINGLETONS = {};
 for (const color in enumColors) {
     COLOR_ITEM_SINGLETONS[color] = new ColorItem(color);
 }
+
+BaseItem.ColorItem = ColorItem;

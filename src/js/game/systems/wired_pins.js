@@ -217,7 +217,7 @@ export class WiredPinsSystem extends GameSystemWithFilter {
                 }
 
                 // Debug view
-                if (G_IS_DEV && globalConfig.debug.renderWireNetworkInfos) {
+                if (globalConfig.debug.renderWireNetworkInfos) {
                     const offset = new Vector(0, -10).rotated(effectiveRotation);
                     const network = slot.linkedNetwork;
                     parameters.context.fillStyle = "blue";

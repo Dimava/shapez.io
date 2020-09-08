@@ -7,6 +7,8 @@ import { BOOL_FALSE_SINGLETON, BOOL_TRUE_SINGLETON, isTruthyItem, BooleanItem } 
 import { COLOR_ITEM_SINGLETONS, ColorItem } from "../items/color_item";
 import { ShapeDefinition } from "../shape_definition";
 import { ShapeItem } from "../items/shape_item";
+import { ColorItem } from "../items/color_item";
+import { enumColorMixingResults } from "../colors";
 
 export class LogicGateSystem extends GameSystemWithFilter {
     constructor(root) {
@@ -24,6 +26,7 @@ export class LogicGateSystem extends GameSystemWithFilter {
             [enumLogicGateType.cutter]: this.compute_CUT.bind(this),
             [enumLogicGateType.unstacker]: this.compute_UNSTACK.bind(this),
             [enumLogicGateType.shapecompare]: this.compute_SHAPECOMPARE.bind(this),
+            [enumLogicGateType.adder]: this.compute_ADD.bind(this),
         };
     }
 

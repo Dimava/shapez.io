@@ -1,5 +1,6 @@
 import { gMetaBuildingRegistry } from "../core/global_registries";
 import { createLogger } from "../core/logging";
+import { MetaToolbarSwapperBuilding } from "./buildings/toolbar_swapper";
 import { MetaBeltBuilding } from "./buildings/belt";
 import { MetaBeltBaseBuilding } from "./buildings/belt_base";
 import { enumCutterVariants, MetaCutterBuilding } from "./buildings/cutter";
@@ -15,6 +16,7 @@ import { enumUndergroundBeltVariants, MetaUndergroundBeltBuilding } from "./buil
 import { MetaWireBuilding } from "./buildings/wire";
 import { gBuildingVariants, registerBuildingVariant } from "./building_codes";
 import { defaultBuildingVariant } from "./meta_building";
+import { allCustomBuildingData } from "./custom/modBuildings";
 import { MetaConstantSignalBuilding } from "./buildings/constant_signal";
 import { MetaLogicGateBuilding, enumLogicGateVariants } from "./buildings/logic_gate";
 import { MetaLeverBuilding } from "./buildings/lever";
@@ -27,6 +29,7 @@ import { MetaReaderBuilding } from "./buildings/reader";
 const logger = createLogger("building_registry");
 
 export function initMetaBuildingRegistry() {
+    gMetaBuildingRegistry.register(MetaToolbarSwapperBuilding);
     gMetaBuildingRegistry.register(MetaSplitterBuilding);
     gMetaBuildingRegistry.register(MetaMinerBuilding);
     gMetaBuildingRegistry.register(MetaCutterBuilding);
@@ -48,6 +51,12 @@ export function initMetaBuildingRegistry() {
     gMetaBuildingRegistry.register(MetaVirtualProcessorBuilding);
     gMetaBuildingRegistry.register(MetaReaderBuilding);
 
+    for (let custom of allCustomBuildingData) {
+        if (custom.meta && !custom.meta._registered) {
+            gMetaBuildingRegistry.register(custom.meta);
+            custom.meta._registered = true;
+        }
+    }
     // Belt
     registerBuildingVariant(1, MetaBeltBaseBuilding, defaultBuildingVariant, 0);
     registerBuildingVariant(2, MetaBeltBaseBuilding, defaultBuildingVariant, 1);
@@ -133,10 +142,21 @@ export function initMetaBuildingRegistry() {
     registerBuildingVariant(44, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.rotater);
     registerBuildingVariant(45, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.unstacker);
     registerBuildingVariant(46, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.shapecompare);
+    registerBuildingVariant(147, MetaVirtualProcessorBuilding, enumVirtualProcessorVariants.adder);
 
     // Reader
     registerBuildingVariant(49, MetaReaderBuilding);
 
+    for (let custom of allCustomBuildingData) {
+        if (custom.meta && custom.variantId) {
+            registerBuildingVariant(
+                custom.variantId,
+                custom.meta,
+                custom.variant || defaultBuildingVariant,
+                custom.rotationVariant || 0
+            );
+        }
+    }
     // Propagate instances
     for (const key in gBuildingVariants) {
         gBuildingVariants[key].metaInstance = gMetaBuildingRegistry.findByClass(

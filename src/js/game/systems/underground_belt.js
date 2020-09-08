@@ -308,15 +308,15 @@ export class UndergroundBeltSystem extends GameSystemWithFilter {
                 continue;
             }
 
+            if (receiverUndergroundComp.mode !== enumUndergroundBeltMode.receiver) {
+                // Not a receiver, but a sender -> Abort to make sure we don't deliver double
+                break;
+            }
+
             const receiverStaticComp = potentialReceiver.components.StaticMapEntity;
             if (receiverStaticComp.rotation !== targetRotation) {
                 // Wrong rotation
                 continue;
-            }
-
-            if (receiverUndergroundComp.mode !== enumUndergroundBeltMode.receiver) {
-                // Not a receiver, but a sender -> Abort to make sure we don't deliver double
-                break;
             }
 
             return { entity: potentialReceiver, distance: searchOffset };
@@ -339,7 +339,7 @@ export class UndergroundBeltSystem extends GameSystemWithFilter {
             // We don't have a receiver, compute it
             receiver = undergroundComp.cachedLinkedEntity = this.findRecieverForSender(entity);
 
-            if (G_IS_DEV && globalConfig.debug.renderChanges) {
+            if (globalConfig.debug.renderChanges) {
                 this.root.hud.parts.changesDebugger.renderChange(
                     "sender",
                     entity.components.StaticMapEntity.getTileSpaceBounds(),

@@ -1,3 +1,4 @@
+import { globalConfig } from "../../core/config";
 import { BaseItem } from "../base_item";
 import { enumColorMixingResults, enumColors } from "../colors";
 import {
@@ -15,6 +16,7 @@ import { ShapeItem } from "../items/shape_item";
  * We need to allow queuing charges, otherwise the throughput will stall
  */
 const MAX_QUEUED_CHARGES = 2;
+import { customBuildingData } from "../custom/modBuildings";
 
 export class ItemProcessorSystem extends GameSystemWithFilter {
     constructor(root) {

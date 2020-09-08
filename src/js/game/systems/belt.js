@@ -104,7 +104,7 @@ export class BeltSystem extends GameSystemWithFilter {
             logger.warn("Restored", this.beltPaths.length, "belt paths");
         }
 
-        if (G_IS_DEV && globalConfig.debug.checkBeltPaths) {
+        if (globalConfig.debug.checkBeltPaths) {
             this.debug_verifyBeltPaths();
         }
     }
@@ -183,7 +183,7 @@ export class BeltSystem extends GameSystemWithFilter {
                         this.addEntityToPaths(targetEntity);
 
                         // Sanity
-                        if (G_IS_DEV && globalConfig.debug.checkBeltPaths) {
+                        if (globalConfig.debug.checkBeltPaths) {
                             this.debug_verifyBeltPaths();
                         }
 
@@ -201,7 +201,7 @@ export class BeltSystem extends GameSystemWithFilter {
         // notify all paths *afterwards* to avoid multi-updates
         changedPaths.forEach(path => path.onSurroundingsChanged());
 
-        if (G_IS_DEV && globalConfig.debug.checkBeltPaths) {
+        if (globalConfig.debug.checkBeltPaths) {
             this.debug_verifyBeltPaths();
         }
     }
@@ -222,7 +222,7 @@ export class BeltSystem extends GameSystemWithFilter {
         const assignedPath = entity.components.Belt.assignedPath;
         assert(assignedPath, "Entity has no belt path assigned");
         this.deleteEntityFromPath(assignedPath, entity);
-        if (G_IS_DEV && globalConfig.debug.checkBeltPaths) {
+        if (globalConfig.debug.checkBeltPaths) {
             this.debug_verifyBeltPaths();
         }
     }
@@ -310,7 +310,7 @@ export class BeltSystem extends GameSystemWithFilter {
         }
 
         this.addEntityToPaths(entity);
-        if (G_IS_DEV && globalConfig.debug.checkBeltPaths) {
+        if (globalConfig.debug.checkBeltPaths) {
             this.debug_verifyBeltPaths();
         }
     }
@@ -467,7 +467,7 @@ export class BeltSystem extends GameSystemWithFilter {
      * Updates all belts
      */
     update() {
-        if (G_IS_DEV && globalConfig.debug.checkBeltPaths) {
+        if (globalConfig.debug.checkBeltPaths) {
             this.debug_verifyBeltPaths();
         }
 
@@ -475,7 +475,7 @@ export class BeltSystem extends GameSystemWithFilter {
             this.beltPaths[i].update();
         }
 
-        if (G_IS_DEV && globalConfig.debug.checkBeltPaths) {
+        if (globalConfig.debug.checkBeltPaths) {
             this.debug_verifyBeltPaths();
         }
     }

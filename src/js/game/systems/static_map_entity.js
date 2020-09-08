@@ -26,7 +26,7 @@ export class StaticMapEntitySystem extends GameSystem {
      * @param {MapChunkView} chunk
      */
     drawChunk(parameters, chunk) {
-        if (G_IS_DEV && globalConfig.debug.doNotRenderStatics) {
+        if (globalConfig.debug.doNotRenderStatics) {
             return;
         }
 
@@ -55,7 +55,7 @@ export class StaticMapEntitySystem extends GameSystem {
      * @param {MapChunkView} chunk
      */
     drawWiresChunk(parameters, chunk) {
-        if (G_IS_DEV && globalConfig.debug.doNotRenderStatics) {
+        if (globalConfig.debug.doNotRenderStatics) {
             return;
         }
 

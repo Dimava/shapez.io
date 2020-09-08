@@ -213,7 +213,7 @@ export class MapView extends BaseMap {
 
         this.drawVisibleChunks(parameters, MapChunkView.prototype.drawBackgroundLayer);
 
-        if (G_IS_DEV && globalConfig.debug.showChunkBorders) {
+        if (globalConfig.debug.showChunkBorders) {
             const cullRange = parameters.visibleRect.toTileCullRectangle();
             const top = cullRange.top();
             const right = cullRange.right();

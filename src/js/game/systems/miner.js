@@ -14,7 +14,7 @@ export class MinerSystem extends GameSystemWithFilter {
 
     update() {
         let miningSpeed = this.root.hubGoals.getMinerBaseSpeed();
-        if (G_IS_DEV && globalConfig.debug.instantMiners) {
+        if (globalConfig.debug.instantMiners) {
             miningSpeed *= 100;
         }
 
